@@ -1,4 +1,4 @@
-# Microsoft Azure Stream Analytics #
+These files can be used to test Stream Analytics queries locally.
 
-For more information about the Stream Analytics service, see [http://azure.microsoft.com/en-us/services/stream-analytics/](http://azure.microsoft.com/en-us/services/stream-analytics/)
+To run the query against sample data, click the "Test" button on the Query page.
 
