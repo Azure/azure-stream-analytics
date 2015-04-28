@@ -1,0 +1,16 @@
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\bin\Debug\ConsoleApplicationBluetoothReader.exe.config
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\bin\Debug\ConsoleApplicationBluetoothReader.exe
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\bin\Debug\ConsoleApplicationBluetoothReader.pdb
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\bin\Debug\X2CodingLab.SensorTag.dll
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\bin\Debug\X2CodingLab.SensorTag.pdb
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\bin\Debug\X2CodingLab.SensorTag.xml
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\bin\Debug\X2CodingLab.SensorTag.pri
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\obj\Debug\ConsoleApplicationBluetoothReader.csprojResolveAssemblyReference.cache
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\obj\Debug\ConsoleApplicationBluetoothReader.exe
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\obj\Debug\ConsoleApplicationBluetoothReader.pdb
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\bin\Debug\ClassLibrary1.dll
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\bin\Debug\ClassLibrary1.pdb
+C:\temp\ConsoleApplicationBluetoothReader\ConsoleApplicationBluetoothReader\bin\Debug\ClassLibrary1.pri
+C:\ASA\OneDrive - Microsoft\ASA\TI Sensor Winform app\ConsoleApplicationBluetoothReader\bin\Debug\ConsoleApplicationBluetoothReader.exe.config
+C:\ASA\OneDrive - Microsoft\ASA\TI Sensor Winform app\ConsoleApplicationBluetoothReader\obj\Debug\ConsoleApplicationBluetoothReader.exe
+C:\ASA\OneDrive - Microsoft\ASA\TI Sensor Winform app\ConsoleApplicationBluetoothReader\obj\Debug\ConsoleApplicationBluetoothReader.pdb

@@ -1,0 +1,51 @@
+C:\temp\SensorTagLibrary\SensorTagLibrary\bin\Debug\X2CodingLab.SensorTag.dll
+C:\temp\SensorTagLibrary\SensorTagLibrary\bin\Debug\X2CodingLab.SensorTag.pdb
+C:\temp\SensorTagLibrary\SensorTagLibrary\bin\Debug\X2CodingLab.SensorTag.pri
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\SensorTagLibrary.csprojResolveAssemblyReference.cache
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\X2CodingLab.SensorTag.dll
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\X2CodingLab.SensorTag.pdb
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\priconfig.xml
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\priconfig.xml.intermediate
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\layout.resfiles
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\layout.resfiles.intermediate
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\resources.resfiles
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\resources.resfiles.intermediate
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\pri.resfiles
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\pri.resfiles.intermediate
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\qualifiers.txt
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\qualifiers.txt.intermediate
+C:\temp\SensorTagLibrary\SensorTagLibrary\obj\Debug\MultipleQualifiersPerDimensionFound.txt
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\bin\Debug\X2CodingLab.SensorTag.dll
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\bin\Debug\X2CodingLab.SensorTag.pdb
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\bin\Debug\X2CodingLab.SensorTag.pri
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\SensorTagLibrary.csprojResolveAssemblyReference.cache
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\X2CodingLab.SensorTag.dll
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\X2CodingLab.SensorTag.pdb
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\priconfig.xml
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\priconfig.xml.intermediate
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\layout.resfiles
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\layout.resfiles.intermediate
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\resources.resfiles
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\resources.resfiles.intermediate
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\pri.resfiles
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\pri.resfiles.intermediate
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\qualifiers.txt
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\qualifiers.txt.intermediate
+C:\ASA\OneDrive - Microsoft\ASA\SensorTag Windows Store App\SensorTagLibrary\SensorTagLibrary\obj\Debug\MultipleQualifiersPerDimensionFound.txt
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\bin\Debug\X2CodingLab.SensorTag.dll
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\bin\Debug\X2CodingLab.SensorTag.pdb
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\bin\Debug\X2CodingLab.SensorTag.pri
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\SensorTagLibrary.csprojResolveAssemblyReference.cache
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\X2CodingLab.SensorTag.dll
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\X2CodingLab.SensorTag.pdb
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\priconfig.xml
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\priconfig.xml.intermediate
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\layout.resfiles
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\layout.resfiles.intermediate
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\resources.resfiles
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\resources.resfiles.intermediate
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\pri.resfiles
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\pri.resfiles.intermediate
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\qualifiers.txt
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\qualifiers.txt.intermediate
+C:\Users\jocaplan\Documents\Visual Studio 2013\Projects\ConsoleApplicationBluetoothReader\SensorTagLibrary\obj\Debug\MultipleQualifiersPerDimensionFound.txt

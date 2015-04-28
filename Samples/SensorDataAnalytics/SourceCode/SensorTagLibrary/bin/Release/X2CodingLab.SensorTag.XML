@@ -1,0 +1,446 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>X2CodingLab.SensorTag</name>
+    </assembly>
+    <members>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.Initialize">
+            <summary>
+            Retrieves the sensor device and saves it for further usage.
+            IMPORTANT: Has to be called from UI thread the first time the app uses the device to be able to ask the user for permission to use it
+            </summary>
+            <returns>Indicates if the gatt service could be retrieved and set successfully</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotFoundException">Thrown if there isn't a device which matches the sensor service id.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.Initialize(Windows.Devices.Enumeration.DeviceInformation)">
+            <summary>
+            Retrieves the sensors GATT device service from a specified DeviceInformation and saves it for further usage.
+            IMPORTANT: Has to be called from UI thread the first time the app uses the device to be able to ask the user for permission to use it
+            </summary>
+            <returns>Indicates if the gatt service could be retrieved and set successfully</returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadSystemId">
+            <summary>
+            Reads the system id from the sensor tag
+            </summary>
+            <returns>string of system id separated by ':'</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadSystemId(System.String)">
+            <summary>
+            Reads the system id from the sensor tag
+            </summary>
+            <param name="separator">system id will be separated by this parameter</param>
+            <returns>string of system id separated by the specified parameter</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadModelNumber">
+            <summary>
+            Reads the model number from the sensor tag
+            </summary>
+            <returns>model number as string</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadSerialNumber">
+            <summary>
+            Reads the serial number from the sensor tag
+            </summary>
+            <returns>serial number as string</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadFirmwareRevision">
+            <summary>
+            Reads the firmware revision from the sensor tag
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadHardwareRevision">
+            <summary>
+            Reads the hardware revision from the sensor tag
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadSoftwareRevision">
+            <summary>
+            Reads the software revision from the sensor tag
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadManufacturerName">
+            <summary>
+            Reads the manufacturer name from the sensor tag
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadCert">
+            <summary>
+            Reads the cert from the sensor tag
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadCert(System.String)">
+            <summary>
+            Reads the cert from the sensor tag
+            </summary>
+            <param name="separator">segments of the cert will be separated by this string</param>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadPnpId">
+            <summary>
+            Reads the pnpid from the sensor tag
+            </summary>
+            <returns>pnpid as string</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadPnpId(System.String)">
+            <summary>
+            Reads the pnpid from the sensor tag
+            </summary>
+            <param name="separator">segments of the pnpid will be separated by this string</param>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.Dispose">
+            <summary>
+            Cleans up resources, unregisters the notification event handler
+            </summary>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ReadValue(System.String)">
+            <summary>
+            Reads a value from the deviceinfo server with the specified Uuid
+            </summary>
+            <param name="Uuid"></param>
+            <returns>Raw sensor data as byte array</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.ConvertToString(System.Byte[])">
+            <summary>
+            Converts a byte array to a string with UTF-8 encoding.
+            </summary>
+            <param name="dataBytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.DeviceInfoService.Clean">
+            <summary>
+            Should clean the objects resources. Disposes the deviceservice if it's not null and removes possible event handler.
+            </summary>
+        </member>
+        <member name="T:X2CodingLab.SensorTag.Exceptions.DeviceNotFoundException">
+            <summary>
+            Thrown when a device that matches certain criteria cannot be retrieved.
+            </summary>
+        </member>
+        <member name="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">
+            <summary>
+            Occuree when a sensor has not been initalized and an other operation has been executed on the sensor.
+            </summary>
+        </member>
+        <member name="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">
+            <summary>
+            Thrown when the deviceservice could be retrieved, but the actual communication with the device failed.
+            </summary>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.GattUtils.GetDevicesOfService(System.String)">
+            <summary>
+            Retrieves a list of devices which offer the service specified with the Uuid. In case of a sensor tag service (e.g. temperature),
+            this lists all Sensor Tags.
+            </summary>
+            <param name="serviceUuid">Uuid for the type of service u're looking for.</param>
+            <returns>List of DeviceInformation</returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.GattUtils.GetDeviceService(System.String)">
+            <summary>
+            Finds the GattDeviceService by sensorServiceUuid.
+            IMPORTANT: Has to be called from UI thread the first time the app uses the device to be able to ask the user for permission to use it.
+            </summary>
+            <returns>Returns the gatt device service of the first device that supports it. Returns null if access is denied.</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotFoundException">Thrown if there isn't a device which provides the service Uuid.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.GattUtils.GetDeviceService(Windows.Devices.Enumeration.DeviceInformation,System.String)">
+            <summary>
+            Finds the GattDeviceService for a specified device by serviceUuid
+            IMPORTANT: Has to be called from UI thread the first time the app uses the device to be able to ask the user for permission to use it.
+            </summary>
+            <returns>Returns the gatt device service of the first device that supports it. Returns null if access is denied.</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotFoundException">Thrown if there isn't a device which provides the service Uuid.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.GattUtils.ReadValue(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService,System.String)">
+            <summary>
+            Reads a value from from a service of a device
+            </summary>
+            <param name="gattDeviceService">GattDeviceService of a connected bluetooth device</param>
+            <param name="valueServiceUuid">Uuid of the characteristic you want to read from</param>
+            <returns>Raw data read from the sensor</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+            <exception cref="T:System.Exception">Thrown on purpose if the GattDeviceService doesn't provide the specified characteristic.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.Initialize">
+            <summary>
+            Retrieves the sensors GATT device service from the first device which supports the service and saves it for further usage.
+            IMPORTANT: Has to be called from UI thread the first time the app uses the device to be able to ask the user for permission to use it
+            </summary>
+            <returns>Indicates if the gatt service could be retrieved and set successfully</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotFoundException">Thrown if there isn't a device which matches the sensor service id.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.Initialize(Windows.Devices.Enumeration.DeviceInformation)">
+            <summary>
+            Retrieves the sensors GATT device service from a specified DeviceInformation and saves it for further usage.
+            IMPORTANT: Has to be called from UI thread the first time the app uses the device to be able to ask the user for permission to use it
+            </summary>
+            <returns>Indicates if the gatt service could be retrieved and set successfully</returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.EnableSensor">
+            <summary>
+            Calls EnableSensor with data 1 to enable sensor
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if sensor has not been initialized successfully.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if the device was found, but no communication was possible.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.DisableSensor">
+            <summary>
+            Disables the sensor by writing a 0 to the config characteristic.
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if sensor has not been initialized successfully.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.EnableNotifications">
+            <summary>
+            Enables data notifications from the sensor by setting the configurationDescriptorvalue to Notify.
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.DisableNotifications">
+            <summary>
+            Disables notifications from the sensor by resetting the configuration description value
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.ReadValue">
+            <summary>
+            Reads the value field of the sensor data characteristics.
+            </summary>
+            <returns>Raw sensor data as byte array</returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.Dispose">
+            <summary>
+            Cleans up resources, unregisters the notification event handler
+            </summary>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.EnableSensor(System.Byte[])">
+            <summary>
+            Enables the sensor by writing specified bytes to the config characteristic.
+            </summary>
+            <param name="sensorEnableData">bytes to enable the sensor</param>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if the object has not been successfully initialized using the initialize() method.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if the device was found, but no communication was possible.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.GetDeviceService">
+            <summary>
+            Finds the GattDeviceService by sensorServiceUuid.
+            IMPORTANT: Has to be called from UI thread the first time the app uses the device to be able to ask the user for permission to use it
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotFoundException">Thrown if there isn't a device which matches the sensor service id.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.dataCharacteristic_ValueChanged(Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic,Windows.Devices.Bluetooth.GenericAttributeProfile.GattValueChangedEventArgs)">
+            <summary>
+            Called if the sensor sent a notification with new data.
+            </summary>
+            <param name="sender"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SensorBase.Clean">
+            <summary>
+            Should clean the objects resources. Disposes the deviceservice if it's not null and removes possible event handler.
+            </summary>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.Accelerometer.CalculateCoordinates(System.Byte[])">
+            <summary>
+            Extracts the values of the 3 axis from the raw data of the sensor.
+            </summary>
+            <param name="sensorData">Complete array of data retrieved from the sensor</param>
+            <returns>Array of doubles with the size of 3</returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.Accelerometer.CalculateCoordinates(System.Byte[],System.Double)">
+            <summary>
+            Extracts the values of the 3 axis from the raw data of the sensor,
+            </summary>
+            <param name="sensorData">Complete array of data retrieved from the sensor</param>
+            <param name="scale">Allows you to scale the accelerometer values</param>
+            <returns>Array of doubles with the size of 3</returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.Accelerometer.SetReadPeriod(System.Byte)">
+            <summary>
+            Sets the period the sensor reads data. Default is 1s. Lower limit is 100ms.
+            </summary>
+            <param name="time">Period in 10 ms.</param>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if sensor has not been initialized successfully.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.Gyroscope.CalculateAxisValue(System.Byte[],X2CodingLab.SensorTag.Sensors.GyroscopeAxis)">
+            <summary>
+            Calculates the value of the different gyroscope axis and scales it.
+            </summary>
+            <param name="data">Complete array of data retrieved from the sensor</param>
+            <param name="axis">Specifies the axis the gyroscope was configured to read</param>
+            <returns>Array of float with values in order of the GyroscopeAxis enum</returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.Gyroscope.EnableSensor(X2CodingLab.SensorTag.Sensors.GyroscopeAxis)">
+            <summary>
+            Enables the sensor with the specified axis
+            </summary>
+            <param name="gyroscopeAxis">axis you want to record</param>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if sensor has not been initialized successfully.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.Gyroscope.EnableSensor">
+            <summary>
+            Enables the sensor to read all axis
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if sensor has not been initialized successfully.</exception>
+        </member>
+        <member name="P:X2CodingLab.SensorTag.Sensors.Gyroscope.GyroscopeAxis">
+            <summary>
+            Returns the GyroscopeAxis used to enable the sensor
+            </summary>
+        </member>
+        <member name="T:X2CodingLab.SensorTag.Sensors.GyroscopeAxis">
+            <summary>
+            Different options you have of reading values from the sensor
+            </summary>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.HumiditySensor.CalculateHumidityInPercent(System.Byte[])">
+            <summary>
+            Calculates the humidity in percent.
+            </summary>
+            <param name="sensorData">Complete array of data retrieved from the sensor</param>
+            <returns></returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.IRTemperatureSensor.CalculateAmbientTemperature(System.Byte[],X2CodingLab.SensorTag.Sensors.TemperatureScale)">
+            <summary>
+            Calculates the ambient temperature.
+            </summary>
+            <param name="sensorData">Complete array of data retrieved from the sensor</param>
+            <param name="scale"></param>
+            <returns>Ambient temperature as double</returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.IRTemperatureSensor.CalculateTargetTemperature(System.Byte[],X2CodingLab.SensorTag.Sensors.TemperatureScale)">
+            <summary>
+            Calculates the target temperature.
+            </summary>
+            <param name="sensorData">Complete array of data retrieved from the sensor</param>
+            <param name="scale"></param>
+            <returns></returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.IRTemperatureSensor.CalculateTargetTemperature(System.Byte[],System.Double,X2CodingLab.SensorTag.Sensors.TemperatureScale)">
+            <summary>
+            Calculates the target temperature.
+            </summary>
+            <param name="sensorData">Complete array of data retrieved from the sensor</param>
+            <param name="ambientTemperature">calculated ambient temperature, saves another calculation of the ambient temoerature.</param>
+            <param name="scale"></param>
+            <returns></returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.IRTemperatureSensor.CalculateTargetTemperature(System.Byte[],System.Double)">
+            <summary>
+            Calculates the target temperature of the sensor.
+            More info about the calculation: http://www.ti.com/lit/ug/sbou107/sbou107.pdf
+            </summary>
+            <param name="sensorData"></param>
+            <param name="ambientTemperature"></param>
+            <returns></returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.Magnetometer.CalculateCoordinates(System.Byte[])">
+            <summary>
+            Extracts the three axis from the raw sensor data and scales it.
+            http://cache.freescale.com/files/sensors/doc/app_note/AN4248.pdf?fpsp=1
+            </summary>
+            <param name="sensorData">Complete array of data retrieved from the sensor</param>
+            <returns></returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.Magnetometer.SetReadPeriod(System.Byte)">
+            <summary>
+            Sets the period the sensor reads data. Default is 1s. Lower limit is 100ms.
+            </summary>
+            <param name="time">Period in 10 ms</param>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if sensor has not been initialized successfully.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.PressureSensor.CalculatePressure(System.Byte[],System.Int32[])">
+            <summary>
+            Calculates the pressure from the raw sensor data.
+            </summary>
+            <param name="sensorData"></param>
+            <param name="calibrationData"></param>
+            <param name="calibrationDataSigned"></param>
+            <returns>Pressure in pascal</returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.PressureSensor.EnableSensor">
+            <summary>
+            Reads the calibration values of the sensor and then enables the sensor for pressor reads
+            </summary>
+            <returns></returns>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceUnreachableException">Thrown if it wasn't possible to communicate with the device.</exception>
+            <exception cref="T:X2CodingLab.SensorTag.Exceptions.DeviceNotInitializedException">Thrown if sensor has not been initialized successfully.</exception>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.PressureSensor.StoreAndReadCalibrationValues">
+            <summary>
+            Makes the sensor store calibration data, reads and processes it afterwards.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:X2CodingLab.SensorTag.Sensors.PressureSensor.CalibrationData">
+            <summary>
+            Returns the calibration data read from the sensor after EnableSensor() was called. 
+            </summary>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SimpleKeyService.EnableSensor">
+            <summary>
+            The simple key service doens't need to be enabled
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:X2CodingLab.SensorTag.Sensors.SimpleKeyService.DisableSensor">
+            <summary>
+            The simple key service doesn't need to be disabled
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:X2CodingLab.SensorTag.SensorTagUuid">
+            <summary>
+            Provides all Uuid for sensor tag GATT services.
+            </summary>
+        </member>
+    </members>
+</doc>
