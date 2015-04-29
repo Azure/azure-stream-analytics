@@ -38,7 +38,7 @@
 
 * Go to Output tab. If you are part of Power BI preview program, you'll see Power BI as an output option as below:
 
-  ![Power BI Output for ASA](/images/PowerBIOutput.PNG)
+  ![Power BI Output for ASA](https://az712634.vo.msecnd.net/asa/v1/images/PowerBIOutput.PNG)
 
 * On selecting Power BI output, it'll ask you to authorize or signup for powerbi. At this time, you have to use the same org id that you used to create the ASA job. 
 
@@ -71,7 +71,7 @@ Group by TUMBLINGWINDOW(ss,1) ,time ,dspl
 
 * Now in Power BI, you can create interesting charts on top of this datasets. I created following to show average temprature and average humidity of 1 second window over time. If you pin the chart to your dashboard, you will see the dashboard updating data in realtime (live dashboard with real time updates)
 
-   ![Power Bi Charts](/images/powerbicharts.PNG)
+   ![Power Bi Charts](https://az712634.vo.msecnd.net/asa/v1/images/powerbicharts.PNG)
 
 * To show the impact of live dashboard, try blowing into the sensor. Within a few seconds, you will the chart spiking up for humidity and temperature.  
 
