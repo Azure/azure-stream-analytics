@@ -1,0 +1,74 @@
+{  
+   "location":"Central US",
+   "properties":{  
+      "sku":{  
+         "name":"standard"
+      },
+	"EventsOutOfOrderMaxDelayInSeconds": 5,
+	"EventsOutOfOrderPolicy": "Adjust",
+      "inputs":[  
+         {  
+            "name":"EntryStream",
+            "properties":{  
+               "type":"stream",
+               "serialization":{  
+                  "type":"JSON",
+                  "properties":{  
+                     "encoding":"UTF8"
+                  }
+               },
+               "datasource":{  
+                  "type":"Microsoft.ServiceBus/EventHub",
+                  "properties":{  
+					"EventHubName": "<inputeventhubname>",
+					"ServiceBusNamespace": "<servicebusnamespace>",
+					"SharedAccessPolicyKey": "<sharedaccesspolicykey>",
+					"SharedAccessPolicyName": "<sharedaccesspolicyname>",
+					"SourcePartitionCount": 16
+                  }
+               }
+            }
+         }  
+      ],
+      "transformation":{  
+         "name":"ProcessSampleData",
+         "properties":{  
+            "streamingUnits":1,
+            "query":
+"WITH Second AS (
+    SELECT  System.Timestamp AS OutputTime, 
+        dspl AS SensorName, 
+        Avg(temp) AS AvgTemperature  
+    FROM EntryStream 
+        TIMESTAMP BY time
+    Group By 
+        TumblingWindow(second,5),
+        dspl
+    HAVING Avg(temp)>105
+)
+--SELECT * INTO PowerBIOutput FROM Second;
+SELECT * INTO SQLSink FROM Second
+\r\n\r\n\r\n\r\n\r\n\r\n"
+         }
+      },
+      "outputs":[ 
+         {  
+            "name":"SQLSink",
+            "properties":{  
+               "datasource":{  
+                  "type":"Microsoft.Sql/Server/Database",
+                  "properties":{  
+                     "server":"<sqlserver>",
+                     "database":"<dbname>",
+                     "table":"TemperatureAlerts",
+                     "user":"<userid>",
+                     "password":"<password>"
+                  }
+               }
+            }
+         }
+			
+         
+      ]
+   }
+}
