@@ -5,8 +5,8 @@ This solution simulates SensorTag events and pushes them to an Event Hub instanc
 
 
 You may use this event simulator when you don't have a TI SensorTag and want to experience the SensorTag scenario explained in the above link using ASA.
-
+```
 You will have to create an EventHub(instructions in the link above) and configure the connection string properties in the App.Config file included in the project
 <add key="EventHubConnectionString" value="***YOUR EVENT HUB CONNECTION STRING***" />
 <add key="EventHubName" value="***YOUR EVENT HUB NAME***" />
-
+```
