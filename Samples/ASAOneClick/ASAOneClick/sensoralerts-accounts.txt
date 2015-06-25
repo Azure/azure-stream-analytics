@@ -1,0 +1,11 @@
+This file contains the account information that can be used to connect to
+the Azure SQL Database that have been created by the setup script.
+
+Azure SQL Database
+------------------
+Azure SQL Database Server: 
+User ID: 
+Password: 
+
+Connection String
+

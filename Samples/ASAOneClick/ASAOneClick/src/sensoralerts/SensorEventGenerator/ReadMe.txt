@@ -1,0 +1,1 @@
+﻿This is the output folder for the Event Generator
