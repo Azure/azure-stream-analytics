@@ -128,6 +128,8 @@
     <Content Include="sensoralerts-accounts.txt" />
     <Content Include="src\account-template.txt" />
     <Content Include="src\sensoralerts\Scripts\sensoralertssqldb.sql" />
+    <Content Include="src\sensoralerts\SensorEventGenerator\ReadMe.txt" />
+    <Content Include="temp\json\asa\ReadMe.txt" />
     <Content Include="temp\README.txt" />
     <Content Include="temp\setup\sensoralerts.txt" />
   </ItemGroup>
@@ -148,10 +150,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\sensoralerts\SensorEventGenerator\" />
-    <Folder Include="temp\json\asa\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
