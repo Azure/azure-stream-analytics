@@ -25,16 +25,16 @@ This sample application automates the process of creating an ASA Job and running
 2. Open the solution file in Visual Studio and **Build** it. 
 2. Open Azure PowerShell and run setup.ps1 from \ASAOneClick folder. 
 3. When prompted type Deploy. The script has two modes in which it runs. Deploy and Delete. Deploy will create the necessary resources like, EventHub, SQL Databases, ASA job and start the Job for you.
-![](./Images/Deploy.png)
+![](./Images/deploy.PNG)
 4. Once you choose deploy, it will open up a login screen prompting you to enter your Azure Credentials. 
-![](./Images/AzureLogin.png)
+![](./Images/AzureLogin.PNG)
 5. If you have multiple subscriptions, you will have to select the appropriate subscription form the list. The script will then start creating all the resources required to run the demo. It will also create an ASA job and start it. Once it has completed, you should see something like this on your screen.
-![](./Images/ScriptRun.png)
+![](./Images/ScriptRun.PNG)
 
 ### Verifying your Stream Analytics Query ###
 The script has created an ASA job and started it. You can go to the Azure Portal and see the job under Stream Analytics. The job name should be [sensoralerts```<name of your machine>```]
 Click on the job and go to the Queries tab. You will see the Query as below.
-![](./Images/Query.png)
+![](./Images/Query.PNG)
 
 ### Sending Events to your ASA Job ###
 Now you have your job created and running. All you need to do is start sending the data to see the output. When you build the project, it creates binaries for an EventGenerator located under **.\ASAOneClick\src\sensoralerts\SensorEventGenerator\SensorEventGenerator.exe**
