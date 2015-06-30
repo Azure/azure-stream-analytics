@@ -134,7 +134,7 @@ function SetGlobalParams {
     $global:sqlDBName = $global:useCaseName
     
 
-    $global:configPath = ('.\temp\setup\' + $global:useCaseName + '.txt')
+    $global:configPath = ($PSScriptRoot+'\temp\setup\' + $global:useCaseName + '.txt')
 
     $global:dict = @{}    
 
@@ -437,7 +437,7 @@ function CreateEventHubandSBNamespace{
 			    Write-Host 'created.'
 			}
 			else{
-			    Write-Host 'The ['$global:ServiceBusNamespace '] namespace in the ['$global:locationMultiWord '] region already exists. Delete and try again'
+			    Write-Host 'The ['$global:ServiceBusNamespace '] namespace in the ['$global:locationMultiWord '] region already exists.'
 			}
 	    }
         catch{

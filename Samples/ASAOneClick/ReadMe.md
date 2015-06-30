@@ -1,9 +1,9 @@
 #Azure Stream Analytics One Click PowerShell#
 
-One of the core value propositions of Azure Stream Analytics (ASA) is easily solving complex problems in less time and with less resource. This is a one click experience to demonstrate a SensorTag scenario using PowerShell script.
+One of the core value propositions of Azure Stream Analytics (ASA) is easily solving complex problems in less time and with less resource. In this sample we use a real-world problem to demonstrate a SensorTag scenario using PowerShell script. The goal is to teach you how to automate a Stream Analytics job using PowerShell scripts. In this sample we use a PowerShell script to automate the process of creating resources like Eventhubs, SQL Database, Stream Analytics Job and run them. You could then use a real sensor to send events to Event Hub or use an Event Generator included in the sample to simulate sensor events.
 
 ## Scenario ##
-Contoso is a manufacturing company and using industrial automation, they have completely automated their manufacturing process. The machinery in this plant has sensors emitting streams of data in real time. In this scenario, a production floor manager needs to be alerted whenever a sensor, or specific set of sensors, report values exceeding a given threshold in a temporal window. To address this need, ASA can be configured to analyze the sensor data and send alerts to a SQL database. 
+Contoso is a manufacturing company in the industrial automation space and they have completely automated their manufacturing process. The machinery in this plant has sensors emitting streams of data in real time. In this scenario, a production floor manager needs to be alerted whenever a sensor, or specific set of sensors, report values exceeding a given threshold in a temporal window. To address this need, ASA can be configured to analyze the sensor data and send alerts to a SQL database. 
 
 
 ## Prerequisites for this demo ##
@@ -11,17 +11,18 @@ Contoso is a manufacturing company and using industrial automation, they have co
 - **Azure Subscription**
 
 - **Azure Power Shell** You will need to have the latest version of Azure PowerShell. You can follow the instructions [here](http://azure.microsoft.com/en-us/documentation/articles/install-configure-powershell/) to install it.
-- **PowerShell execution-policy** must be set to Unrestricted as the demo PowerShell script is not digitally signed. Open Azure PowerShell window **As an Administrator**. Run “Set-ExecutionPolicy unrestricted”. When prompted, type “Y”.
+- **PowerShell execution-policy** must be set to Unrestricted as the demo PowerShell script is not digitally signed. Open Azure PowerShell window **As an Administrator**. Run “[Set-ExecutionPolicy](https://technet.microsoft.com/en-us/library/ee176961.aspx) unrestricted”. When prompted, type “Y”.
 ![Set-ExecutionPloicy](./Images/Set-ExecutionPolicy.png)
 Now **close Azure PowerShell window and reopen it**. Run Get-ExecutionPolicy to make sure the command worked.
 ![Set-ExecutionPloicy](./Images/Get-ExecutionPolicy.png)
 
-- **Visual Studio** is required to see the output from a SQL Database
+- **Visual Studio** is required to see the output from a SQL Database and to Build the solution.
+-**Note:** If you try to run the script before you Build the solution, the script will fail to load the assembly it depends on. You will have to reopen Azure Power Shell after you build the solution.
 
 ## Setup and Configuration ##
-This sample application automates the process of creating an ASA Job and running it. To experience the scenario end to end, we need an EventHub, and a SQL Azure database. The powershell script will create these resources for you along with an ASA Job and start it. 
+This sample application automates the process of creating an ASA Job and running it. To experience the scenario end to end, we need an EventHub, and a SQL Azure database. The powershell script will create these resources for you along with an ASA Job and starts it. 
 ### Running the PS Script ###
-1. Please download the ASAOneClick project from GitHub to a location in your computer.
+1. Please download the ASAOneClick project from GitHub to a location in your computer. You will need to either download the zip file of the repository or clone it to your desktop.
 2. Open the solution file in Visual Studio and **Build** it. 
 2. Open Azure PowerShell and run setup.ps1 from \ASAOneClick folder. 
 3. When prompted type Deploy. The script has two modes in which it runs. Deploy and Delete. Deploy will create the necessary resources like, EventHub, SQL Databases, ASA job and start the Job for you.
