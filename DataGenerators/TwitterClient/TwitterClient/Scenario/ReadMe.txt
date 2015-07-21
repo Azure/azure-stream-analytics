@@ -1,5 +1,5 @@
 Scenario:
-A company just released a product and want to show ads based on what customers are talking about the products and their sentiments around it. They want to leverage real time analytics by tapping into twitter feeds and count the number of tweets on their product and find the average sentiment score.
+A news media website is interested in getting an edge over its competitors by featuring site content that is immediately relevant to its readers. They use social media analysis on topics relevant to their readers by doing real time sentiment analysis on Twitter data. Specifically, to identify what topics are trending in real time on Twitter, they need real-time analytics about the tweet volume and sentiment for key topics.
 
 Pre-Req:
 Visual Studio
@@ -7,7 +7,7 @@ Azure Subscription
 Twitter Account
 
 Running the generator code and setting up the Stream Analytics job is very simple.
-This sample contains an event generator which calls the Twitter API (dev.twitter.com) to get tweet events. Application parses tweets for parameterized keywords (Skype,XBox,Microsoft, etc.) and uses Sentiment140 (www.sentiment140.com) to add sentiment score to tweet events. To run the sample you will need to first create an EventHub and configure the App.config with its connection string.
+This sample contains an event generator which calls the Twitter API (dev.twitter.com) to get tweet events. Application parses tweets for parameterized keywords (Azure,Microsoft,Seattle, etc.) and uses Sentiment140 (www.sentiment140.com) to add sentiment score to tweet events. To run the sample you will need to first create an EventHub and configure the App.config with its connection string.
 You can then create a Stream Analytics Job. Configure the input to point to the EventHub you have created. In the Query Window you can copy and paste the Query below:
 
 
@@ -15,6 +15,7 @@ SELECT Topic,count(*) AS Count, Avg(SentimentScore) AS AvgSentiment, System.Time
 FROM TwitterInput TIMESTAMP BY CreatedAt
 GROUP BY TumblingWindow(second,5), Topic
 
+To see the output in a SQL table, you will need to create a SQL table with the command below and configure a SQL output for your ASA job to point to the database you have created.
 
 In Azure DB, create a SQL Database:
 
