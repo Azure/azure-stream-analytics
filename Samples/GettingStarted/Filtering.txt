@@ -1,0 +1,10 @@
+SELECT 
+    time,
+    dspl AS SensorName,
+    temp AS Temperature,
+    hmdt AS Humidity
+INTO
+   output
+FROM
+    InputStream
+WHERE dspl='sensorA'

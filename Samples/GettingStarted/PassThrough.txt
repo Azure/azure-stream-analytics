@@ -1,0 +1,6 @@
+SELECT
+*
+INTO
+	output
+FROM
+	InputStream
