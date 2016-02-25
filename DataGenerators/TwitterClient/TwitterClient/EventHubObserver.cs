@@ -57,6 +57,7 @@ namespace TwitterClient
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 
             }
 
