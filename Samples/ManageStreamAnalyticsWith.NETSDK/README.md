@@ -1,4 +1,4 @@
-# Microsoft Azure Stream Analytics #
+# Manage Azure Stream Analytics with .NET SDK #
 
-For more information about the Stream Analytics service, see [http://azure.microsoft.com/en-us/services/stream-analytics/](http://azure.microsoft.com/en-us/services/stream-analytics/)
+This sample demonstrates how to perform management operations using the .NET SDK for Azure Stream Analytics
 
