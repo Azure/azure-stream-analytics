@@ -1,0 +1,5 @@
+SELECT EntryStream.EntryTime, EntryStream.LicensePlate, EntryStream.TollId, Registration.RegistrationId
+FROM EntryStream TIMESTAMP BY EntryTime
+JOIN Registration
+ON EntryStream.LicensePlate = Registration.LicensePlate
+WHERE Registration.Expired = '1'

@@ -1,0 +1,117 @@
+[
+  {
+    "TollId":1,
+    "ExitTime":"2014-09-10T12:03:00.0000000Z",
+    "LicensePlate":"JNB 7001"
+  },
+  {
+    "TollId":1,
+    "ExitTime":"2014-09-10T12:03:00.0000000Z",
+    "LicensePlate":"YXZ 1001"
+  },
+  {
+    "TollId":3,
+    "ExitTime":"2014-09-10T12:04:00.0000000Z",
+    "LicensePlate":"ABC 1004"
+  },
+  {
+    "TollId":2,
+    "ExitTime":"2014-09-10T12:07:00.0000000Z",
+    "LicensePlate":"XYZ 1003"
+  },
+  {
+    "TollId":1,
+    "ExitTime":"2014-09-10T12:08:00.0000000Z",
+    "LicensePlate":"BNJ 1007"
+  },
+  {
+    "TollId":2,
+    "ExitTime":"2014-09-10T12:07:00.0000000Z",
+    "LicensePlate":"CDE 1007"
+  },
+  {
+    "TollId":2,
+    "ExitTime":"2014-09-10T12:09:00.0000000Z",
+    "LicensePlate":"BAC 1005"
+  },
+  {
+    "TollId":1,
+    "ExitTime":"2014-09-10T12:10:00.0000000Z",
+    "LicensePlate":"ZYX 1002"
+  },
+  {
+    "TollId":2,
+    "ExitTime":"2014-09-10T12:10:00.0000000Z",
+    "LicensePlate":"ZXY 1001"
+  },
+  {
+    "TollId":3,
+    "ExitTime":"2014-09-10T12:10:00.0000000Z",
+    "LicensePlate":"CBA 1008"
+  },
+  {
+    "TollId":2,
+    "ExitTime":"2014-09-10T12:11:00.0000000Z",
+    "LicensePlate":"DCB 1004"
+  },
+  {
+    "TollId":2,
+    "ExitTime":"2014-09-10T12:16:00.0000000Z",
+    "LicensePlate":"CDB 1003"
+  },
+  {
+    "TollId":3,
+    "ExitTime":"2014-09-10T12:10:00.0000000Z",
+    "LicensePlate":"YZX 1009"
+  },
+  {
+    "TollId":3,
+    "ExitTime":"2014-09-10T12:12:00.0000000Z",
+    "LicensePlate":"BCD 1002"
+  },
+  {
+    "TollId":1,
+    "ExitTime":"2014-09-10T12:14:00.0000000Z",
+    "LicensePlate":"CBD 1005"
+  },
+  {
+    "TollId":1,
+    "ExitTime":"2014-09-10T12:13:00.0000000Z",
+    "LicensePlate":"NJB 1006"
+  },
+  {
+    "TollId":3,
+    "ExitTime":"2014-09-10T12:15:00.0000000Z",
+    "LicensePlate":"PAC 1209"
+  },
+  {
+    "TollId":2,
+    "ExitTime":"2014-09-10T12:22:00.0000000Z",
+    "LicensePlate":"BAC 1005"
+  },
+  {
+    "TollId":3,
+    "ExitTime":"2014-09-10T12:18:00.0000000Z",
+    "LicensePlate":"EDC 3109"
+  },
+  {
+    "TollId":2,
+    "ExitTime":"2014-09-10T12:20:00.0000000Z",
+    "LicensePlate":"DEC 1008"
+  },
+  {
+    "TollId":1,
+    "ExitTime":"2014-09-10T12:22:00.0000000Z",
+    "LicensePlate":"DBC 1006"
+  },
+  {
+    "TollId":2,
+    "ExitTime":"2014-09-10T12:23:00.0000000Z",
+    "LicensePlate":"APC 2019"
+  },
+  {
+    "TollId":1,
+    "ExitTime":"2014-09-10T12:25:00.0000000Z",
+    "LicensePlate":"EDC 1019"
+  }
+]
