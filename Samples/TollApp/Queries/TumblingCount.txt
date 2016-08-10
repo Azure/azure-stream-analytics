@@ -1,0 +1,3 @@
+SELECT TollId, System.Timestamp AS WindowEnd, COUNT(*) AS Count
+FROM EntryStream TIMESTAMP BY EntryTime 
+GROUP BY TUMBLINGWINDOW(minute,3), TollId
