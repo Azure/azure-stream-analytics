@@ -18,6 +18,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 
 namespace TwitterClient
 {
@@ -28,15 +29,18 @@ namespace TwitterClient
         public readonly string OAuthConsumerKey;
         public readonly string OAuthConsumerSecret;
         public readonly string Keywords;
+		public readonly string SearchGroups;
 
-        public TwitterConfig(string oauthToken, string oauthTokenSecret, string oauthConsumerKey, string oauthConsumerSecret, string keywords)
+        public TwitterConfig(string oauthToken, string oauthTokenSecret, string oauthConsumerKey, string oauthConsumerSecret, string keywords, string searchGroups)
         {
             OAuthToken = oauthToken;
             OAuthTokenSecret = oauthTokenSecret;
             OAuthConsumerKey = oauthConsumerKey;
             OAuthConsumerSecret = oauthConsumerSecret;
             Keywords = keywords;
-        }
+			SearchGroups = searchGroups;
+
+		}
     }
 
     [DataContract]
@@ -147,7 +151,7 @@ namespace TwitterClient
             // make the request
             ServicePointManager.Expect100Continue = false;
 
-            var postBody = "track=" + config.Keywords;
+            var postBody = "track=" + HttpUtility.UrlEncode(config.Keywords);
             resource_url += "?" + postBody;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(resource_url);
             request.Headers.Add("Authorization", authHeader);
@@ -195,10 +199,13 @@ namespace TwitterClient
         public DateTime CreatedAt;
         public string Topic;
         public int SentimentScore;
+		public string Author;
+		public string Text;
+		public bool SendExtended;
                 
         public override string ToString()
         {
-            return new {  CreatedAt,  Topic, SentimentScore }.ToString();
+            return SendExtended ?  new { CreatedAt, Topic, SentimentScore, Author, Text }.ToString() : new { CreatedAt, Topic, SentimentScore }.ToString();
         }
     }
 

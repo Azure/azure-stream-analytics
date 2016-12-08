@@ -28,20 +28,31 @@ namespace TwitterClient
             var oauthTokenSecret = ConfigurationManager.AppSettings["oauth_token_secret"];
             var oauthCustomerKey = ConfigurationManager.AppSettings["oauth_consumer_key"];
             var oauthConsumerSecret = ConfigurationManager.AppSettings["oauth_consumer_secret"];
-            var keywords = ConfigurationManager.AppSettings["twitter_keywords"];
+			var searchGroups = ConfigurationManager.AppSettings["twitter_keywords"]; 
+			var removeAllUndefined =  !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["clear_all_with_undefined_sentiment"]) ?
+				Convert.ToBoolean(ConfigurationManager.AppSettings["clear_all_with_undefined_sentiment"])
+				: false;
+			var sendExtendedInformation = !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["send_extended_information"]) ?
+			Convert.ToBoolean(ConfigurationManager.AppSettings["send_extended_information"])
+			: false;
 
-            //Configure EventHub
-            var config = new EventHubConfig();
+			var mode = ConfigurationManager.AppSettings["match_mode"]; 
+			//Configure EventHub
+			var config = new EventHubConfig();
             config.ConnectionString = ConfigurationManager.AppSettings["EventHubConnectionString"];
             config.EventHubName = ConfigurationManager.AppSettings["EventHubName"];
+		
             var myEventHubObserver = new EventHubObserver(config);
 
-            var datum = Tweet.StreamStatuses(new TwitterConfig(oauthToken, oauthTokenSecret, oauthCustomerKey, oauthConsumerSecret,
-                keywords)).Select(tweet => Sentiment.ComputeScore(tweet, keywords)).Select(tweet => new Payload { CreatedAt=tweet.CreatedAt,Topic =tweet.Topic ,SentimentScore =tweet.SentimentScore });
+			var keywords = searchGroups.Contains('|') ? string.Join(",", searchGroups.Split('|')) : searchGroups;
 
-            datum.ToObservable().Subscribe(myEventHubObserver);
-           
-
+				var datum = Tweet.StreamStatuses(new TwitterConfig(oauthToken, oauthTokenSecret, oauthCustomerKey, oauthConsumerSecret,
+				keywords, searchGroups)).Select(tweet => Sentiment.ComputeScore(tweet, searchGroups, mode)).Select(tweet => new Payload { CreatedAt = tweet.CreatedAt, Topic = tweet.Topic, SentimentScore = tweet.SentimentScore, Author = tweet.UserName, Text = tweet.Text, SendExtended = sendExtendedInformation });
+				if (removeAllUndefined)
+				{
+					datum = datum.Where(e => e.SentimentScore > -1);
+				}
+				datum.Where(e => e.Topic != "No Match").ToObservable().Subscribe(myEventHubObserver);
         }
     }
 }
