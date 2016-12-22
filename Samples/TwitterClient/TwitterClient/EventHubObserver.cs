@@ -21,7 +21,7 @@ using System.Configuration;
 
 namespace TwitterClient
 {
-    class EventHubObserver : IObserver<Payload>
+    public class EventHubObserver : IObserver<Payload>
     {
         private EventHubConfig _config;
         private EventHubClient _eventHubClient;

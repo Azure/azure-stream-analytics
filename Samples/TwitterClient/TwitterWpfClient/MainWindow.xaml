@@ -1,0 +1,93 @@
+﻿<Controls:MetroWindow x:Class="TwitterWpfClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TwitterWpfClient"
+        mc:Ignorable="d"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="Twitter WPF Client" Height="768" Width="1080" Background="Black" DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <Controls:MetroWindow.Resources>
+        <DataTemplate x:Key="AllReadings">
+            <Grid Height="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" FontSize="8" >
+                    <Run Foreground="Aqua" Text="{Binding Created}"/>
+                    <Run Foreground="Aqua" Text=" "/>
+                    <Run Foreground="Yellow" Text="{Binding Topic}"/>
+                    <Run Foreground="Aqua" Text=" "/>
+                    <Run Foreground="WhiteSmoke" Text="{Binding SentimentScore}"/>
+                    <Run Foreground="Aqua" Text=" "/>
+                    <Run Foreground="LightGreen" Text="{Binding Author}"/>
+                     <Run Foreground="Aqua" Text=" "/>
+                    <Run Foreground="LightBlue" Text="{Binding Text}"/>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+    </Controls:MetroWindow.Resources>
+    <Grid Height="750">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="12*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="label" FontFamily="Segoe UI Black" FontSize="20" Foreground="White"
+               Content="Twitter WPF Client" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+        <Border Height="Auto" HorizontalAlignment="Stretch" BorderBrush="White" BorderThickness="3"
+                 Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Twitter Consumer Key (API Key)</Label>
+                <Label Grid.Row="1"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Twitter Consumer Secret (API Secret)</Label>
+                <Label Grid.Row="2"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Twitter Access Token</Label>
+                <Label Grid.Row="3"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Twitter Access Token Secret</Label>
+                <Label Grid.Row="4"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Azure EventHub Name</Label>
+                <Label Grid.Row="5"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Azure EventHub Connection String</Label>
+                <Label Grid.Row="6"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Search Groups</Label>
+
+                <TextBox Grid.Row="0" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
+                <TextBox Grid.Row="3" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
+                <TextBox Grid.Row="4" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
+                <TextBox Grid.Row="5" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
+                <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
+                <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="6" Background="DimGray"></Border>
+                <Controls:ToggleSwitch Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Foreground="AliceBlue" HorizontalAlignment="Stretch"  SwitchForeground="Green" Background="White" Header="Match Any or All" OnLabel="All" OffLabel="Any" />
+                <Controls:ToggleSwitch Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Foreground="AliceBlue" HorizontalAlignment="Stretch"  SwitchForeground="Green" Background="White"  Header="Discard Unknown Sentiment" OnLabel="Keep" OffLabel="Remove" />
+                <Controls:ToggleSwitch Grid.Row="4" Grid.RowSpan="2" Grid.Column="2" Foreground="AliceBlue" HorizontalAlignment="Stretch"  SwitchForeground="Green" Background="White" Header="Send Extended Information" OnLabel="Extended" OffLabel="Basic" />
+          
+            </Grid>
+        </Border>
+        <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource SquareButtonStyle}" FontSize="16" Height="Auto" Width="Auto" MaxHeight="40" MaxWidth="200" Command="{Binding StartStop}" Background="{Binding CurrentColor}">&#x25B6;</Button>
+        <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" BorderBrush="BlueViolet" BorderThickness="1">
+            <ListView  FontSize="10" x:Name="LineItemsList" Height="Auto" MinHeight="300" Background="Transparent" Foreground="WhiteSmoke"  MinWidth="600"
+                                    ItemsSource="{Binding AllReadingsWithTopic}" ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                                    ItemTemplate="{StaticResource AllReadings}"  />
+        </Border>
+    </Grid>
+</Controls:MetroWindow>

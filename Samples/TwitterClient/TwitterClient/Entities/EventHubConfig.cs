@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace TwitterClient
 {
-    class EventHubConfig
+    public class EventHubConfig
     {
         public string ConnectionString;
         public string EventHubName;
