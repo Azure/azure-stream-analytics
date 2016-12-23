@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Windows.Threading;
 using System.Windows;
 using System.Threading.Tasks;
+using TwitterClient.MASC;
 
 namespace TwitterWpfClient.ViewModel
 {
@@ -150,6 +151,13 @@ namespace TwitterWpfClient.ViewModel
 			get
 			{
 				return new RelayCommand(() => {
+
+					if (EventHubConnectionString.ContainsIgnoreCase("entitypath"))
+					{
+						MessageBox.Show("Please remove 'entitypath=' and the value from your connection string");
+						return;
+					}
+
 					var isRunning = CurrentColor == RunColor;
 					CurrentColor = isRunning ? StopColor :RunColor;
 					var shouldRun = !isRunning;
