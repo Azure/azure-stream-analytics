@@ -114,7 +114,13 @@ namespace TwitterWpfClient.ViewModel
 			CurrentColor = StopColor;
 			RegisterAggregates();
 			AllReadingsWithTopic = new ObservableCollection<Payload>();
-			AllReadingsWithTopic.Add(new Payload() { Text = "bleh" });
+			AllReadingsWithTopic.Add(new Payload() { CreatedAt = DateTime.UtcNow,
+					Text = "Welcome to the TwitterWPF Client - Bugs? Contact Mark.Rowe@microsoft.com"});
+			AllReadingsWithTopic.Add(new Payload()
+			{
+				CreatedAt = DateTime.UtcNow,
+				Text = "Setting above are Pulled from .CONFIG or edit manually here"
+			});
 			LoadFromConfigIfAvailable();
 
 		}
@@ -176,7 +182,7 @@ namespace TwitterWpfClient.ViewModel
 		{
 
 			Tweet.keepRunning = false;
-
+			Tweet = new Tweet();
 		}
 		IDisposable SendingPayload { get; set; }
 		Tweet Tweet { get; set; }
@@ -186,10 +192,8 @@ namespace TwitterWpfClient.ViewModel
 			var config = new EventHubConfig();
 			config.ConnectionString = EventHubConnectionString;
 			config.EventHubName = EventHubName;
-			if (Tweet == null)
-			{
-				Tweet = new Tweet();
-			}
+
+			Tweet = new Tweet();
 			Tweet.keepRunning = true;
 			var myEventHubObserver = new EventHubObserverWPF(config);
 			
