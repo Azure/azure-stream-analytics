@@ -30,7 +30,7 @@ namespace TwitterWpfClient.ViewModel
     public class MainViewModel : ViewModelBase
     {
 		private Brush RunColor = Brushes.Green;
-		private Brush StopColor = Brushes.White;
+		private Brush StopColor = Brushes.Pink;
 		private Brush _currentColor;
 		public Brush CurrentColor
 		{
