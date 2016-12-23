@@ -49,7 +49,7 @@ namespace TwitterClient
 
 				var serialisedString = JsonConvert.SerializeObject(TwitterPayloadData);
 				EventData data = new EventData(Encoding.UTF8.GetBytes(serialisedString)) { PartitionKey = TwitterPayloadData.Topic };
-				//_eventHubClient.Send(data);
+				_eventHubClient.Send(data);
 
 				Messenger.Default.Send<Payload>(TwitterPayloadData);
 
