@@ -41,6 +41,7 @@ namespace TwitterClient
 			}
 
 		}
+
 		public void OnNext(Payload TwitterPayloadData)
 		{
 			try
@@ -48,7 +49,7 @@ namespace TwitterClient
 
 				var serialisedString = JsonConvert.SerializeObject(TwitterPayloadData);
 				EventData data = new EventData(Encoding.UTF8.GetBytes(serialisedString)) { PartitionKey = TwitterPayloadData.Topic };
-				_eventHubClient.Send(data);
+				//_eventHubClient.Send(data);
 
 
 				Messenger.Default.Send<Payload>(TwitterPayloadData);
@@ -63,7 +64,7 @@ namespace TwitterClient
 
 		public void OnCompleted()
 		{
-			throw new NotImplementedException();
+			Messenger.Default.Send<Payload>(new Payload() {CreatedAt=DateTime.UtcNow, Text ="Stopped Per User."});
 		}
 
 		public void OnError(Exception error)

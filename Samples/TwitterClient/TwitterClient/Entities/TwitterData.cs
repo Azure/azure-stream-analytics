@@ -66,14 +66,18 @@ namespace TwitterClient
         [DataMember(Name = "user")]                    public TwitterUser User;
         [DataMember(Name = "created_at")]              public string CreatedAt;
         [IgnoreDataMember]                             public string RawJson;
-
-        public static IEnumerable<Tweet> StreamStatuses(TwitterConfig config)
+		public Tweet()
+		{
+			keepRunning = true;
+		}
+		public bool keepRunning { get; set; }
+        public IEnumerable<Tweet> StreamStatuses(TwitterConfig config)
         {
             DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(Tweet));
 
             var streamReader = ReadTweets(config);
 
-            while (true)
+            while (keepRunning)
             {
                 string line = null;
                 try { line = streamReader.ReadLine(); }
@@ -94,8 +98,9 @@ namespace TwitterClient
                 }
             }
         }
+		public HttpWebRequest Request { get;  set;}
 
-        static TextReader ReadTweets(TwitterConfig config)
+		static TextReader ReadTweets(TwitterConfig config)
         {
             var oauth_version = "1.0";
             var oauth_signature_method = "HMAC-SHA1";
@@ -196,14 +201,14 @@ namespace TwitterClient
 
     public class Payload
     {
-        public DateTime CreatedAt;
-        public string Topic;
-        public int SentimentScore;
-		public string Author;
-		public string Text;
-		public bool SendExtended;
-                
-        public override string ToString()
+        public DateTime CreatedAt { get; set; }
+        public string Topic { get; set; }
+		public int SentimentScore { get; set; }
+		public string Author { get; set; }
+		public string Text { get; set; }
+		public bool SendExtended { get; set; }
+
+		public override string ToString()
         {
             return SendExtended ?  new { CreatedAt, Topic, SentimentScore, Author, Text }.ToString() : new { CreatedAt, Topic, SentimentScore }.ToString();
         }

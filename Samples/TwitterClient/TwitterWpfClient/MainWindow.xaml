@@ -9,15 +9,15 @@
         Title="Twitter WPF Client" Height="768" Width="1080" Background="Black" DataContext="{Binding Main, Source={StaticResource Locator}}">
     <Controls:MetroWindow.Resources>
         <DataTemplate x:Key="AllReadings">
-            <Grid Height="12">
+            <Grid Height="25">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" FontSize="8" >
-                    <Run Foreground="Aqua" Text="{Binding Created}"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" FontSize="15" >
+                   <Run Foreground="Aqua" Text="{Binding CreatedAt}"/>
                     <Run Foreground="Aqua" Text=" "/>
                     <Run Foreground="Yellow" Text="{Binding Topic}"/>
                     <Run Foreground="Aqua" Text=" "/>
@@ -69,25 +69,25 @@
                 <Label Grid.Row="5"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Azure EventHub Connection String</Label>
                 <Label Grid.Row="6"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Search Groups</Label>
 
-                <TextBox Grid.Row="0" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
-                <TextBox Grid.Row="1" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
-                <TextBox Grid.Row="2" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
-                <TextBox Grid.Row="3" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
-                <TextBox Grid.Row="4" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
-                <TextBox Grid.Row="5" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
-                <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Background="LightGray" Foreground="Black" ></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" Text="{Binding OAuthToken, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="3" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black"  Text="{Binding OAuthTokenSecret, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="0" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black"  Text="{Binding OAuthCustomerKey, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black"  Text="{Binding OAuthConsumerSecret, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="4" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black"  Text="{Binding EventHubName, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="5" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black"  Text="{Binding EventHubConnectionString, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Background="LightGray" Foreground="Black"  Text="{Binding SearchGroups, Mode=TwoWay}"></TextBox>
                 <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="6" Background="DimGray"></Border>
-                <Controls:ToggleSwitch Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Foreground="AliceBlue" HorizontalAlignment="Stretch"  SwitchForeground="Green" Background="White" Header="Match Any or All" OnLabel="All" OffLabel="Any" />
-                <Controls:ToggleSwitch Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Foreground="AliceBlue" HorizontalAlignment="Stretch"  SwitchForeground="Green" Background="White"  Header="Discard Unknown Sentiment" OnLabel="Keep" OffLabel="Remove" />
-                <Controls:ToggleSwitch Grid.Row="4" Grid.RowSpan="2" Grid.Column="2" Foreground="AliceBlue" HorizontalAlignment="Stretch"  SwitchForeground="Green" Background="White" Header="Send Extended Information" OnLabel="Extended" OffLabel="Basic" />
+                <Controls:ToggleSwitch IsChecked="{Binding RequireAll, Mode=TwoWay}" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Foreground="AliceBlue" HorizontalAlignment="Stretch"  SwitchForeground="Green" Background="White" Header="Match Any or All" OnLabel="All" OffLabel="Any" />
+                <Controls:ToggleSwitch IsChecked="{Binding ClearUnfoundSentiment, Mode=TwoWay}" Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Foreground="AliceBlue" HorizontalAlignment="Stretch"  SwitchForeground="Green" Background="White"  Header="Discard Unknown Sentiment" OnLabel="Keep" OffLabel="Remove" />
+                <Controls:ToggleSwitch IsChecked="{Binding SendExtendedInformation, Mode=TwoWay}" Grid.Row="4" Grid.RowSpan="2" Grid.Column="2" Foreground="AliceBlue" HorizontalAlignment="Stretch"  SwitchForeground="Green" Background="White" Header="Send Extended Information" OnLabel="Extended" OffLabel="Basic" />
           
             </Grid>
         </Border>
         <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource SquareButtonStyle}" FontSize="16" Height="Auto" Width="Auto" MaxHeight="40" MaxWidth="200" Command="{Binding StartStop}" Background="{Binding CurrentColor}">&#x25B6;</Button>
         <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" BorderBrush="BlueViolet" BorderThickness="1">
-            <ListView  FontSize="10" x:Name="LineItemsList" Height="Auto" MinHeight="300" Background="Transparent" Foreground="WhiteSmoke"  MinWidth="600"
+            <ListView FontSize="10" x:Name="LineItemsList" Height="Auto" MinHeight="300" Background="Transparent" Foreground="WhiteSmoke"  MinWidth="600"
                                     ItemsSource="{Binding AllReadingsWithTopic}" ScrollViewer.VerticalScrollBarVisibility="Visible" 
-                                    ItemTemplate="{StaticResource AllReadings}"  />
+                                    ItemTemplate="{StaticResource AllReadings}"   />
         </Border>
     </Grid>
 </Controls:MetroWindow>

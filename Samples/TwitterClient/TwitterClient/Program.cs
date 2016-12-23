@@ -45,9 +45,9 @@ namespace TwitterClient
             var myEventHubObserver = new EventHubObserver(config);
 
 			var keywords = searchGroups.Contains('|') ? string.Join(",", searchGroups.Split('|')) : searchGroups;
-
-				var datum = Tweet.StreamStatuses(new TwitterConfig(oauthToken, oauthTokenSecret, oauthCustomerKey, oauthConsumerSecret,
-				keywords, searchGroups)).Select(tweet => Sentiment.ComputeScore(tweet, searchGroups, mode)).Select(tweet => new Payload { CreatedAt = tweet.CreatedAt, Topic = tweet.Topic, SentimentScore = tweet.SentimentScore, Author = tweet.UserName, Text = tweet.Text, SendExtended = sendExtendedInformation });
+			var tweet = new Tweet();
+				var datum = tweet.StreamStatuses(new TwitterConfig(oauthToken, oauthTokenSecret, oauthCustomerKey, oauthConsumerSecret,
+				keywords, searchGroups)).Select(t => Sentiment.ComputeScore(tweet, searchGroups, mode)).Select(t => new Payload { CreatedAt = t.CreatedAt, Topic = t.Topic, SentimentScore = t.SentimentScore, Author = t.UserName, Text = t.Text, SendExtended = sendExtendedInformation });
 				if (removeAllUndefined)
 				{
 					datum = datum.Where(e => e.SentimentScore > -1);

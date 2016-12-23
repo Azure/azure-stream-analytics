@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TwitterWpfClient.ViewModel;
 
 namespace TwitterWpfClient
 {
@@ -21,9 +22,16 @@ namespace TwitterWpfClient
 	/// </summary>
 	public partial class MainWindow 
 	{
+		private MainViewModel Model { get; set; }
 		public MainWindow()
 		{
 			InitializeComponent();
+			Model = DataContext as MainViewModel;
+
+			
 		}
+
+
+
 	}
 }

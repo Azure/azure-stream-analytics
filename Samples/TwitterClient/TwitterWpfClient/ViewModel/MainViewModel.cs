@@ -7,6 +7,10 @@ using System.Linq;
 using System.Windows.Media;
 using TwitterClient;
 using System.Reactive.Linq;
+using System.Configuration;
+using System.Windows.Threading;
+using System.Windows;
+using System.Threading.Tasks;
 
 namespace TwitterWpfClient.ViewModel
 {
@@ -57,40 +61,6 @@ namespace TwitterWpfClient.ViewModel
 			get { return _requireAll; }
 			set { Set(() => RequireAll, ref _requireAll, value); }
 		}
-		//private DateTime _created;
-		//public DateTime Created
-		//{
-		//	get { return _created; }
-		//	set { Set(() => Created, ref _created, value); }
-		//}
-
-		//private int _sentimentScore;
-		//public int SentimentScore
-		//{
-		//	get { return _sentimentScore; }
-		//	set { Set(() => SentimentScore, ref _sentimentScore, value); }
-		//}
-
-		//private string _author;
-		//public string Author
-		//{
-		//	get { return _author; }
-		//	set { Set(() => Author, ref _author, value); }
-		//}
-
-		//private string _topic;
-		//public string Topic
-		//{
-		//	get { return _topic; }
-		//	set { Set(() => Topic, ref _topic, value); }
-		//}
-
-		//private string _text;
-		//public string Text
-		//{
-		//	get { return _text; }
-		//	set { Set(() => Text, ref _text, value); }
-		//}
 		private string _oAuthToken;
 		public string OAuthToken
 		{
@@ -142,7 +112,33 @@ namespace TwitterWpfClient.ViewModel
 		public MainViewModel()
         {
 			CurrentColor = StopColor;
-        }
+			RegisterAggregates();
+			AllReadingsWithTopic = new ObservableCollection<Payload>();
+			AllReadingsWithTopic.Add(new Payload() { Text = "bleh" });
+			LoadFromConfigIfAvailable();
+
+		}
+
+		private void LoadFromConfigIfAvailable()
+		{
+			OAuthToken = ConfigurationManager.AppSettings["oauth_token"];
+			OAuthTokenSecret= ConfigurationManager.AppSettings["oauth_token_secret"];
+			OAuthCustomerKey = ConfigurationManager.AppSettings["oauth_consumer_key"];
+			OAuthConsumerSecret= ConfigurationManager.AppSettings["oauth_consumer_secret"];
+			SearchGroups = ConfigurationManager.AppSettings["twitter_keywords"];
+			ClearUnfoundSentiment = !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["clear_all_with_undefined_sentiment"]) ?
+				Convert.ToBoolean(ConfigurationManager.AppSettings["clear_all_with_undefined_sentiment"])
+				: false;
+			SendExtendedInformation = !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["send_extended_information"]) ?
+			Convert.ToBoolean(ConfigurationManager.AppSettings["send_extended_information"])
+			: false;
+
+			RequireAll = ConfigurationManager.AppSettings["match_mode"] == "all";
+
+			EventHubConnectionString = ConfigurationManager.AppSettings["EventHubConnectionString"];
+			EventHubName = ConfigurationManager.AppSettings["EventHubName"];
+		}
+
 		public RelayCommand StartStop
 		{
 			get
@@ -151,38 +147,52 @@ namespace TwitterWpfClient.ViewModel
 					var isRunning = CurrentColor == RunColor;
 					CurrentColor = isRunning ? StopColor :RunColor;
 					var shouldRun = !isRunning;
-					if (shouldRun)
-					{
+				if (shouldRun)
+				{
+						//
 						Run();
+				//});
+					
+						
 					}
 					else
 					{
-						Stop();
+						Stop(); 
 					}
 				});
 			}
 		}
+		private void RegisterAggregates()
+		{
+			GalaSoft.MvvmLight.Messaging.Messenger.Default.Register<Payload>(this, e => {
 
+				App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+				{
+					AllReadingsWithTopic.Insert(0, e);
+				});
+			});
+		}
 		private void Stop()
 		{
-			if (SendingPayload != null)
-			{
-				SendingPayload.Dispose();
-			}
-					
+
+			Tweet.keepRunning = false;
+
 		}
 		IDisposable SendingPayload { get; set; }
-
-		private void Run()
+		Tweet Tweet { get; set; }
+		private async Task Run()
 		{
 			var keywords = SearchGroups.Contains("|") ? string.Join(",", SearchGroups.Split('|')) : SearchGroups;
 			var config = new EventHubConfig();
 			config.ConnectionString = EventHubConnectionString;
 			config.EventHubName = EventHubName;
-
-
-			var myEventHubObserver = new EventHubObserver(config);
-
+			if (Tweet == null)
+			{
+				Tweet = new Tweet();
+			}
+			Tweet.keepRunning = true;
+			var myEventHubObserver = new EventHubObserverWPF(config);
+			
 			var sendingPayload = Tweet.StreamStatuses(new TwitterConfig(OAuthToken, OAuthTokenSecret, OAuthCustomerKey, OAuthConsumerSecret,
 				keywords, SearchGroups)).Select(tweet => Sentiment.ComputeScore(tweet, SearchGroups, RequireAll ? "all" : "any")).Select(tweet => new Payload { CreatedAt = tweet.CreatedAt, Topic = tweet.Topic, SentimentScore = tweet.SentimentScore, Author = tweet.UserName, Text = tweet.Text, SendExtended = SendExtendedInformation });
 			if (ClearUnfoundSentiment)
@@ -190,7 +200,10 @@ namespace TwitterWpfClient.ViewModel
 				sendingPayload = sendingPayload.Where(e => e.SentimentScore > -1);
 			}
 			sendingPayload = sendingPayload.Where(e => e.Topic != "No Match");
-			SendingPayload = sendingPayload.ToObservable().Subscribe(myEventHubObserver);
+			SendingPayload = await Task<IDisposable>.Run(() =>
+				{
+					return SendingPayload = sendingPayload.ToObservable().Subscribe(myEventHubObserver);
+				});
 		}
 	}
 }
