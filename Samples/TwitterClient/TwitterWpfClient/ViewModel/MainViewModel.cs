@@ -174,12 +174,12 @@ namespace TwitterWpfClient.ViewModel
 					ButtonText = shouldRun ? Running : Stopped;
 					if (shouldRun)
 					{
-						//Run();
+						Run();
 
 					}
 					else
 					{
-					//	Stop();
+					    Stop();
 					}
 				});
 			}
