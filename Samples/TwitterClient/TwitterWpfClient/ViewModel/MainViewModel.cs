@@ -167,6 +167,21 @@ namespace TwitterWpfClient.ViewModel
 						MessageBox.Show("Please remove 'entitypath=' and the value from your connection string");
 						return;
 					}
+					if (string.IsNullOrWhiteSpace(OAuthConsumerSecret) ||
+					string.IsNullOrWhiteSpace(OAuthCustomerKey) ||
+					string.IsNullOrWhiteSpace(OAuthToken) ||
+					string.IsNullOrWhiteSpace(OAuthTokenSecret))
+					{
+						MessageBox.Show("Missing Required Twitter Authentication Information. Please fill in the fields on the form and try again.");
+						return;
+					}
+					if (string.IsNullOrWhiteSpace(SearchGroups))
+					{
+						MessageBox.Show("Missing Things to search. Please fill in the Search Group field on the form and try again.\n Example: Microsoft,Surface|Atari, 2600");
+						return;
+					}
+
+
 
 					var isRunning = CurrentColor == StopColor;
 					CurrentColor = isRunning ? RunColor : StopColor;
