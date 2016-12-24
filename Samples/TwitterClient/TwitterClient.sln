@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterWpfClient", "Twitter
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ED901B43-8A70-42B3-A1F6-BB0B7A5F1273}"
 	ProjectSection(SolutionItems) = preProject
-		WPFClient.zip = WPFClient.zip
+		TwitterClients.zip = TwitterClients.zip
 	EndProjectSection
 EndProject
 Global
