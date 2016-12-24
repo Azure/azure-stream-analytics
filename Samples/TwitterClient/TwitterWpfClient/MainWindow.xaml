@@ -83,7 +83,7 @@
           
             </Grid>
         </Border>
-        <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource SquareButtonStyle}" FontSize="16" Height="Auto" Width="Auto" MaxHeight="40" MaxWidth="200" Command="{Binding StartStop}" Background="{Binding CurrentColor}">&#x25B6;</Button>
+        <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource SquareButtonStyle}" FontSize="16" Height="Auto" Width="Auto" MaxHeight="40" MaxWidth="150" Command="{Binding StartStop}" Background="{Binding CurrentColor}" Content="{Binding ButtonText}"></Button>
         <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" BorderBrush="BlueViolet" BorderThickness="1">
             <ListView FontSize="10" x:Name="LineItemsList" Height="Auto" MinHeight="300" Background="Transparent" Foreground="WhiteSmoke"  MinWidth="600"
                                     ItemsSource="{Binding AllReadingsWithTopic}" ScrollViewer.VerticalScrollBarVisibility="Visible" 

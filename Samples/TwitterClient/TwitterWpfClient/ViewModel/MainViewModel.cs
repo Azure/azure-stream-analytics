@@ -31,6 +31,8 @@ namespace TwitterWpfClient.ViewModel
     {
 		private Brush RunColor = Brushes.Green;
 		private Brush StopColor = Brushes.Pink;
+		private const string Stopped = "\u25B6";
+		private const string Running = "\u25A0 ";
 		private Brush _currentColor;
 		public Brush CurrentColor
 		{
@@ -61,6 +63,12 @@ namespace TwitterWpfClient.ViewModel
 		{
 			get { return _requireAll; }
 			set { Set(() => RequireAll, ref _requireAll, value); }
+		}
+		private string _buttonText;
+		public string ButtonText
+		{
+			get { return _buttonText; }
+			set { Set(() => ButtonText, ref _buttonText, value); }
 		}
 		private string _oAuthToken;
 		public string OAuthToken
@@ -112,7 +120,8 @@ namespace TwitterWpfClient.ViewModel
 		/// </summary>
 		public MainViewModel()
         {
-			CurrentColor = StopColor;
+			CurrentColor = RunColor;
+			ButtonText = Stopped;
 			RegisterAggregates();
 			AllReadingsWithTopic = new ObservableCollection<Payload>();
 			AllReadingsWithTopic.Add(new Payload() { CreatedAt = DateTime.UtcNow,
@@ -150,7 +159,8 @@ namespace TwitterWpfClient.ViewModel
 		{
 			get
 			{
-				return new RelayCommand(() => {
+				return new RelayCommand(() =>
+				{
 
 					if (EventHubConnectionString.ContainsIgnoreCase("entitypath"))
 					{
@@ -158,24 +168,24 @@ namespace TwitterWpfClient.ViewModel
 						return;
 					}
 
-					var isRunning = CurrentColor == RunColor;
-					CurrentColor = isRunning ? StopColor :RunColor;
+					var isRunning = CurrentColor == StopColor;
+					CurrentColor = isRunning ? RunColor : StopColor;
 					var shouldRun = !isRunning;
-				if (shouldRun)
-				{
-						//
-						Run();
-				//});
-					
-						
+					ButtonText = shouldRun ? Running : Stopped;
+					if (shouldRun)
+					{
+						//Run();
+
 					}
 					else
 					{
-						Stop(); 
+					//	Stop();
 					}
 				});
 			}
 		}
+
+
 		private void RegisterAggregates()
 		{
 			GalaSoft.MvvmLight.Messaging.Messenger.Default.Register<Payload>(this, e => {
