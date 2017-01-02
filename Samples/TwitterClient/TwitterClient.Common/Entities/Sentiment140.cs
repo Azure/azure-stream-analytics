@@ -17,9 +17,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
-using TwitterClient.MASC;
+using TwitterClient.Common.MASC;
 
-namespace TwitterClient
+
+namespace TwitterClient.Common
 {
     public static class Sentiment
     {

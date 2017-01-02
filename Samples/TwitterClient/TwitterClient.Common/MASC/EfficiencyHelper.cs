@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 //Mark Rowe - MASC - Mark.Rowe@Microsoft.com - www.AugmentedDeveloper.com
 //Created side library for more efficient parsing of words. 
-namespace TwitterClient.MASC
+namespace TwitterClient.Common.MASC
 {
 	public static class EfficiencyHelper
 	{

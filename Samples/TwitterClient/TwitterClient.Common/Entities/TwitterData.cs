@@ -20,7 +20,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace TwitterClient
+namespace TwitterClient.Common
 {
     public struct TwitterConfig
     {

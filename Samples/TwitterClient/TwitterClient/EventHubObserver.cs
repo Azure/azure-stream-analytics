@@ -17,7 +17,7 @@ using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using Newtonsoft.Json;
 using System.Configuration;
-
+using TwitterClient.Common;
 
 namespace TwitterClient
 {

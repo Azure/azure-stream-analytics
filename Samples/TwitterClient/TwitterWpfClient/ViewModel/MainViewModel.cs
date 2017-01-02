@@ -11,7 +11,8 @@ using System.Configuration;
 using System.Windows.Threading;
 using System.Windows;
 using System.Threading.Tasks;
-using TwitterClient.MASC;
+using TwitterClient.Common;
+using TwitterClient.Common.MASC;
 
 namespace TwitterWpfClient.ViewModel
 {
