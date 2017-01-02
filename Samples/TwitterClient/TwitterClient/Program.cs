@@ -36,19 +36,21 @@ namespace TwitterClient
 			var sendExtendedInformation = !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["send_extended_information"]) ?
 			Convert.ToBoolean(ConfigurationManager.AppSettings["send_extended_information"])
 			: false;
-
+			var AzureOn = !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["AzureOn"]) ?
+				Convert.ToBoolean(ConfigurationManager.AppSettings["AzureOn"])
+				: false;
 			var mode = ConfigurationManager.AppSettings["match_mode"]; 
 			//Configure EventHub
 			var config = new EventHubConfig();
             config.ConnectionString = ConfigurationManager.AppSettings["EventHubConnectionString"];
             config.EventHubName = ConfigurationManager.AppSettings["EventHubName"];
 		
-            var myEventHubObserver = new EventHubObserver(config);
+            var myEventHubObserver = new EventHubObserver(config, AzureOn);
 
 			var keywords = searchGroups.Contains('|') ? string.Join(",", searchGroups.Split('|')) : searchGroups;
 			var tweet = new Tweet();
 				var datum = tweet.StreamStatuses(new TwitterConfig(oauthToken, oauthTokenSecret, oauthCustomerKey, oauthConsumerSecret,
-				keywords, searchGroups)).Select(t => Sentiment.ComputeScore(tweet, searchGroups, mode)).Select(t => new Payload { CreatedAt = t.CreatedAt, Topic = t.Topic, SentimentScore = t.SentimentScore, Author = t.UserName, Text = t.Text, SendExtended = sendExtendedInformation });
+				keywords, searchGroups)).Where(e => !string.IsNullOrWhiteSpace(e.Text)).Select(t => Sentiment.ComputeScore(t, searchGroups, mode)).Select(t => new Payload { CreatedAt = t.CreatedAt, Topic = t.Topic, SentimentScore = t.SentimentScore, Author = t.UserName, Text = t.Text, SendExtended = sendExtendedInformation });
 				if (removeAllUndefined)
 				{
 					datum = datum.Where(e => e.SentimentScore > -1);

@@ -59,6 +59,12 @@ namespace TwitterWpfClient.ViewModel
 			get { return _sendExtendedInformation; }
 			set { Set(() => SendExtendedInformation, ref _sendExtendedInformation, value); }
 		}
+		private bool _azureOn;
+		public bool AzureOn
+		{
+			get { return _azureOn; }
+			set { Set(() => AzureOn, ref _azureOn, value); }
+		}
 		private bool _requireAll;
 		public bool RequireAll
 		{
@@ -154,6 +160,9 @@ namespace TwitterWpfClient.ViewModel
 
 			EventHubConnectionString = ConfigurationManager.AppSettings["EventHubConnectionString"];
 			EventHubName = ConfigurationManager.AppSettings["EventHubName"];
+		    AzureOn = !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["AzureOn"]) ?
+				Convert.ToBoolean(ConfigurationManager.AppSettings["AzureOn"])
+				: false;
 		}
 
 		public RelayCommand StartStop
@@ -229,7 +238,7 @@ namespace TwitterWpfClient.ViewModel
 
 			Tweet = new Tweet();
 			Tweet.keepRunning = true;
-			var myEventHubObserver = new EventHubObserverWPF(config);
+			var myEventHubObserver = new EventHubObserverWPF(config, AzureOn);
 			
 			var sendingPayload = Tweet.StreamStatuses(new TwitterConfig(OAuthToken, OAuthTokenSecret, OAuthCustomerKey, OAuthConsumerSecret,
 				keywords, SearchGroups)).Select(tweet => Sentiment.ComputeScore(tweet, SearchGroups, RequireAll ? "all" : "any")).Select(tweet => new Payload { CreatedAt = tweet.CreatedAt, Topic = tweet.Topic, SentimentScore = tweet.SentimentScore, Author = tweet.UserName, Text = tweet.Text, SendExtended = SendExtendedInformation });

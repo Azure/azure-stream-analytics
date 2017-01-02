@@ -159,7 +159,6 @@ namespace TwitterClient.Common
 		//MWR Add multikeyword so "bob car" can be found in "the car was bobs"
 		public static string DetermineTopicEfficiently(string tweetText, string searchGroups, string mode)// bool multikeyword = false, bool all = false)
 		{
-
 			var eachGroup = searchGroups.Split('|').ToList();
 			foreach(var group in eachGroup)
 			{

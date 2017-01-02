@@ -25,15 +25,19 @@ namespace TwitterClient
     {
         private EventHubConfig _config;
         private EventHubClient _eventHubClient;
-       
+        public bool AzureOn { get; set; }
                 
-        public EventHubObserver(EventHubConfig config)
+        public EventHubObserver(EventHubConfig config, bool azureOn = true)
         {
+			AzureOn = azureOn;
             try
             {
+				
                 _config = config;
-                _eventHubClient = EventHubClient.CreateFromConnectionString(_config.ConnectionString, config.EventHubName);
-                
+				if (AzureOn)
+				{
+					_eventHubClient = EventHubClient.CreateFromConnectionString(_config.ConnectionString, config.EventHubName);
+				}
             }
             catch (Exception ex)
             {
@@ -45,14 +49,20 @@ namespace TwitterClient
         {
             try
             {
-
-                var serialisedString = JsonConvert.SerializeObject(TwitterPayloadData);
-                EventData data = new EventData(Encoding.UTF8.GetBytes(serialisedString)) { PartitionKey = TwitterPayloadData.Topic };
-                _eventHubClient.Send(data);
-               
-                
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Sending" + serialisedString + " at: " + TwitterPayloadData.CreatedAt.ToString() );
+				var serialisedString = JsonConvert.SerializeObject(TwitterPayloadData);
+				if (AzureOn)
+				{
+					EventData data = new EventData(Encoding.UTF8.GetBytes(serialisedString)) { PartitionKey = TwitterPayloadData.Topic };
+					_eventHubClient.Send(data);
+					Console.ForegroundColor = ConsoleColor.Yellow;
+					Console.WriteLine("Sending" + serialisedString + " at: " + TwitterPayloadData.CreatedAt.ToString());
+				}
+				else
+				{
+					Console.ForegroundColor = ConsoleColor.Green;
+					Console.WriteLine("Faked Sending" + serialisedString + " at: " + TwitterPayloadData.CreatedAt.ToString());
+				}
+          
                                 
             }
             catch (Exception ex)
