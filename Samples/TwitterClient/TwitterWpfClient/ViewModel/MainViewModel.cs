@@ -11,7 +11,8 @@ using System.Configuration;
 using System.Windows.Threading;
 using System.Windows;
 using System.Threading.Tasks;
-using TwitterClient.MASC;
+using TwitterClient.Common;
+using TwitterClient.Common.MASC;
 
 namespace TwitterWpfClient.ViewModel
 {
@@ -31,6 +32,8 @@ namespace TwitterWpfClient.ViewModel
     {
 		private Brush RunColor = Brushes.Green;
 		private Brush StopColor = Brushes.Pink;
+		private const string Stopped = "\u25B6";
+		private const string Running = "\u25A0 ";
 		private Brush _currentColor;
 		public Brush CurrentColor
 		{
@@ -56,11 +59,23 @@ namespace TwitterWpfClient.ViewModel
 			get { return _sendExtendedInformation; }
 			set { Set(() => SendExtendedInformation, ref _sendExtendedInformation, value); }
 		}
+		private bool _azureOn;
+		public bool AzureOn
+		{
+			get { return _azureOn; }
+			set { Set(() => AzureOn, ref _azureOn, value); }
+		}
 		private bool _requireAll;
 		public bool RequireAll
 		{
 			get { return _requireAll; }
 			set { Set(() => RequireAll, ref _requireAll, value); }
+		}
+		private string _buttonText;
+		public string ButtonText
+		{
+			get { return _buttonText; }
+			set { Set(() => ButtonText, ref _buttonText, value); }
 		}
 		private string _oAuthToken;
 		public string OAuthToken
@@ -112,7 +127,8 @@ namespace TwitterWpfClient.ViewModel
 		/// </summary>
 		public MainViewModel()
         {
-			CurrentColor = StopColor;
+			CurrentColor = RunColor;
+			ButtonText = Stopped;
 			RegisterAggregates();
 			AllReadingsWithTopic = new ObservableCollection<Payload>();
 			AllReadingsWithTopic.Add(new Payload() { CreatedAt = DateTime.UtcNow,
@@ -144,38 +160,57 @@ namespace TwitterWpfClient.ViewModel
 
 			EventHubConnectionString = ConfigurationManager.AppSettings["EventHubConnectionString"];
 			EventHubName = ConfigurationManager.AppSettings["EventHubName"];
+		    AzureOn = !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["AzureOn"]) ?
+				Convert.ToBoolean(ConfigurationManager.AppSettings["AzureOn"])
+				: false;
 		}
 
 		public RelayCommand StartStop
 		{
 			get
 			{
-				return new RelayCommand(() => {
+				return new RelayCommand(() =>
+				{
 
 					if (EventHubConnectionString.ContainsIgnoreCase("entitypath"))
 					{
 						MessageBox.Show("Please remove 'entitypath=' and the value from your connection string");
 						return;
 					}
+					if (string.IsNullOrWhiteSpace(OAuthConsumerSecret) ||
+					string.IsNullOrWhiteSpace(OAuthCustomerKey) ||
+					string.IsNullOrWhiteSpace(OAuthToken) ||
+					string.IsNullOrWhiteSpace(OAuthTokenSecret))
+					{
+						MessageBox.Show("Missing Required Twitter Authentication Information. Please fill in the fields on the form and try again.");
+						return;
+					}
+					if (string.IsNullOrWhiteSpace(SearchGroups))
+					{
+						MessageBox.Show("Missing Things to search. Please fill in the Search Group field on the form and try again.\n Example: Microsoft,Surface|Atari, 2600");
+						return;
+					}
 
-					var isRunning = CurrentColor == RunColor;
-					CurrentColor = isRunning ? StopColor :RunColor;
+
+
+					var isRunning = CurrentColor == StopColor;
+					CurrentColor = isRunning ? RunColor : StopColor;
 					var shouldRun = !isRunning;
-				if (shouldRun)
-				{
-						//
+					ButtonText = shouldRun ? Running : Stopped;
+					if (shouldRun)
+					{
 						Run();
-				//});
-					
-						
+
 					}
 					else
 					{
-						Stop(); 
+					    Stop();
 					}
 				});
 			}
 		}
+
+
 		private void RegisterAggregates()
 		{
 			GalaSoft.MvvmLight.Messaging.Messenger.Default.Register<Payload>(this, e => {
@@ -203,7 +238,7 @@ namespace TwitterWpfClient.ViewModel
 
 			Tweet = new Tweet();
 			Tweet.keepRunning = true;
-			var myEventHubObserver = new EventHubObserverWPF(config);
+			var myEventHubObserver = new EventHubObserverWPF(config, AzureOn);
 			
 			var sendingPayload = Tweet.StreamStatuses(new TwitterConfig(OAuthToken, OAuthTokenSecret, OAuthCustomerKey, OAuthConsumerSecret,
 				keywords, SearchGroups)).Select(tweet => Sentiment.ComputeScore(tweet, SearchGroups, RequireAll ? "all" : "any")).Select(tweet => new Payload { CreatedAt = tweet.CreatedAt, Topic = tweet.Topic, SentimentScore = tweet.SentimentScore, Author = tweet.UserName, Text = tweet.Text, SendExtended = SendExtendedInformation });

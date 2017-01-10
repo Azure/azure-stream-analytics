@@ -18,6 +18,7 @@ using Microsoft.ServiceBus.Messaging;
 using Newtonsoft.Json;
 using System.Configuration;
 using GalaSoft.MvvmLight.Messaging;
+using TwitterClient.Common;
 
 namespace TwitterClient
 {
@@ -25,15 +26,19 @@ namespace TwitterClient
 	{
 		private EventHubConfig _config;
 		private EventHubClient _eventHubClient;
+		public bool AzureOn { get; set; }
 
-
-		public EventHubObserverWPF(EventHubConfig config)
+		public EventHubObserverWPF(EventHubConfig config, bool azureOn)
 		{
+			AzureOn = azureOn;
 			try
 			{
-				_config = config;
-				_eventHubClient = EventHubClient.CreateFromConnectionString(_config.ConnectionString, config.EventHubName);
 
+				_config = config;
+				if (AzureOn)
+				{
+					_eventHubClient = EventHubClient.CreateFromConnectionString(_config.ConnectionString, config.EventHubName);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -48,11 +53,17 @@ namespace TwitterClient
 			{
 
 				var serialisedString = JsonConvert.SerializeObject(TwitterPayloadData);
-				EventData data = new EventData(Encoding.UTF8.GetBytes(serialisedString)) { PartitionKey = TwitterPayloadData.Topic };
-				_eventHubClient.Send(data);
+				if (AzureOn)
+				{
+					EventData data = new EventData(Encoding.UTF8.GetBytes(serialisedString)) { PartitionKey = TwitterPayloadData.Topic };
+					_eventHubClient.Send(data);
 
+				}
+				else
+				{
+					TwitterPayloadData.Text = string.Format("{0}-{1}","AZUREON=FALSE",TwitterPayloadData.Text);
+				}
 				Messenger.Default.Send<Payload>(TwitterPayloadData);
-
 			}
 			catch (Exception ex)
 			{
