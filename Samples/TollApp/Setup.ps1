@@ -26,7 +26,7 @@ Param(
 
 function ValidateParameters{
     $modeList = 'deploy', 'list', 'delete'
-	$global:SupportedLocations = 'South Central US', 'North Central US', 'Central US', 'West US', 'East US', 'East US2', 'Japan East', 'Japan West', 'East Asia', 'South East Asia'
+	$global:SupportedLocations = 'South Central US', 'North Central US', 'Central US', 'West US', 'East US', 'East US2', 'Japan East', 'Japan West', 'East Asia', 'Southeast Asia'
     
 	if($modeList -notcontains $global:mode){
         Write-Host ''
