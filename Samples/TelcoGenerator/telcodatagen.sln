@@ -1,7 +1,18 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "telcodatagen", "telcodatagen.csproj", "{BBF940EE-C359-4E81-AD6A-D43F69CFECEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelcoDataGeneratorUI", "..\TelcoDatGeneratorUI\TelcoDataGeneratorUI.csproj", "{367D4B2A-2DF1-42A6-B8D3-40E122D68F00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelcoDataGenerator.Common", "TelcoDataGenerator.Common\TelcoDataGenerator.Common.csproj", "{60450790-E1D2-49C1-A09B-8AFD7ABC96A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E3A2790E-61EB-4EDF-88D4-2BD29D416CCC}"
+	ProjectSection(SolutionItems) = preProject
+		..\TelcoDatGeneratorUI\App\TelcoDataGeneratorWPF.zip = ..\TelcoDatGeneratorUI\App\TelcoDataGeneratorWPF.zip
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +24,14 @@ Global
 		{BBF940EE-C359-4E81-AD6A-D43F69CFECEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBF940EE-C359-4E81-AD6A-D43F69CFECEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBF940EE-C359-4E81-AD6A-D43F69CFECEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{367D4B2A-2DF1-42A6-B8D3-40E122D68F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{367D4B2A-2DF1-42A6-B8D3-40E122D68F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{367D4B2A-2DF1-42A6-B8D3-40E122D68F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{367D4B2A-2DF1-42A6-B8D3-40E122D68F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60450790-E1D2-49C1-A09B-8AFD7ABC96A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60450790-E1D2-49C1-A09B-8AFD7ABC96A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60450790-E1D2-49C1-A09B-8AFD7ABC96A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60450790-E1D2-49C1-A09B-8AFD7ABC96A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
