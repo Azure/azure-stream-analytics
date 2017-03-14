@@ -1,0 +1,77 @@
+﻿<Controls:MetroWindow x:Class="TelcoDataGeneratorUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TelcoDataGeneratorUI"
+        mc:Ignorable="d"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="Telco Demo WPF Client" Height="768" Width="1080" Background="Black" DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <Controls:MetroWindow.Resources>
+        <DataTemplate x:Key="AllReadings">
+            <Grid Height="25">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" FontSize="15" >
+                   <Run Foreground="Aqua" Text="{Binding Path=.}"/>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+    </Controls:MetroWindow.Resources>
+    <Grid Height="750">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="12*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="label" FontFamily="Segoe UI Black" FontSize="20" Foreground="White"
+               Content="Telco WPF Client" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+        <Border Height="200" HorizontalAlignment="Stretch" BorderBrush="White" BorderThickness="3"
+                 Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Entity Hub Connection String</Label>
+                <Label Grid.Row="1" Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" >Entity Hub Name</Label>
+                <Label Grid.Row="2"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12">Number of CDR's per hour</Label>
+                <Label Grid.Row="3"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" Content="Sim Card Fraud probability" />
+                <Label Grid.Row="4"  Foreground="AliceBlue"  FontFamily="Segoe UI Black" FontSize="12" Content="Duration in hours" />
+
+
+                <TextBox Grid.Row="0" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" Text="{Binding EventHubConnectionString, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black" Text="{Binding EventHubName, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black"  Text="{Binding NumberOfCDRs, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="3" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black"  Text="{Binding SimCardProbability, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Row="4" Grid.Column="1"  Margin="2" Background="LightGray" Foreground="Black"  Text="{Binding DurationInHours, Mode=TwoWay}"></TextBox>
+            
+
+            </Grid>
+        </Border>
+        <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource SquareButtonStyle}" FontSize="16" Height="Auto" Width="Auto" MaxHeight="40" MaxWidth="150" Command="{Binding StartStop}" Background="{Binding CurrentColor}" Content="{Binding ButtonText}"></Button>
+        <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" BorderBrush="BlueViolet" BorderThickness="1">
+            <ListView FontSize="10" x:Name="LineItemsList" Height="Auto" MinHeight="300" Background="Transparent" Foreground="WhiteSmoke"  MinWidth="600"
+                                    ItemsSource="{Binding AllReadingsWithTopic}" ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                                    ItemTemplate="{StaticResource AllReadings}"   />
+        </Border>
+    </Grid>
+</Controls:MetroWindow>
