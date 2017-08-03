@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Azure.WebJobs</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Azure.WebJobs.BlobTriggerAttribute">
+            <summary>
+            Represents an attribute that binds a parameter to an Azure Blob, causing the method to run when a blob is
+            uploaded.
+            </summary>
+            <remarks>
+            The method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description>ICloudBlob</description></item>
+            <item><description>CloudBlockBlob</description></item>
+            <item><description>CloudPageBlob</description></item>
+            <item><description><see cref="T:System.IO.Stream"/></description></item>
+            <item><description><see cref="T:System.IO.TextReader"/></description></item>
+            <item><description><see cref="T:System.String"/></description></item>
+            <item><description>A custom type implementing <see cref="T:Microsoft.Azure.WebJobs.ICloudBlobStreamBinder`1"/></description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.BlobTriggerAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.BlobTriggerAttribute"/> class.
+            </summary>
+            <param name="blobPath">The path of the blob to which to bind.</param>
+            <remarks>
+            The blob portion of the path can contain tokens in curly braces to indicate a pattern to match. The matched
+            name can be used in other binding attributes to define the output name of a Job function.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.BlobTriggerAttribute.BlobPath">
+            <summary>Gets the path of the blob to which to bind.</summary>
+            <remarks>
+            The blob portion of the path can contain tokens in curly braces to indicate a pattern to match. The matched
+            name can be used in other binding attributes to define the output name of a Job function.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.BinderExtensions">
+            <summary>Provides extension methods for the <see cref="T:Microsoft.Azure.WebJobs.IBinder"/> interface.</summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.BinderExtensions.Bind``1(Microsoft.Azure.WebJobs.IBinder,System.Attribute)">
+            <summary>Binds the specified attribute.</summary>
+            <typeparam name="T">The type to which to bind.</typeparam>
+            <param name="binder">The binder to use to bind.</param>
+            <param name="attribute">The attribute to bind.</param>
+            <returns>The value bound.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.IAsyncCollector`1">
+            <summary>
+            Defines an asynchronous collector (an insert-only collection).
+            </summary>
+            <typeparam name="T">The type of items to collect.</typeparam>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.IAsyncCollector`1.AddAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            Adds an item to the <see cref="T:Microsoft.Azure.WebJobs.IAsyncCollector`1"/>.
+            </summary>
+            <param name="item">The item to be added.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A task that will add the item to the collector.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ICloudBlobStreamBinder`1">
+            <summary>Defines a blob binder for a custom type.</summary>
+            <typeparam name="T">The type of object the binder can bind.</typeparam>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ICloudBlobStreamBinder`1.ReadFromStreamAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>Binds the content of the blob to a custom type.</summary>
+            <param name="input">The blob stream to read.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that will provide the deserialized object.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ICloudBlobStreamBinder`1.WriteToStreamAsync(`0,System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>Binds the custom type to the contents of a blob.</summary>
+            <param name="value">The value to serialize.</param>
+            <param name="output">The stream to which to write the value.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that will write to the stream.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.IBinder">
+            <summary>Represents an attribute binder.</summary>
+            <remarks>This interface enables imperative binding with attribute information specified at runtime.</remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.IBinder.BindAsync``1(System.Attribute,System.Threading.CancellationToken)">
+            <summary>Binds the specified attribute.</summary>
+            <typeparam name="T">The type to which to bind.</typeparam>
+            <param name="attribute">The attribute to bind.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that will provide the bound the value.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.BlobAttribute">
+            <summary>Represents an attribute that binds a parameter to an Azure Blob.</summary>
+            <remarks>
+            The method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description>ICloudBlob</description></item>
+            <item><description>CloudBlockBlob</description></item>
+            <item><description>CloudPageBlob</description></item>
+            <item><description><see cref="T:System.IO.Stream"/> (read-only)</description></item>
+            <item><description>CloudBlobStream (write-only)</description></item>
+            <item><description><see cref="T:System.IO.TextReader"/></description></item>
+            <item><description><see cref="T:System.IO.TextWriter"/></description></item>
+            <item><description>
+            <see cref="T:System.String"/> (normally for reading, or as an out param for writing)
+            </description></item>
+            <item><description>
+            A custom type implementing <see cref="T:Microsoft.Azure.WebJobs.ICloudBlobStreamBinder`1"/> (normally for reading, or as an out param for
+            writing)
+            </description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.BlobAttribute.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.BlobAttribute"/> class.</summary>
+            <param name="blobPath">The path of the blob to which to bind.</param>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.BlobAttribute.#ctor(System.String,System.IO.FileAccess)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.BlobAttribute"/> class.</summary>
+            <param name="blobPath">The path of the blob to which to bind.</param>
+            <param name="access">The kind of operations that can be performed on the blob.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.BlobAttribute.BlobPath">
+            <summary>Gets the path of the blob to which to bind.</summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.BlobAttribute.Access">
+            <summary>Gets the kind of operations that can be performed on the blob.</summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ICollector`1">
+            <summary>
+            Defines a collector (an insert-only collection).
+            </summary>
+            <typeparam name="T">The type of items to collect.</typeparam>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ICollector`1.Add(`0)">
+            <summary>
+            Adds an item to the <see cref="T:Microsoft.Azure.WebJobs.ICollector`1"/>.
+            </summary>
+            <param name="item">The item to be added.</param>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.QueueAttribute">
+            <summary>Represents an attribute that binds a parameter to an Azure Queue.</summary>
+            <remarks>
+            The method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description>CloudQueue</description></item>
+            <item><description>CloudQueueMessage (out param)</description></item>
+            <item><description><see cref="T:System.String"/> (out param)</description></item>
+            <item><description><see cref="T:byte[]"/> (out param)</description></item>
+            <item><description>A user-defined type (out param, serialized as JSON)</description></item>
+            <item><description>
+            <see cref="T:System.Collections.Generic.ICollection`1"/> of these types (to enqueue multiple messages via <see cref="M:System.Collections.Generic.ICollection`1.Add(`0)"/>
+            </description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.QueueAttribute.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.QueueAttribute"/> class.</summary>
+            <param name="queueName">The name of the queue to which to bind.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.QueueAttribute.QueueName">
+            <summary>Gets the name of the queue to which to bind.</summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.QueueTriggerAttribute">
+            <summary>
+            Represents an attribute that binds a parameter to an Azure Queue message, causing the method to run when a
+            message is enqueued.
+            </summary>
+            <remarks>
+            The method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description>CloudQueueMessage</description></item>
+            <item><description><see cref="T:System.String"/></description></item>
+            <item><description><see cref="T:byte[]"/></description></item>
+            <item><description>A user-defined type (serialized as JSON)</description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.QueueTriggerAttribute.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.QueueTriggerAttribute"/> class.</summary>
+            <param name="queueName">The name of the queue to which to bind.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.QueueTriggerAttribute.QueueName">
+            <summary>Gets the name of the queue to which to bind.</summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.TableAttribute">
+            <summary>Represents an attribute that binds a parameter to an Azure Table or Table entity.</summary>
+            <remarks>
+            When only the table name is provided, the attribute binds to a table, and the method parameter type can be one
+            of the following:
+            <list type="bullet">
+            <item><description>CloudTable</description></item>
+            <item><description><see cref="T:System.Linq.IQueryable`1"/> (where T implements ITableEntity)</description></item>
+            </list>
+            When the table name, partition key, and row key are provided, the attribute binds to a table entity, and the
+            method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description>ITableEntity</description></item>
+            <item><description>
+            A user-defined type not implementing ITableEntity (serialized as strings for simple types and JSON for complex
+            types)
+            </description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.TableAttribute.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.TableAttribute"/> class.</summary>
+            <param name="tableName">The name of the table to which to bind.</param>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.TableAttribute.#ctor(System.String,System.String,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.TableAttribute"/> class.</summary>
+            <param name="tableName">The name of the table containing the entity.</param>
+            <param name="partitionKey">The partition key of the entity.</param>
+            <param name="rowKey">The row key of the entity.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TableAttribute.TableName">
+            <summary>Gets the name of the table to which to bind.</summary>
+            <remarks>When binding to a table entity, gets the name of the table containing the entity.</remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TableAttribute.PartitionKey">
+            <summary>When binding to a table entity, gets the partition key of the entity.</summary>
+            <remarks>When binding to an entire table, returns <see langword="null"/>.</remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TableAttribute.RowKey">
+            <summary>When binding to a table entity, gets the row key of the entity.</summary>
+            <remarks>When binding to an entire table, returns <see langword="null"/>.</remarks>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.NoAutomaticTriggerAttribute">
+            <summary>
+            Represents an attribute that indicates a function for which no automatic trigger listening is performed.
+            </summary>
+            <remarks>
+            This attribute is useful in two cases:
+            <list type="number">
+            <item>
+            <term>Functions with triggers</term>
+            <description>Prevents automatic invocation of the triggers, allowing manual polling.</description>
+            </item>
+            <item>
+            <term>Functions without other attributes</term>
+            <description>Flags the function as an available job function.</description>
+            </item>
+            </list>
+            In both cases, functions marked with this attribute are never called automatically by JobHost (during
+            RunAndBlock). Instead, they must be invoked manually using the Call method.
+            </remarks>
+        </member>
+    </members>
+</doc>
