@@ -246,7 +246,7 @@
           "name": "TumblingWindow",
           "properties": {
             "streamingUnits": 1,
-            "query": "SELECT TollId, System.Timestamp AS WindowEnd, COUNT(*) AS Count\r\n *\r\nFROM EntryStream TIMESTAMP BY EntryTime\r\n  *\r\nGROUP BY TUMBLINGWINDOW(minute, 3), TollId\r\n"
+            "query": "SELECT TollId, System.Timestamp AS WindowEnd, COUNT(*) AS Count\r\n \r\nFROM EntryStream TIMESTAMP BY EntryTime\r\n  \r\nGROUP BY TUMBLINGWINDOW(minute, 3), TollId"
           }
         },
         "outputs": [
