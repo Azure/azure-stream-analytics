@@ -9,7 +9,7 @@ namespace TollApp.Events
     {
         #region Private Variables
 
-        private const int MaxTollId = 4;
+        private const int MaxTollId = 5;
 
         // One of the toll stations will intentionally be missing exit events to demonstrate use of outer left join
         private const int TollIdWithFailedExitSensor = 5;
@@ -34,7 +34,7 @@ namespace TollApp.Events
                 var carModel = Data.CarModels[_random.Next(Data.CarModels.Length)];
                 var entryTime = startTime + TimeSpan.FromMilliseconds(_random.Next((int) interval.TotalMilliseconds));
                 var exitTime = entryTime + TimeSpan.FromSeconds(_random.Next(60, 160));
-                var tollId = _random.Next(MaxTollId);
+                var tollId = _random.Next(1, MaxTollId); //random number between 1 and 4
                 var state = Data.States[_random.Next(Data.States.Length)];
                 var tollAmount = GetTollAmount(carModel);
                 var tag = _random.Next(100000000, 999999999);
