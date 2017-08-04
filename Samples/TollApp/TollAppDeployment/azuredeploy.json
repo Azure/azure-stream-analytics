@@ -20,7 +20,7 @@
     "functionAppPlanName": "[concat('tollfuncapp',parameters('user'))]",
     "webAppName": "[concat('tollapp',parameters('user'))]",
     "webAppPlanSkuName": "S1",
-    "repoURL": "https://github.com/meyergm/testasa.git",
+    "repoURL": "https://github.com/meyergm/azure-stream-analytics.git",
     "branch": "master",
     "storageAccountName": "[concat('tollapp',parameters('user'),'sa')]",
     "lowerCaseStorageAccountName": "[toLower(variables('storageAccountName'))]",
@@ -34,7 +34,7 @@
     "cosmosDBDatabaseName": "tollAppDatabase",
     "cosmosDBCollectionName": "tollAppCollection",
     "cosmosDBOfferType": "Standard",
-    "azureStreamAnalyticsJob1": "[concat('TollData',parameters('user'))]",
+    "azureStreamAnalyticsJob": "[concat('TollData',parameters('user'))]",
     "consumergroups_asajob_name": "asajob",
     "eventHubAuthRule": "[concat(variables('eventHub'),'/RootManageSharedAccessKey')]",
     "registrationFileBlob": "registration.json",
@@ -113,20 +113,21 @@
       "location": "Central US",
       "properties": {
         "messageRetentionInDays": 7
-      }
+      },
+      "resources": [
+        {
+          "dependsOn": [
+            "[variables('entryStream')]"
+          ],
+          "apiVersion": "2017-04-01",
+          "name": "[variables('consumergroups_asajob_name')]",
+          "type": "ConsumerGroups",
+          "properties": {
+          }
+        }
+      ]
     },
-    {
-      "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]",
-        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHub'), variables('entryStream'))]"
-      ],
-      "apiVersion": "2015-08-01",
-      "name": "[concat(variables('eventHub'),'/',variables('entryStream'),'/',Variables('consumergroups_asajob_name'))]",
-      "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-      "location": "[resourceGroup().location]",
-      "properties": {
-      }
-    },
+
     {
       "dependsOn": [
         "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]"
@@ -137,28 +138,29 @@
       "location": "Central US",
       "properties": {
         "messageRetentionInDays": 7
-      }
-    },
-    {
-      "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]",
-        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHub'), variables('exitStream'))]"
-      ],
-      "apiVersion": "2015-08-01",
-      "name": "[concat(variables('eventHub'),'/',variables('exitStream'),'/',Variables('consumergroups_asajob_name'))]",
-      "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-      "location": "[resourceGroup().location]",
-      "properties": {
-      }
+      },
+      "resources": [
+        {
+          "dependsOn": [
+            "[variables('exitStream')]"
+          ],
+          "apiVersion": "2017-04-01",
+          "name": "[variables('consumergroups_asajob_name')]",
+          "type": "ConsumerGroups",
+          "properties": {
+          }
+        }
+      ]
     },
     {
       "dependsOn": [
         "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDB'))]",
-        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]"
-
+        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHub'), variables('entryStream'))]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHub'), variables('exitStream'))]"
       ],
       "apiVersion": "2015-10-01",
-      "name": "[variables('azureStreamAnalyticsJob1')]",
+      "name": "[variables('azureStreamAnalyticsJob')]",
       "type": "Microsoft.StreamAnalytics/streamingjobs",
       "location": "[resourceGroup().location]",
       "properties": {
@@ -225,10 +227,14 @@
                 }
               },
               "datasource": {
-                "type": "Microsoft.Storage/storageAccounts",
+                "type": "Microsoft.Storage/Blob",
                 "properties": {
-                  "StorageAccount": "[variables('storageAccountid')]",
-                  "StorageAccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1]",
+                  "StorageAccounts": [
+                    {
+                      "AccountName": "[variables('lowerCaseStorageAccountName')]",
+                      "AccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1]"
+                    }
+                  ],
                   "Container": "[variables('storageContainer')]",
                   "PathPattern": "[variables('registrationFileBlob')]"
                 }
@@ -285,15 +291,15 @@
       }
     },
     {
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', variables('functionAppPlanName'))]"
+      ],
       "apiVersion": "2016-03-01",
       "type": "Microsoft.Web/sites",
       "name": "[variables('functionAppName')]",
       "location": "[resourceGroup().location]",
       "kind": "functionapp",
-      "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-        "[resourceId('Microsoft.Web/serverfarms', variables('functionAppPlanName'))]"
-      ],
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('functionAppPlanName'))]",
         "siteConfig": {
@@ -369,12 +375,12 @@
             {
               "name": "AzureWebJobsDashboard",
               "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
-              "type":  3 
+              "type": 3
             },
             {
               "name": "AzureWebJobsStorage",
               "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
-              "type": 3 
+              "type": 3
             }
           ]
         }
@@ -382,29 +388,13 @@
       "resources": [
         {
           "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', variables('webAppName'))]"
-          ],
-          "apiVersion": "2015-08-01",
-          "name": "web",
-          "type": "sourcecontrols",
-          "tags": {
-            "displayName": "webAppDeploy"
-          },
-          "properties": {
-            "RepoURL": "[variables('repoURL')]",
-            "branch": "[variables('branch')]",
-            "IsManualIntegration": true
-          }
-        },
-        {
-          "dependsOn": [
-            "[concat('Microsoft.Web/sites/',variables('webAppName'))]",
-            "web"
+            "[concat('Microsoft.Web/sites/',variables('webAppName'))]"
           ],
           "apiVersion": "2015-08-01",
           "type": "config",
           "name": "appsettings",
           "properties": {
+            "PROJECT": "Samples\\TollApp\\TollApp.WebApp\\TollApp.WebApp.csproj ",
             "EntryName": "[variables('entryStream')]",
             "ExitName": "[variables('exitStream')]",
             "DocumentDbUri": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', variables('cosmosDB'))).documentEndpoint]",
@@ -421,6 +411,22 @@
             "DeploymentLogLink": "[variables('deploymentLogLink')]",
             "ResourceGroup": "[resourceGroup().name]",
             "SubscriptionId": "[subscription().subscriptionId]"
+          }
+        },
+        {
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', variables('webAppName'))]"
+          ],
+          "apiVersion": "2015-08-01",
+          "name": "web",
+          "type": "sourcecontrols",
+          "tags": {
+            "displayName": "webAppDeploy"
+          },
+          "properties": {
+            "RepoURL": "[variables('repoURL')]",
+            "branch": "[variables('branch')]",
+            "IsManualIntegration": true
           }
         }
       ]
