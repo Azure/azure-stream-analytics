@@ -394,7 +394,7 @@
           "type": "config",
           "name": "appsettings",
           "properties": {
-            "PROJECT": "Samples\\TollApp\\TollApp.WebApp\\TollApp.WebApp.csproj ",
+            "PROJECT": "Samples\\TollApp\\TollApp.WebApp\\TollApp.WebApp.csproj",
             "EntryName": "[variables('entryStream')]",
             "ExitName": "[variables('exitStream')]",
             "DocumentDbUri": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', variables('cosmosDB'))).documentEndpoint]",
@@ -415,7 +415,8 @@
         },
         {
           "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', variables('webAppName'))]"
+            "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
+            "[resourceId('Microsoft.Web/Sites/config', variables('webAppName'), 'appsettings')]"
           ],
           "apiVersion": "2015-08-01",
           "name": "web",
