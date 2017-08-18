@@ -394,7 +394,7 @@
           "type": "config",
           "name": "appsettings",
           "properties": {
-            "PROJECT": "Samples\\TollApp\\TollApp.WebApp\\TollApp.WebApp.csproj",
+            "PROJECT": "Samples\\TollApp\\VSProjects\\TollApp.WebApp\\TollApp.WebApp.csproj",
             "EntryName": "[variables('entryStream')]",
             "ExitName": "[variables('exitStream')]",
             "DocumentDbUri": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', variables('cosmosDB'))).documentEndpoint]",
