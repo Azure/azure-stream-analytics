@@ -1,0 +1,6 @@
+SELECT EntryStream.TollId, EntryStream.EntryTime, ExitStream.ExitTime, EntryStream.LicensePlate, 
+DATEDIFF(minute, EntryStream.EntryTime, ExitStream .ExitTime) AS DurationInMinutes
+FROM EntryStream TIMESTAMP BY EntryTime
+JOIN ExitStream TIMESTAMP BY ExitTime
+ON (EntryStream.TollId= ExitStream.TollId AND EntryStream.LicensePlate = ExitStream.LicensePlate)
+AND DATEDIFF(minute, EntryStream, ExitStream ) BETWEEN 0 AND 15
