@@ -2,17 +2,17 @@
 For more information about TollApp sample, please see <a href="https://docs.microsoft.com/en-us/azure/stream-analytics/stream-analytics-build-an-iot-solution-using-stream-analytics"> "Build an IoT solution by using Stream Analytics."</a>
 For more information about the Stream Analytics service, see http://azure.microsoft.com/en-us/services/stream-analytics/
 
-**Introduction**
+## Introduction
 
 In this tutorial, you will learn how to use Azure Stream Analytics to get real-time insights from your data. Developers can easily combine streams of data, such as click-streams, logs, and device-generated events, with historical records or reference data to derive business insights. As a fully managed, real-time stream computation service that's hosted in Microsoft Azure, Azure Stream Analytics provides built-in resiliency, low latency, and scalability to get you up and running in minutes.
 
 After completing this tutorial, you will be able to:
 
-    * Familiarize yourself with the Azure Stream Analytics portal.
-    * Configure and deploy a streaming job.
-    * Articulate real-world problems and solve them by using the Stream Analytics query language.
-    * Develop streaming solutions for your customers by using Stream Analytics with confidence.
-    * Use the monitoring and logging experience to troubleshoot issues.
+* Familiarize yourself with the Azure Stream Analytics portal.
+* Configure and deploy a streaming job.
+* Articulate real-world problems and solve them by using the Stream Analytics query language.
+* Develop streaming solutions for your customers by using Stream Analytics with confidence.
+* Use the monitoring and logging experience to troubleshoot issues.
 
 ## Resources
 ### Prerequisites
