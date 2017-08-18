@@ -1,5 +1,6 @@
 # Azure Stream Analytics Toll App
 For more information about TollApp sample, please see <a href="https://docs.microsoft.com/en-us/azure/stream-analytics/stream-analytics-build-an-iot-solution-using-stream-analytics"> "Build an IoT solution by using Stream Analytics."</a>
+
 For more information about the Stream Analytics service, see http://azure.microsoft.com/en-us/services/stream-analytics/
 
 ## Introduction
@@ -19,8 +20,8 @@ After completing this tutorial, you will be able to:
 * A Microsoft account http://account.live.com
 * A Microsoft Azure account http://azure.microsoft.com/en-us/pricing/free-trial/
 
-### Documentation
-### Scenario introduction: “Hello, Toll!”**
+## Documentation
+### Scenario introduction: “Hello, Toll!”
 
 A toll station is a common phenomenon. You encounter them on many expressways, bridges, and tunnels across the world. Each toll station has multiple toll booths. At manual booths, you stop to pay the toll to an attendant. At automated booths, a sensor on top of each booth scans an RFID card that's affixed to the windshield of your vehicle as you pass the toll booth. It is easy to visualize the passage of vehicles through these toll stations as an event stream over which interesting operations can be performed.
 
@@ -29,6 +30,17 @@ To deploy the app to Azure, click the link below. Deploy the app in a new resour
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fgithub.com%2Fmeyergm%2Fazure-stream-analytics%2Fblob%2Fmaster%2FSamples%2FTollApp%2FTollAppDeployment%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
+
+Verify that the Azure Stream Analytics TollApp deployment was successful
+1. Login into Microsoft Azure portal
+1. Go to Resource Groups
+1. Select the Resource Group name used during deployment
+1. Verify that the following services are listed:
+    * One Cosmos DB
+    * One Azure Streaming Analytics Jobs
+    * One Azure Storage Account
+    * One Azure Event Hubs
+    * Two Web Apps
 
 ## License
 Microsoft Azure Stream Analytics sample application and tutorials are licensed under the MIT license. See the [LICENSE](https://github.com/Azure/azure-stream-analytics/blob/master/LICENSE.txt) file for more details.
