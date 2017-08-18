@@ -8,11 +8,11 @@ In this tutorial, you will learn how to use Azure Stream Analytics to get real-t
 
 After completing this tutorial, you will be able to:
 
-    *Familiarize yourself with the Azure Stream Analytics portal.
-    *Configure and deploy a streaming job.
-    *Articulate real-world problems and solve them by using the Stream Analytics query language.
-    *Develop streaming solutions for your customers by using Stream Analytics with confidence.
-    *Use the monitoring and logging experience to troubleshoot issues.
+    * Familiarize yourself with the Azure Stream Analytics portal.
+    * Configure and deploy a streaming job.
+    * Articulate real-world problems and solve them by using the Stream Analytics query language.
+    * Develop streaming solutions for your customers by using Stream Analytics with confidence.
+    * Use the monitoring and logging experience to troubleshoot issues.
 
 ## Resources
 ### Prerequisites
