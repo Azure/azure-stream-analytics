@@ -32,15 +32,23 @@ To deploy the app to Azure, click the link below. Deploy the app in a new resour
 </a>
 
 Verify that the Azure Stream Analytics TollApp deployment was successful
-1. Login into Microsoft Azure portal
+1. Log into Microsoft Azure Portal
 1. Go to Resource Groups
 1. Select the Resource Group name used during deployment
 1. Verify that the following services are listed:
-    * One Cosmos DB
-    * One Azure Streaming Analytics Jobs
+    * One Cosmos DB Account
+    * One Azure Stream Analytics Jobs
     * One Azure Storage Account
     * One Azure Event Hubs
     * Two Web Apps
+
+When the application is deployed the interval timer is set. This will specify the amount of time between vehicles entering the tollbooth in milliseconds.
+To change this time update the TimerSetting value in the Web App application settings
+* Log into Microsoft Azure Portal
+* Open App Services
+* Select the tollapp Web App
+* Select Application settings
+* Set the TimerSetting value to desired time in milliseconds. Example: 5000 Milliseconds is 5 Seconds
 
 ## License
 Microsoft Azure Stream Analytics sample application and tutorials are licensed under the MIT license. See the [LICENSE](https://github.com/Azure/azure-stream-analytics/blob/master/LICENSE.txt) file for more details.

@@ -2,39 +2,34 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "user": {
-      "type": "string",
-      "metadata": {
-        "description": "User parameter will be used to create a unique Azure Stream Analytics Toll App Demo. Use 15 characters or less for this parameter."
-      }
-    },
     "interval": {
       "type": "string",
+      "defaultValue": "5000",
       "metadata": {
-        "description": "The frequency to which the Toll App WebJob sends data."
+        "description": "The frequency to which the Toll App WebJob sends data in miliseconds."
       }
     }
   },
   "variables": {
-    "functionAppName": "[concat('tollfuncapp',parameters('user'))]",
-    "functionAppPlanName": "[concat('tollfuncapp',parameters('user'))]",
-    "webAppName": "[concat('tollapp',parameters('user'))]",
+    "functionAppName": "[concat('tollfuncapp',uniqueString(resourceGroup().id, resourceGroup().id))]",
+    "functionAppPlanName": "[concat('tollfuncapp',uniqueString(resourceGroup().id, resourceGroup().id))]",
+    "webAppName": "[concat('tollapp',uniqueString(resourceGroup().id, resourceGroup().id))]",
     "webAppPlanSkuName": "S1",
     "repoURL": "https://github.com/meyergm/azure-stream-analytics.git",
     "branch": "master",
-    "storageAccountName": "[concat('tollapp',parameters('user'),'sa')]",
+    "storageAccountName": "[concat('tollapp',uniqueString(resourceGroup().id, resourceGroup().id),'sa')]",
     "lowerCaseStorageAccountName": "[toLower(variables('storageAccountName'))]",
     "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
     "storageAccountType": "Standard_LRS",
     "storageContainer": "data",
-    "eventHub": "[concat('tollapp',parameters('user'),'-','eventhub')]",
+    "eventHub": "[concat('tollapp',uniqueString(resourceGroup().id, resourceGroup().id),'-','eventhub')]",
     "entryStream": "entrystream",
     "exitStream": "exitstream",
-    "cosmosDB": "[concat('tollapp',parameters('user'),'-','cosmos')]",
+    "cosmosDB": "[concat('tollapp',uniqueString(resourceGroup().id, resourceGroup().id),'-','cosmos')]",
     "cosmosDBDatabaseName": "tollAppDatabase",
     "cosmosDBCollectionName": "tollAppCollection",
     "cosmosDBOfferType": "Standard",
-    "azureStreamAnalyticsJob": "[concat('TollData',parameters('user'))]",
+    "azureStreamAnalyticsJob": "[concat('TollData',uniqueString(resourceGroup().id, resourceGroup().id))]",
     "consumergroups_asajob_name": "asajob",
     "eventHubAuthRule": "[concat(variables('eventHub'),'/RootManageSharedAccessKey')]",
     "registrationFileBlob": "registration.json",
@@ -151,122 +146,6 @@
           }
         }
       ]
-    },
-    {
-      "dependsOn": [
-        "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDB'))]",
-        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]",
-        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHub'), variables('entryStream'))]",
-        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHub'), variables('exitStream'))]"
-      ],
-      "apiVersion": "2015-10-01",
-      "name": "[variables('azureStreamAnalyticsJob')]",
-      "type": "Microsoft.StreamAnalytics/streamingjobs",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "sku": {
-          "name": "standard"
-        },
-        "EventsOutOfOrderMaxDelayInSeconds": 5,
-        "EventsOutOfOrderPolicy": "Adjust",
-        "inputs": [
-          {
-            "name": "EntryStream",
-            "properties": {
-              "type": "stream",
-              "serialization": {
-                "type": "JSON",
-                "properties": {
-                  "encoding": "UTF8"
-                }
-              },
-              "datasource": {
-                "type": "Microsoft.ServiceBus/EventHub",
-                "properties": {
-                  "EventHubName": "[variables('entryStream')]",
-                  "ServiceBusNamespace": "[variables('eventHub')]",
-                  "SharedAccessPolicyKey": "[listKeys(concat('Microsoft.EventHub/namespaces/',variables('eventHub'),'/AuthorizationRules/RootManageSharedAccessKey/'),'2017-04-01').primarykey]",
-                  "SharedAccessPolicyName": "RootManageSharedAccessKey",
-                  "SourcePartitionCount": 4,
-                  "consumerGroupName": "[variables('consumergroups_asajob_name')]"
-                }
-              }
-            }
-          },
-          {
-            "name": "ExitStream",
-            "properties": {
-              "type": "stream",
-              "serialization": {
-                "type": "JSON",
-                "properties": {
-                  "encoding": "UTF8"
-                }
-              },
-              "datasource": {
-                "type": "Microsoft.ServiceBus/EventHub",
-                "properties": {
-                  "EventHubName": "[variables('exitStream')]",
-                  "ServiceBusNamespace": "[variables('eventHub')]",
-                  "SharedAccessPolicyKey": "[listKeys(concat('Microsoft.EventHub/namespaces/',variables('eventHub'),'/AuthorizationRules/RootManageSharedAccessKey/'),'2017-04-01').primarykey]",
-                  "SharedAccessPolicyName": "RootManageSharedAccessKey",
-                  "SourcePartitionCount": 4,
-                  "consumerGroupName": "[variables('consumergroups_asajob_name')]"
-                }
-              }
-            }
-          },
-          {
-            "name": "Regisration",
-            "properties": {
-              "type": "Reference",
-              "serialization": {
-                "type": "JSON",
-                "properties": {
-                  "encoding": "UTF8"
-                }
-              },
-              "datasource": {
-                "type": "Microsoft.Storage/Blob",
-                "properties": {
-                  "StorageAccounts": [
-                    {
-                      "AccountName": "[variables('lowerCaseStorageAccountName')]",
-                      "AccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1]"
-                    }
-                  ],
-                  "Container": "[variables('storageContainer')]",
-                  "PathPattern": "[variables('registrationFileBlob')]"
-                }
-              }
-            }
-          }
-        ],
-        "transformation": {
-          "name": "TumblingWindow",
-          "properties": {
-            "streamingUnits": 1,
-            "query": "SELECT TollId, System.Timestamp AS WindowEnd, COUNT(*) AS Count\r\n \r\nFROM EntryStream TIMESTAMP BY EntryTime\r\n  \r\nGROUP BY TUMBLINGWINDOW(minute, 3), TollId"
-          }
-        },
-        "outputs": [
-          {
-            "name": "CosmosDB",
-            "properties": {
-              "datasource": {
-                "type": "Microsoft.Storage/DocumentDB",
-                "properties": {
-                  "AccountID": "[variables('cosmosDB')]",
-                  "AccountKey": "[listKeys(concat('Microsoft.DocumentDb/databaseAccounts/',variables('cosmosDB')),'2016-03-31').primaryMasterKey]",
-                  "database": "[variables('cosmosDBDatabaseName')]",
-                  "CollectionNamePattern": "[variables('cosmosDBCollectionName')]",
-                  "PartitionKey": "id"
-                }
-              }
-            }
-          }
-        ]
-      }
     },
     {
       "dependsOn": [
@@ -431,6 +310,125 @@
           }
         }
       ]
+    },
+    {
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('functionAppPlanName'))]",
+        "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', variables('webAppName'))]",
+        "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDB'))]",
+        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHub'), variables('entryStream'))]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHub'), variables('exitStream'))]"
+      ],
+      "apiVersion": "2015-10-01",
+      "name": "[variables('azureStreamAnalyticsJob')]",
+      "type": "Microsoft.StreamAnalytics/streamingjobs",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "sku": {
+          "name": "standard"
+        },
+        "EventsOutOfOrderMaxDelayInSeconds": 5,
+        "EventsOutOfOrderPolicy": "Adjust",
+        "inputs": [
+          {
+            "name": "EntryStream",
+            "properties": {
+              "type": "stream",
+              "serialization": {
+                "type": "JSON",
+                "properties": {
+                  "encoding": "UTF8"
+                }
+              },
+              "datasource": {
+                "type": "Microsoft.ServiceBus/EventHub",
+                "properties": {
+                  "EventHubName": "[variables('entryStream')]",
+                  "ServiceBusNamespace": "[variables('eventHub')]",
+                  "SharedAccessPolicyKey": "[listKeys(concat('Microsoft.EventHub/namespaces/',variables('eventHub'),'/AuthorizationRules/RootManageSharedAccessKey/'),'2017-04-01').primarykey]",
+                  "SharedAccessPolicyName": "RootManageSharedAccessKey",
+                  "SourcePartitionCount": 4,
+                  "consumerGroupName": "[variables('consumergroups_asajob_name')]"
+                }
+              }
+            }
+          },
+          {
+            "name": "ExitStream",
+            "properties": {
+              "type": "stream",
+              "serialization": {
+                "type": "JSON",
+                "properties": {
+                  "encoding": "UTF8"
+                }
+              },
+              "datasource": {
+                "type": "Microsoft.ServiceBus/EventHub",
+                "properties": {
+                  "EventHubName": "[variables('exitStream')]",
+                  "ServiceBusNamespace": "[variables('eventHub')]",
+                  "SharedAccessPolicyKey": "[listKeys(concat('Microsoft.EventHub/namespaces/',variables('eventHub'),'/AuthorizationRules/RootManageSharedAccessKey/'),'2017-04-01').primarykey]",
+                  "SharedAccessPolicyName": "RootManageSharedAccessKey",
+                  "SourcePartitionCount": 4,
+                  "consumerGroupName": "[variables('consumergroups_asajob_name')]"
+                }
+              }
+            }
+          },
+          {
+            "name": "Registration",
+            "properties": {
+              "type": "Reference",
+              "serialization": {
+                "type": "JSON",
+                "properties": {
+                  "encoding": "UTF8"
+                }
+              },
+              "datasource": {
+                "type": "Microsoft.Storage/Blob",
+                "properties": {
+                  "StorageAccounts": [
+                    {
+                      "AccountName": "[variables('lowerCaseStorageAccountName')]",
+                      "AccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1]"
+                    }
+                  ],
+                  "Container": "[variables('storageContainer')]",
+                  "PathPattern": "[variables('registrationFileBlob')]"
+                }
+              }
+            }
+          }
+        ],
+        "transformation": {
+          "name": "TumblingWindow",
+          "properties": {
+            "streamingUnits": 1,
+          }
+        },
+        "outputs": [
+          {
+            "name": "CosmosDB",
+            "properties": {
+              "datasource": {
+                "type": "Microsoft.Storage/DocumentDB",
+                "properties": {
+                  "AccountID": "[variables('cosmosDB')]",
+                  "AccountKey": "[listKeys(concat('Microsoft.DocumentDb/databaseAccounts/',variables('cosmosDB')),'2016-03-31').primaryMasterKey]",
+                  "database": "[variables('cosmosDBDatabaseName')]",
+                  "CollectionNamePattern": "[variables('cosmosDBCollectionName')]",
+                  "PartitionKey": "id"
+                }
+              }
+            }
+          }
+        ]
+      }
     }
   ],
   "outputs": {
