@@ -4,9 +4,9 @@
   "parameters": {
     "interval": {
       "type": "string",
-      "defaultValue": "5000",
+      "defaultValue": "5",
       "metadata": {
-        "description": "The frequency to which the Toll App WebJob sends data in miliseconds."
+        "description": "The frequency to which the Toll App WebJob sends data in seconds."
       }
     }
   },

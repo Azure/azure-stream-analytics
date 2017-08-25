@@ -42,13 +42,13 @@ Verify that the Azure Stream Analytics TollApp deployment was successful
     * One Azure Event Hubs
     * Two Web Apps
 
-When the application is deployed the interval timer is set. This will specify the amount of time between vehicles entering the tollbooth in milliseconds.
+When the application is deployed the interval timer is set. This will specify the amount of time between vehicles entering the tollbooth in seconds.
 To change this time update the TimerSetting value in the Web App application settings
 * Log into Microsoft Azure Portal
 * Open App Services
 * Select the tollapp Web App
 * Select Application settings
-* Set the TimerSetting value to desired time in milliseconds. Example: 5000 Milliseconds is 5 Seconds
+* Set the TimerSetting value to desired time in seconds. 
 
 ## License
 Microsoft Azure Stream Analytics sample application and tutorials are licensed under the MIT license. See the [LICENSE](https://github.com/Azure/azure-stream-analytics/blob/master/LICENSE.txt) file for more details.
