@@ -37,9 +37,9 @@ Verify that the Azure Stream Analytics TollApp deployment was successful
 1. Select the Resource Group name used during deployment
 1. Verify that the following services are listed:
     * One Cosmos DB Account
-    * One Azure Stream Analytics Jobs
+    * One Azure Stream Analytics Job
     * One Azure Storage Account
-    * One Azure Event Hubs
+    * One Azure Event Hub
     * Two Web Apps
 
 When the application is deployed the interval timer is set. This will specify the amount of time between vehicles entering the tollbooth in seconds.
