@@ -85,22 +85,7 @@
     },
     {
       "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]"
-      ],
-      "apiVersion": "2015-08-01",
-      "name": "[variables('eventHubAuthRule')]",
-      "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
-      "properties": {
-        "rights": [
-          "Listen",
-          "Manage",
-          "Send"
-        ]
-      }
-    },
-    {
-      "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]"
+        "[resourceId('Microsoft.EventHub/namespaces',variables('eventHub'))]"
       ],
       "apiVersion": "2015-08-01",
       "name": "[concat(variables('eventHub'),'/',variables('entryStream'))]",
@@ -112,7 +97,7 @@
       "resources": [
         {
           "dependsOn": [
-            "[variables('entryStream')]"
+            "[resourceId('Microsoft.EventHub/namespaces/eventhubs',variables('eventHub'),variables('entryStream'))]"
           ],
           "apiVersion": "2017-04-01",
           "name": "[variables('consumergroups_asajob_name')]",
@@ -122,10 +107,9 @@
         }
       ]
     },
-
     {
       "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]"
+        "[resourceId('Microsoft.EventHub/namespaces',variables('eventHub'))]"
       ],
       "apiVersion": "2015-08-01",
       "name": "[concat(variables('eventHub'),'/',variables('exitStream'))]",
@@ -137,7 +121,7 @@
       "resources": [
         {
           "dependsOn": [
-            "[variables('exitStream')]"
+            "[resourceId('Microsoft.EventHub/namespaces/eventhubs',variables('eventHub'),variables('exitStream'))]"
           ],
           "apiVersion": "2017-04-01",
           "name": "[variables('consumergroups_asajob_name')]",
@@ -235,7 +219,9 @@
         "[resourceId('Microsoft.Web/serverfarms', variables('functionAppPlanName'))]",
         "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]",
         "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDB'))]",
-        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]"
+        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHub'))]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHub'), variables('entryStream'))]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHub'), variables('exitStream'))]"
       ],
       "apiVersion": "2015-08-01",
       "name": "[variables('webAppName')]",

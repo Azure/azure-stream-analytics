@@ -1,25 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using Microsoft.Azure.WebJobs;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Newtonsoft.Json;
 using TollApp.Configs;
 using TollApp.Events;
-using TollApp.Models;
 using TollApp.Senders;
 using TollApp.Utils;
 
 namespace TollApp
 {
-    // To learn more about Microsoft Azure WebJobs SDK, please see http://go.microsoft.com/fwlink/?LinkID=320976
+    /// <summary>
+    /// The WebJob's starting point
+    /// </summary>
     public class Program
     {
         #region Private variables 
 
         private static Timer _timer;
+        private static TimeSpan _timerInterval;
+        private static int _eventCount;
+
         #endregion
 
         #region Public Methods
@@ -31,7 +31,7 @@ namespace TollApp
         }
 
         [NoAutomaticTrigger]
-        public static void SendData()
+        public static void SendData(TextWriter log)
         {
             var commercialVehicleRegistration = AzureResourcesCreator.CreateBlob();
             AzureResourcesCreator.CreateAzureCosmosDb();
@@ -42,23 +42,32 @@ namespace TollApp
                 // generate data
                 var generator = TollDataGenerator.Generator(commercialVehicleRegistration);
 
-                var timerInterval = TimeSpan.FromSeconds(Convert.ToDouble(CloudConfiguration.TimerInterval));
+                _timerInterval = TimeSpan.FromSeconds(Convert.ToDouble(CloudConfiguration.TimerInterval));
 
                 TimerCallback timerCallback = state =>
                 {
                     var startTime = DateTime.UtcNow;
-                    generator.Next(startTime, timerInterval, 5);
+                    generator.Next(startTime, _timerInterval, 5);
 
                     foreach (var tollEvent in generator.GetEvents(startTime))
                     {
                         eventHubSender.SendData(tollEvent);
+                        ++_eventCount;
+                        log.WriteLine("Number of events sent: " + _eventCount);
                     }
-                    _timer.Change((int)timerInterval.TotalMilliseconds, Timeout.Infinite);
+                    _timer.Change((int) _timerInterval.TotalMilliseconds, Timeout.Infinite);
                 };
-
                 _timer = new Timer(timerCallback, null, Timeout.Infinite, Timeout.Infinite);
                 _timer.Change(0, Timeout.Infinite);
 
+                log.WriteLine("Sending event hub data");
+            }
+            catch (Exception exception)
+            {
+                Console.Error.WriteLine(exception.ToString());
+            }
+            finally
+            {
                 var exitEvent = new ManualResetEvent(false);
                 Console.CancelKeyPress += (sender, eventArgs) =>
                 {
@@ -67,16 +76,13 @@ namespace TollApp
                     exitEvent.Set();
                 };
 
+
                 exitEvent.WaitOne();
                 _timer.Change(Timeout.Infinite, Timeout.Infinite);
-                Thread.Sleep(timerInterval);
+                Thread.Sleep(_timerInterval);
                 _timer.Dispose();
 
                 eventHubSender.DisposeSender();
-            }
-            catch (Exception exception)
-            {
-                Console.Error.WriteLine(exception.ToString());
             }
         }
 

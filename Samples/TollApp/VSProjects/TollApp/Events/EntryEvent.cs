@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Globalization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using TollApp.Models;
 
 namespace TollApp.Events
 {
+
+    /// <summary>
+    /// The object containing the vehicle's details entering the tollbooth
+    /// </summary>
+    /// <see also cref="TollApp.Events.TollEvent" />
     public class EntryEvent : TollEvent
     {
         #region Properties
-
+        [JsonProperty]
+        [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTime EntryTime { get; set; }
 
         public CarModel CarModel { get; set; }
@@ -21,41 +28,7 @@ namespace TollApp.Events
 
         #endregion
 
-        #region Constructor
-
-        public EntryEvent(int tollId, DateTime entryTime, string licence, string state, CarModel carModel, double tollAmount, int tag)
-        {
-            TollId = tollId;
-            EntryTime = entryTime;
-            LicensePlate = licence;
-            State = state;
-            CarModel = carModel;
-            TollAmount = tollAmount;
-            Tag = tag;
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        public override string Format()
-        {
-            return JsonConvert.SerializeObject(new
-            {
-                TollId = TollId.ToString(CultureInfo.InvariantCulture),
-                EntryTime = EntryTime.ToString("o"),
-                LicensePlate,
-                State,
-                CarModel.Make,
-                CarModel.Model,
-                VehicleType = CarModel.VehicleType.ToString(CultureInfo.InvariantCulture),
-                VehicleWeight = CarModel.VehicleWeight.ToString(CultureInfo.InvariantCulture),
-                Toll = TollAmount.ToString(CultureInfo.InvariantCulture),
-                Tag = Tag.ToString(CultureInfo.InvariantCulture)
-            });
-        }
-
-        #endregion
     }
 }
+
 

@@ -2,6 +2,9 @@
 
 namespace TollApp.Configs
 {
+    /// <summary>
+    /// Reads app settings from app.config file
+    /// </summary>
     public static class CloudConfiguration
     {
         #region DocumentDB config
@@ -30,6 +33,12 @@ namespace TollApp.Configs
         #endregion
 
         #region Timer settings
+        /// <summary>
+        /// Specifies the amount of time between vehicles entering the tollbooth in seconds.
+        /// </summary>
+        /// <value>
+        /// The timer interval.
+        /// </value>
         public static string TimerInterval => ConfigurationManager.AppSettings["TimerInterval"];
       
         #endregion

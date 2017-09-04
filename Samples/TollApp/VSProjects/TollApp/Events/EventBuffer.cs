@@ -25,12 +25,12 @@ namespace TollApp.Events
 
         #region Public Methods
 
-        public IEnumerable<TollEvent> GetEvents(DateTime time)
+        internal IEnumerable<TollEvent> GetEvents(DateTime startTime)
         {
             while (_events.Count > 0)
             {
                 var e = _events.First();
-                if (e.Key.Timestamp <= time)
+                if (e.Key.Timestamp <= startTime)
                 {
                     _events.RemoveAt(0);
                     yield return e.Value;

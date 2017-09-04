@@ -84,13 +84,20 @@
             Represents the base class for Azure DocumentDB database objects and provides methods for serializing and deserializing from JSON.
             </summary>
         </member>
-        <member name="M:Microsoft.Azure.Documents.JsonSerializable.SaveTo(System.IO.Stream,Microsoft.Azure.Documents.SerializationFormattingPolicy,Newtonsoft.Json.JsonSerializerSettings)">
+        <member name="M:Microsoft.Azure.Documents.JsonSerializable.SaveTo(System.IO.Stream,Microsoft.Azure.Documents.SerializationFormattingPolicy)">
             <summary> 
             Saves the object to the specified stream in the Azure DocumentDB database service.
             </summary>
             <param name="stream">Saves the object to this output stream.</param>
             <param name="formattingPolicy">Uses an optional serialization formatting policy when saving the object. The default policy is set to None.</param>
-            <param name="settings">The serializer settings to use</param>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.JsonSerializable.SaveTo(System.IO.Stream,Microsoft.Azure.Documents.SerializationFormattingPolicy,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary> 
+            Saves the object to the specified stream in the Azure DocumentDB database service.
+            </summary>
+            <param name="stream">Saves the object to this output stream.</param>
+            <param name="formattingPolicy">Uses a custom serialization formatting policy when saving the object.</param>
+            <param name="settings">The serializer settings to use.</param>
         </member>
         <member name="M:Microsoft.Azure.Documents.JsonSerializable.SaveTo(System.Text.StringBuilder,Microsoft.Azure.Documents.SerializationFormattingPolicy)">
             <summary> 
@@ -99,12 +106,18 @@
             <param name="stringBuilder">Saves the object to this output string builder.</param>
             <param name="formattingPolicy">Uses an optional serialization formatting policy when saving the object. The default policy is set to None.</param>
         </member>
+        <member name="M:Microsoft.Azure.Documents.JsonSerializable.LoadFrom(Newtonsoft.Json.JsonReader)">
+            <summary>
+            Loads the object from the specified JSON reader in the Azure DocumentDB database service.
+            </summary>
+            <param name="reader">Loads the object from this JSON reader.</param>
+        </member>
         <member name="M:Microsoft.Azure.Documents.JsonSerializable.LoadFrom(Newtonsoft.Json.JsonReader,Newtonsoft.Json.JsonSerializerSettings)">
             <summary>
             Loads the object from the specified JSON reader in the Azure DocumentDB database service.
             </summary>
             <param name="reader">Loads the object from this JSON reader.</param>
-            <param name="serializerSettings">The JsonSerializerSettings to be used</param>
+            <param name="serializerSettings">The JsonSerializerSettings to be used.</param>
         </member>
         <member name="M:Microsoft.Azure.Documents.JsonSerializable.LoadFrom``1(System.IO.Stream)">
             <summary>
@@ -124,6 +137,15 @@
             <param name="settings">The JsonSerializerSettings to be used</param>
             <returns>The object loaded from the specified stream.</returns>
         </member>
+        <member name="M:Microsoft.Azure.Documents.JsonSerializable.LoadFromWithConstructor``1(System.IO.Stream,System.Func{``0})">
+            <summary>
+            Deserializes the specified stream using the given constructor in the Azure DocumentDB database service.
+            </summary>
+            <typeparam name="T">The type of the object.</typeparam>
+            <param name="stream">The stream to load from.</param>
+            <param name="constructorFunction">The constructor used for the returning object.</param>
+            <returns>The object loaded from the specified stream.</returns>
+        </member>
         <member name="M:Microsoft.Azure.Documents.JsonSerializable.LoadFromWithConstructor``1(System.IO.Stream,System.Func{``0},Newtonsoft.Json.JsonSerializerSettings)">
             <summary>
             Deserializes the specified stream using the given constructor in the Azure DocumentDB database service.
@@ -131,7 +153,7 @@
             <typeparam name="T">The type of the object.</typeparam>
             <param name="stream">The stream to load from.</param>
             <param name="constructorFunction">The constructor used for the returning object.</param>
-            <param name="settings">The JsonSerializerSettings to be used</param>
+            <param name="settings">The JsonSerializerSettings to be used.</param>
             <returns>The object loaded from the specified stream.</returns>
         </member>
         <member name="M:Microsoft.Azure.Documents.JsonSerializable.ToString">
@@ -493,6 +515,12 @@
             Gets or sets whether change feed in the Azure DocumentDB database service 
             should start from beginning (true) or from current (false).
             By default it's start from current (false).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Documents.Client.ChangeFeedOptions.StartTime">
+            <summary>
+            Gets or sets the time (exclusive) to start looking for changes after.
+            If this is specified, StartFromBeginning is ignored.
             </summary>
         </member>
         <member name="T:Microsoft.Azure.Documents.Conflict">
@@ -5851,6 +5879,36 @@
             Represents Request Units(RU)/Minute throughput is enabled/disabled for collection in the Azure DocumentDB database service.
             </summary>
         </member>
+        <member name="P:Microsoft.Azure.Documents.OfferContentV2.CollectionThroughputInfo">
+            <summary>
+            Represents throughput information relating to the collection that this offer is associated with.
+            This is an internal attribute populated only for purposes of post-split throughput adjustments.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Documents.CollectionThroughputInfo">
+            <summary>
+            Represents metadata relating to the collection's throughput characteristics.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.CollectionThroughputInfo.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+            <remarks>
+            The <see cref="T:Microsoft.Azure.Documents.CollectionThroughputInfo"/> class 
+            represents properties tied to the Standard pricing tier for the Azure DocumentDB database service.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Azure.Documents.CollectionThroughputInfo.MinimumRUForCollection">
+            <summary>
+            Represents the minimum RUs possible for a collection in its current configuration.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Documents.CollectionThroughputInfo.NumberOfPhysicalPartitions">
+            <summary>
+            Represents the number of physical partitions in a collection.
+            </summary>
+        </member>
         <member name="T:Microsoft.Azure.Documents.OfferTypeResolver">
             <summary>
             Offer resolver based on input.
@@ -6871,6 +6929,12 @@
             </para>
             </remarks>
         </member>
+        <member name="P:Microsoft.Azure.Documents.Client.RequestOptions.UseRemoteStorage">
+            <summary>
+            Gets or sets the Remote storage enablement
+            To be used along with Collection creation operation
+            </summary>
+        </member>
         <member name="P:Microsoft.Azure.Documents.RequestTimeoutException.Message">
              <summary>
             
@@ -7005,6 +7069,11 @@
               Looks up a localized string similar to Cannot offline a write region that has zero read regions configured. There needs to be atleast one read region to failover to..
             </summary>
         </member>
+        <member name="P:Microsoft.Azure.Documents.RMResources.ChangeFeedOptionsStartTimeWithUnspecifiedDateTimeKind">
+            <summary>
+              Looks up a localized string similar to StartTime cannot have DateTimeKind.Unspecified.
+            </summary>
+        </member>
         <member name="P:Microsoft.Azure.Documents.RMResources.ChannelClosed">
             <summary>
               Looks up a localized string similar to Channel is closed.
@@ -7098,6 +7167,11 @@
         <member name="P:Microsoft.Azure.Documents.RMResources.ExceptionMessageAddRequestUri">
             <summary>
               Looks up a localized string similar to {0}, Request URI: {1}.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Documents.RMResources.FederationEntityNotFound">
+            <summary>
+              Looks up a localized string similar to Federation {0} in region {1} is not found.
             </summary>
         </member>
         <member name="P:Microsoft.Azure.Documents.RMResources.Forbidden">
@@ -7225,14 +7299,14 @@
               Looks up a localized string similar to MaxStalenessPrefix should be greater than or equal to {0} and less than or equal to {1}.
             </summary>
         </member>
+        <member name="P:Microsoft.Azure.Documents.RMResources.InvalidOfferIsRUPerMinuteThroughputEnabled">
+            <summary>
+              Looks up a localized string similar to The value of offer IsRUPerMinuteThroughputEnabled specified is invalid. Please specify a boolean value..
+            </summary>
+        </member>
         <member name="P:Microsoft.Azure.Documents.RMResources.InvalidOfferThroughput">
             <summary>
               Looks up a localized string similar to The value of offer throughput specified is invalid. Please enter valid positive integer..
-            </summary>
-        </member>
-        <member name="P:Microsoft.Azure.Documents.RMResources.InvalidOfferIsRUPerMinuteThroughputEnabled">
-            <summary>
-              Looks up a localized string similar to the value of offer IsRUPerMinuteThroughputEnabled specified is invalid. Please specify a boolean value.
             </summary>
         </member>
         <member name="P:Microsoft.Azure.Documents.RMResources.InvalidOfferType">
@@ -7670,6 +7744,11 @@
         <member name="P:Microsoft.Azure.Documents.RMResources.TooFewPartitionKeyComponents">
             <summary>
               Looks up a localized string similar to PartitionKey has fewer components than defined the collection resource..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Documents.RMResources.TooManyPartitionKeyComponents">
+            <summary>
+              Looks up a localized string similar to PartitionKey has more components than defined the collection resource..
             </summary>
         </member>
         <member name="P:Microsoft.Azure.Documents.RMResources.TooManyRequests">
@@ -8894,6 +8973,22 @@
             <param name="document">Document to extract partition key value from.</param>
             <param name="partitionKeyDefinition">Information about partition key.</param>
             <returns>Instance of <see cref="T:Microsoft.Azure.Documents.Routing.PartitionKeyInternal"/>.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.Documents.PartitionKeyDefinitionVersion">
+            <summary>
+            Partitioning version.
+            </summary> 
+        </member>
+        <member name="F:Microsoft.Azure.Documents.PartitionKeyDefinitionVersion.V1">
+            <summary>
+            Original version of hash partitioning.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.PartitionKeyDefinitionVersion.V2">
+            <summary>
+            Enhanced version of hash partitioning - offers better distribution of long partition keys nad uses less storage.
+            </summary>
+            <remarks>This version should be used for any practical purpose, but it is available in newer SDKs only.</remarks>
         </member>
         <member name="T:Microsoft.Azure.Documents.Routing.IRoutingMapProvider">
             <summary>
@@ -11250,7 +11345,7 @@
             
             </remarks>
         </member>
-        <member name="M:Microsoft.Azure.Documents.Client.DocumentClient.#ctor(System.Uri,System.Security.SecureString,Microsoft.Azure.Documents.Client.ConnectionPolicy,System.Nullable{Microsoft.Azure.Documents.ConsistencyLevel},Newtonsoft.Json.JsonSerializerSettings)">
+        <member name="M:Microsoft.Azure.Documents.Client.DocumentClient.#ctor(System.Uri,System.Security.SecureString,Microsoft.Azure.Documents.Client.ConnectionPolicy,System.Nullable{Microsoft.Azure.Documents.ConsistencyLevel})">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Azure.Documents.Client.DocumentClient"/> class using the 
             specified DocumentDB service endpoint, key, and connection policy for the Azure DocumentDB database service.
@@ -11268,9 +11363,6 @@
             (Optional) This can be used to weaken the database account consistency level for read operations. 
             If this is not set the database account consistency level will be used for all requests.
             </param>
-            <param name="serializerSettings">
-            (Optional) The custom JsonSerializer settings to be used for serialization/derialization.
-            </param>
             <remarks>
             The service endpoint and the authorization key can be obtained from the Azure Management Portal. 
             The authKey used here is encrypted for privacy when being used, and deleted from computer memory when no longer needed
@@ -11283,7 +11375,77 @@
             <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConnectionPolicy"/>
             <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConsistencyLevel"/>
         </member>
-        <member name="M:Microsoft.Azure.Documents.Client.DocumentClient.#ctor(System.Uri,System.String,Microsoft.Azure.Documents.Client.ConnectionPolicy,System.Nullable{Microsoft.Azure.Documents.ConsistencyLevel},Newtonsoft.Json.JsonSerializerSettings)">
+        <member name="M:Microsoft.Azure.Documents.Client.DocumentClient.#ctor(System.Uri,System.Security.SecureString,Microsoft.Azure.Documents.Client.ConnectionPolicy,System.Nullable{Microsoft.Azure.Documents.ConsistencyLevel},Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.Documents.Client.DocumentClient"/> class using the 
+            specified DocumentDB service endpoint, key, connection policy and a custom JsonSerializerSettings
+            for the Azure DocumentDB database service.
+            </summary>
+            <param name="serviceEndpoint">
+            The service endpoint to use to create the client.
+            </param>
+            <param name="authKey">
+            The list of Permission objects to use to create the client.
+            </param>
+            <param name="connectionPolicy">
+            The connection policy for the client.
+            </param>
+            <param name="desiredConsistencyLevel">
+            This can be used to weaken the database account consistency level for read operations. 
+            If this is not set the database account consistency level will be used for all requests.
+            </param>
+            <param name="serializerSettings">
+            The custom JsonSerializer settings to be used for serialization/derialization.
+            </param>
+            <remarks>
+            The service endpoint and the authorization key can be obtained from the Azure Management Portal. 
+            The authKey used here is encrypted for privacy when being used, and deleted from computer memory when no longer needed
+            <para>
+            Using Direct connectivity, wherever possible, is recommended
+            </para>
+            </remarks>
+            <seealso cref="T:System.Uri"/>
+            <seealso cref="T:System.Security.SecureString"/>
+            <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConnectionPolicy"/>
+            <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConsistencyLevel"/>
+            <seealso cref="T:Newtonsoft.Json.JsonSerializerSettings"/>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.Client.DocumentClient.#ctor(System.Uri,System.Security.SecureString,Newtonsoft.Json.JsonSerializerSettings,Microsoft.Azure.Documents.Client.ConnectionPolicy,System.Nullable{Microsoft.Azure.Documents.ConsistencyLevel})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.Documents.Client.DocumentClient"/> class using the 
+            specified DocumentDB service endpoint, key, connection policy and a custom JsonSerializerSettings
+            for the Azure DocumentDB database service.
+            </summary>
+            <param name="serviceEndpoint">
+            The service endpoint to use to create the client.
+            </param>
+            <param name="authKey">
+            The list of Permission objects to use to create the client.
+            </param>
+            <param name="serializerSettings">
+            The custom JsonSerializer settings to be used for serialization/derialization.
+            </param>
+            <param name="connectionPolicy">
+            (Optional) The connection policy for the client. If none is passed, the default is used <see cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConnectionPolicy"/>
+            </param>
+            <param name="desiredConsistencyLevel">
+            (Optional) This can be used to weaken the database account consistency level for read operations. 
+            If this is not set the database account consistency level will be used for all requests.
+            </param>
+            <remarks>
+            The service endpoint and the authorization key can be obtained from the Azure Management Portal. 
+            The authKey used here is encrypted for privacy when being used, and deleted from computer memory when no longer needed
+            <para>
+            Using Direct connectivity, wherever possible, is recommended
+            </para>
+            </remarks>
+            <seealso cref="T:System.Uri"/>
+            <seealso cref="T:System.Security.SecureString"/>
+            <seealso cref="T:Newtonsoft.Json.JsonSerializerSettings"/>
+            <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConnectionPolicy"/>
+            <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConsistencyLevel"/>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.Client.DocumentClient.#ctor(System.Uri,System.String,Microsoft.Azure.Documents.Client.ConnectionPolicy,System.Nullable{Microsoft.Azure.Documents.ConsistencyLevel})">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Azure.Documents.Client.DocumentClient"/> class using the 
             specified service endpoint, an authorization key (or resource token) and a connection policy
@@ -11293,7 +11455,6 @@
             <param name="authKeyOrResourceToken">The authorization key or resource token to use to create the client.</param>
             <param name="connectionPolicy">(Optional) The connection policy for the client.</param>
             <param name="desiredConsistencyLevel">(Optional) The default consistency policy for client operations.</param>
-            <param name="serializerSettings">(Optional) The default consistency policy for client operations.</param>
             <remarks>
             The service endpoint can be obtained from the Azure Management Portal. 
             If you are connecting using one of the Master Keys, these can be obtained along with the endpoint from the Azure Management Portal
@@ -11304,7 +11465,55 @@
             </remarks>
             <seealso cref="T:System.Uri"/>
             <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConnectionPolicy"/>
-            <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConsistencyLevel"/>/// 
+            <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConsistencyLevel"/>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.Client.DocumentClient.#ctor(System.Uri,System.String,Microsoft.Azure.Documents.Client.ConnectionPolicy,System.Nullable{Microsoft.Azure.Documents.ConsistencyLevel},Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.Documents.Client.DocumentClient"/> class using the 
+            specified service endpoint, an authorization key (or resource token), a connection policy
+            and a custom JsonSerializerSettings for the Azure DocumentDB database service.
+            </summary>
+            <param name="serviceEndpoint">The service endpoint to use to create the client.</param>
+            <param name="authKeyOrResourceToken">The authorization key or resource token to use to create the client.</param>
+            <param name="connectionPolicy">The connection policy for the client.</param>
+            <param name="desiredConsistencyLevel">The default consistency policy for client operations.</param>
+            <param name="serializerSettings">The custom JsonSerializer settings to be used for serialization/derialization.</param>
+            <remarks>
+            The service endpoint can be obtained from the Azure Management Portal. 
+            If you are connecting using one of the Master Keys, these can be obtained along with the endpoint from the Azure Management Portal
+            If however you are connecting as a specific DocumentDB User, the value passed to <paramref name="authKeyOrResourceToken"/> is the ResourceToken obtained from the permission feed for the user.
+            <para>
+            Using Direct connectivity, wherever possible, is recommended.
+            </para>
+            </remarks>
+            <seealso cref="T:System.Uri"/>
+            <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConnectionPolicy"/>
+            <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConsistencyLevel"/>
+            <seealso cref="T:Newtonsoft.Json.JsonSerializerSettings"/>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.Client.DocumentClient.#ctor(System.Uri,System.String,Newtonsoft.Json.JsonSerializerSettings,Microsoft.Azure.Documents.Client.ConnectionPolicy,System.Nullable{Microsoft.Azure.Documents.ConsistencyLevel})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.Documents.Client.DocumentClient"/> class using the 
+            specified service endpoint, an authorization key (or resource token), a connection policy
+            and a custom JsonSerializerSettings for the Azure DocumentDB database service.
+            </summary>
+            <param name="serviceEndpoint">The service endpoint to use to create the client.</param>
+            <param name="authKeyOrResourceToken">The authorization key or resource token to use to create the client.</param>
+            <param name="serializerSettings">The custom JsonSerializer settings to be used for serialization/derialization.</param>
+            <param name="connectionPolicy">(Optional) The connection policy for the client.</param>
+            <param name="desiredConsistencyLevel">(Optional) The default consistency policy for client operations.</param>
+            <remarks>
+            The service endpoint can be obtained from the Azure Management Portal. 
+            If you are connecting using one of the Master Keys, these can be obtained along with the endpoint from the Azure Management Portal
+            If however you are connecting as a specific DocumentDB User, the value passed to <paramref name="authKeyOrResourceToken"/> is the ResourceToken obtained from the permission feed for the user.
+            <para>
+            Using Direct connectivity, wherever possible, is recommended.
+            </para>
+            </remarks>
+            <seealso cref="T:System.Uri"/>
+            <seealso cref="T:Newtonsoft.Json.JsonSerializerSettings"/>
+            <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConnectionPolicy"/>
+            <seealso cref="P:Microsoft.Azure.Documents.Client.DocumentClient.ConsistencyLevel"/>
         </member>
         <member name="M:Microsoft.Azure.Documents.Client.DocumentClient.#ctor(System.Uri,System.Collections.Generic.IList{Microsoft.Azure.Documents.Permission},Microsoft.Azure.Documents.Client.ConnectionPolicy,System.Nullable{Microsoft.Azure.Documents.ConsistencyLevel})">
             <summary>
@@ -17796,6 +18005,15 @@
             <param name="partitionKey">The key used to determine the target collection</param>
             <returns>A <see cref="T:Microsoft.Azure.Documents.Client.ResourceFeedReader`1"/> instance.</returns>
         </member>
+        <member name="M:Microsoft.Azure.Documents.Client.ResourceFeedReaderClientExtensions.CreatePartitionKeyRangeFeedReader(Microsoft.Azure.Documents.Client.DocumentClient,System.String,Microsoft.Azure.Documents.Client.FeedOptions)">
+            <summary>
+            Creates a Feed Reader for PartitionKeyRanges in the Azure DocumentDB database service.
+            </summary>
+            <param name="client">The <see cref="T:Microsoft.Azure.Documents.Client.DocumentClient"/> instance.</param>
+            <param name="partitionKeyRangesLink">The link for partition key ranges</param>
+            <param name="options">the <see cref="T:Microsoft.Azure.Documents.Client.FeedOptions"/> options for the request.</param>
+            <returns>A <see cref="T:Microsoft.Azure.Documents.Client.ResourceFeedReader`1"/> instance.</returns>
+        </member>
         <member name="M:Microsoft.Azure.Documents.Client.ResourceFeedReaderClientExtensions.CreateDocumentCollectionFeedReader(Microsoft.Azure.Documents.Client.DocumentClient,System.String,Microsoft.Azure.Documents.Client.FeedOptions)">
             <summary>
             Creates a Feed Reader for DocumentCollections in the Azure DocumentDB database service.
@@ -17876,6 +18094,16 @@
             <param name="schemasLink">The link for schemas</param>
             <param name="options">the <see cref="T:Microsoft.Azure.Documents.Client.FeedOptions"/> options for the request.</param>
             <returns>A <see cref="T:Microsoft.Azure.Documents.Client.ResourceFeedReader`1"/> instance.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.Client.ResourceFeedReaderClientExtensions.CreateOfferFeedReader(Microsoft.Azure.Documents.Client.DocumentClient,Microsoft.Azure.Documents.Client.FeedOptions)">
+            <summary>
+            Creates a Feed Reader for Offers in the Azure DocumentDB database service.
+            </summary>
+            <param name="client">The <see cref="T:Microsoft.Azure.Documents.Client.DocumentClient"/> instance.</param>
+            <param name="options">the <see cref="T:Microsoft.Azure.Documents.Client.FeedOptions"/> options for the request.</param>
+            <returns>A <see cref="T:Microsoft.Azure.Documents.Client.ResourceFeedReader`1"/> instance.</returns>
+            <remarks>
+            </remarks>
         </member>
         <member name="T:Microsoft.Azure.Documents.ResourceToken">
             <summary>

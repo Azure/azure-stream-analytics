@@ -3,11 +3,15 @@ using System.Globalization;
 using System.Text;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
+using Newtonsoft.Json;
 using TollApp.Configs;
 using TollApp.Events;
 
 namespace TollApp.Senders
 {
+    /// <summary>
+    /// Creates the event hubs and sends data to the event hubs
+    /// </summary>
     public class EventHubSender
     {
         #region Private Variables
@@ -42,7 +46,7 @@ namespace TollApp.Senders
 
             try
             {
-                eventHubName.Send(new EventData(Encoding.UTF8.GetBytes(data.Format()))
+                eventHubName.Send(new EventData(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data)))
                 {
                     PartitionKey = data.TollId.ToString(CultureInfo.InvariantCulture)
                 });

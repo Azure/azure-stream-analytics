@@ -19,15 +19,15 @@
 
     <br/>
     Verify that the Azure Stream Analytics TollApp deployment was successful
-    <br/>Login into Microsoft Azure portal
+    <br/>Log into Microsoft Azure portal
     <br/>Go to Resource Groups
     <br/>Select the Resource Group name used during deployment
     <br/>Verify that the following services are listed
     <ul>
         <li>One Cosmos DB Account</li>
-        <li>One Azure Stream Analytics Jobs</li>
+        <li>One Azure Stream Analytics Job</li>
         <li>One Azure Storage Account</li>
-        <li>One Azure Event Hubs</li>
+        <li>One Azure Event Hub</li>
         <li>Two Web Apps</li>
     </ul>
 
@@ -35,12 +35,18 @@
     <p>The TollApp web app contains a Web Job that can be started and stopped to control the consumption used by Azure Event Hubs. Follow these steps to either Start or Stop the Web Job:</p>
     <ol>
         <li>Log into Microsoft Azure portal</li>
-        <li>Go to Resource Groups</li>
+        <li>Go to App Services</li>
         <li>Select the TollApp Web App</li>
         <li>From the Configuration blade, select WebJobs</li>
         <li>Select the TollApp WebJob, click Start/Stop depending on the status</li>
     </ol>
-
+    <p>The Azure Stream Analytics Job is not started upon deployment. Steps to start the job</p>
+    <ol>
+        <li>Log into Microsoft Azure Portal</li>
+        <li>Open Stream Analytics jobs</li>
+        <li>Select the TollData job</li>
+        <li>Click Start</li>
+    </ol>
 
     <br/> Subscription Id: @Model.SubscriptionId
     <br/> Resource Group Name: @Model.ResourceGroup

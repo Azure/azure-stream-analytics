@@ -5,6 +5,9 @@ using TollApp.Models;
 
 namespace TollApp.Events
 {
+    /// <summary>
+    /// Generates random entry and exit data to push to event hubs
+    /// </summary>
     public class TollDataGenerator
     {
         #region Private Variables
@@ -31,21 +34,31 @@ namespace TollApp.Events
         {
             for (int i = 0; i < n; i++)
             {
-                var carModel = Data.CarModels[_random.Next(Data.CarModels.Length)];
+                var carModel = LookupData.CarModels[_random.Next(LookupData.CarModels.Length)];
                 var entryTime = startTime + TimeSpan.FromMilliseconds(_random.Next((int) interval.TotalMilliseconds));
                 var exitTime = entryTime + TimeSpan.FromSeconds(_random.Next(60, 160));
                 var tollId = _random.Next(1, MaxTollId); //random number between 1 and 4
-                var state = Data.States[_random.Next(Data.States.Length)];
+                var state = LookupData.States[_random.Next(LookupData.States.Length)];
                 var tollAmount = GetTollAmount(carModel);
                 var tag = _random.Next(100000000, 999999999);
 
                 // For commercial vehicle pick license number from the reference data. Use random value for others.
-                var licence = carModel.VehicleType == 2 ? _commercialVehicleRegistration[_random.Next(_commercialVehicleRegistration.Length)].LicensePlate : GetLicenceNumber();
-                _eventBuffer.Add(entryTime, new EntryEvent(tollId, entryTime, licence, state, carModel, tollAmount, tag));
+                var licence = carModel.VehicleType == 2 ? _commercialVehicleRegistration[_random.Next(_commercialVehicleRegistration.Length)].LicensePlate : GetRandomLicenseNumber();
+                _eventBuffer.Add(entryTime,
+                    new EntryEvent
+                    {
+                        TollId = tollId,
+                        EntryTime = entryTime,
+                        LicensePlate = licence,
+                        State = state,
+                        CarModel = carModel,
+                        TollAmount = tollAmount,
+                        Tag = tag
+                    });
 
                 if (tollId != TollIdWithFailedExitSensor)
                 {
-                    _eventBuffer.Add(exitTime, new ExitEvent(tollId, exitTime, licence));
+                    _eventBuffer.Add(exitTime, new ExitEvent {TollId = tollId, ExitTime = exitTime, LicensePlate = licence});
                 }
             }
         }
@@ -72,7 +85,7 @@ namespace TollApp.Events
             return model.VehicleType == 1 ? 4 + _random.Next(3) : 15 + _random.Next(20);
         }
 
-        private string GetLicenceNumber()
+        private string GetRandomLicenseNumber()
         {
             var builder = new StringBuilder();
             for (int i = 0; i < 3; i++)

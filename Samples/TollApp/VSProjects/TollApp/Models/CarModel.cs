@@ -1,18 +1,14 @@
 ﻿namespace TollApp.Models
 {
+    /// <summary>
+    /// The car object entering/leaving the tollbooth
+    /// </summary>
     public class CarModel
     {
-        public readonly string Make;
-        public readonly string Model;
-        public readonly int VehicleType;
-        public readonly double VehicleWeight;
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public int VehicleType { get; set; }
+        public double VehicleWeight { get; set; }
 
-        public CarModel(string make, string model, int vehicleType, double vehicleWeight)
-        {
-            Model = model;
-            Make = make;
-            VehicleType = vehicleType;
-            VehicleWeight = vehicleWeight;
-        }
     }
 }

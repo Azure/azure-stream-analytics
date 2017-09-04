@@ -1,11 +1,13 @@
 ﻿namespace TollApp.Events
 {
-    public abstract class TollEvent
+    /// <summary>
+    /// Contains common properties used by Entry and Exit events
+    /// </summary>
+    public class TollEvent
     {
         public int TollId { get; set; }
 
         public string LicensePlate { get; set; }
 
-        public abstract string Format();
     }
 }

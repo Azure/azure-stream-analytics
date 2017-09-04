@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TollApp.Models
 {
+    /// <summary>
+    /// The car registration number and license plate details
+    /// </summary>
     public class Registration
     {
         public string LicensePlate { get; set; }
