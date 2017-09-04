@@ -50,5 +50,12 @@ To change this time update the TimerSetting value in the Web App application set
 * Select Application settings
 * Set the TimerSetting value to desired time in seconds. 
 
+The Azure Stream Analytics Job is not started upon deployment. 
+Steps to start the job
+* Log into Microsoft Azure Portal
+* Open Stream Analytics jobs
+* Select the TollData job
+* Click Start
+
 ## License
 Microsoft Azure Stream Analytics sample application and tutorials are licensed under the MIT license. See the [LICENSE](https://github.com/Azure/azure-stream-analytics/blob/master/LICENSE.txt) file for more details.
