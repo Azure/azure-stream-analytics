@@ -29,7 +29,7 @@
     "cosmosDBDatabaseName": "tollAppDatabase",
     "cosmosDBCollectionName": "tollAppCollection",
     "cosmosDBOfferType": "Standard",
-    "azureStreamAnalyticsJob": "[concat('TollData',uniqueString(resourceGroup().id, resourceGroup().id))]",
+    "azureStreamAnalyticsJob": "[concat('tollapp',uniqueString(resourceGroup().id, resourceGroup().id))]",
     "consumergroups_asajob_name": "asajob",
     "eventHubAuthRule": "[concat(variables('eventHub'),'/RootManageSharedAccessKey')]",
     "registrationFileBlob": "registration.json",
