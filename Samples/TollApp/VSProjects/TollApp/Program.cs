@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using System.Timers;
 using Microsoft.Azure.WebJobs;
 using TollApp.Configs;
 using TollApp.Events;
 using TollApp.Senders;
 using TollApp.Utils;
+using Timer = System.Threading.Timer;
 
 namespace TollApp
 {
@@ -19,7 +21,7 @@ namespace TollApp
         private static Timer _timer;
         private static TimeSpan _timerInterval;
         private static int _eventCount;
-
+        private static TextWriter _log;
         #endregion
 
         #region Public Methods
@@ -33,8 +35,7 @@ namespace TollApp
         [NoAutomaticTrigger]
         public static void SendData(TextWriter log)
         {
-            var startTimeSpan = TimeSpan.FromMinutes(1);
-            var periodTimeSpan = TimeSpan.FromMinutes(1);
+            _log = log;
 
             var commercialVehicleRegistration = AzureResourcesCreator.CreateBlob();
             AzureResourcesCreator.CreateAzureCosmosDb();
@@ -56,19 +57,17 @@ namespace TollApp
                     {
                         eventHubSender.SendData(tollEvent);
                         ++_eventCount;
-
-                        var logger = new Timer((e) =>
-                        {
-                            log.WriteLine("Number of events sent: " + _eventCount);
-                        }, null, startTimeSpan, periodTimeSpan);
-
                     }
+
                     _timer.Change((int) _timerInterval.TotalMilliseconds, Timeout.Infinite);
                 };
+                Timer timer = new Timer(Callback, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
+
                 _timer = new Timer(timerCallback, null, Timeout.Infinite, Timeout.Infinite);
+
                 _timer.Change(0, Timeout.Infinite);
 
-                log.WriteLine("Sending event hub data");
+                _log.WriteLine("Sending event hub data");
             }
             catch (Exception exception)
             {
@@ -84,7 +83,6 @@ namespace TollApp
                     exitEvent.Set();
                 };
 
-
                 exitEvent.WaitOne();
                 _timer.Change(Timeout.Infinite, Timeout.Infinite);
                 Thread.Sleep(_timerInterval);
@@ -95,5 +93,13 @@ namespace TollApp
         }
 
         #endregion
+
+        private static void Callback(object state)
+        {
+            if (_eventCount != 0)
+            {
+                _log.WriteLine("Number of events sent as at " + DateTime.UtcNow + " is: " + _eventCount);
+            }
+        }
     }
 }
