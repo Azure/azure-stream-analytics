@@ -33,6 +33,9 @@ namespace TollApp
         [NoAutomaticTrigger]
         public static void SendData(TextWriter log)
         {
+            var startTimeSpan = TimeSpan.FromMinutes(1);
+            var periodTimeSpan = TimeSpan.FromMinutes(1);
+
             var commercialVehicleRegistration = AzureResourcesCreator.CreateBlob();
             AzureResourcesCreator.CreateAzureCosmosDb();
             var eventHubSender = new EventHubSender();
@@ -53,7 +56,12 @@ namespace TollApp
                     {
                         eventHubSender.SendData(tollEvent);
                         ++_eventCount;
-                        log.WriteLine("Number of events sent: " + _eventCount);
+
+                        var logger = new Timer((e) =>
+                        {
+                            log.WriteLine("Number of events sent: " + _eventCount);
+                        }, null, startTimeSpan, periodTimeSpan);
+
                     }
                     _timer.Change((int) _timerInterval.TotalMilliseconds, Timeout.Infinite);
                 };
