@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+
+    <p class="lead"><b>Welcome to Microsoft Azure Stream Analytics TollApp Sample</b>
+    </p>
+    <p>The TollApp Sample allows you to visualize entry and exit data when a vehicle passes through a toll booth.</p>
+    <p>
+        For scenario information, see <a href="https://docs.microsoft.com/en-us/azure/stream-analytics/stream-analytics-build-an-iot-solution-using-stream-analytics">https://docs.microsoft.com/en-us/azure/stream-analytics/stream-analytics-build-an-iot-solution-using-stream-analytics</a>
+    </p>
+
+    <p>For tutorials that reference these samples, see <a href="http://azure.microsoft.com/en-us/documentation/services/stream-analytics/">http://azure.microsoft.com/en-us/documentation/services/stream-analytics/</a>
+    </p>
+
+    <p>For more information about the Stream Analytics service, see <a href="http://azure.microsoft.com/en-us/services/stream-analytics">http://azure.microsoft.com/en-us/services/stream-analytics</a>
+    </p>
+
+    <br/>
+    Verify that the Azure Stream Analytics TollApp deployment was successful
+    <br/>Log into Microsoft Azure portal
+    <br/>Go to Resource Groups
+    <br/>Select the Resource Group name used during deployment
+    <br/>Verify that the following services are listed
+    <ul>
+        <li>One Cosmos DB Account</li>
+        <li>One Azure Stream Analytics Job</li>
+        <li>One Azure Storage Account</li>
+        <li>One Azure Event Hub</li>
+        <li>Two Web Apps</li>
+    </ul>
+
+    <br/>
+    <p>The TollApp web app contains a Web Job that can be started and stopped to control the consumption used by Azure Event Hubs. Follow these steps to either Start or Stop the Web Job:</p>
+    <ol>
+        <li>Log into Microsoft Azure portal</li>
+        <li>Go to App Services</li>
+        <li>Select the TollApp Web App</li>
+        <li>From the Configuration blade, select WebJobs</li>
+        <li>Select the TollApp WebJob, click Start/Stop depending on the status</li>
+    </ol>
+    <p>The Azure Stream Analytics Job is not started upon deployment. Steps to start the job</p>
+    <ol>
+        <li>Log into Microsoft Azure Portal</li>
+        <li>Open Stream Analytics jobs</li>
+        <li>Select the TollData job</li>
+        <li>Click Start</li>
+    </ol>
+
+    <br/> Subscription Id: @Model.SubscriptionId
+    <br/> Resource Group Name: @Model.ResourceGroup
+    <br/> Job Name: @Model.JobName
+    <br/> Deployment Logs: <a href="@Model.DeploymentLogLink">@Model.DeploymentLogLink</a>
+
+</div>

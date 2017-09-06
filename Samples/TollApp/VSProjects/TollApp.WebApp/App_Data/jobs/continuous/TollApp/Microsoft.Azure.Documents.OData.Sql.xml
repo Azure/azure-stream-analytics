@@ -1,0 +1,753 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Azure.Documents.OData.Sql</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Azure.Documents.OData.Sql.Constants">
+            <summary>
+            Provides constant string/char values
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLSelectSymbol">
+            <summary>
+            Sql "SELECT" clause
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLWhereSymbol">
+            <summary>
+            Sql "WHERE" clause
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLTopSymbol">
+            <summary>
+            Sql "TOP" clause
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLFromSymbol">
+            <summary>
+            Sql "FROM" clause
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLOrderBySymbol">
+            <summary>
+            Sql "ORDER BY" clause
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLUpperSymbol">
+            <summary>
+            Sql "UPPER" function
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLLowerSymbol">
+            <summary>
+            Sql "LOWER" function
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLIndexOfSymbol">
+            <summary>
+            Sql "INDEX_OF" function
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLLtrimSymbol">
+            <summary>
+            Sql "LTRIM" function
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLRtrimSymbol">
+            <summary>
+            Sql "RTRIM" function
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLAsteriskSymbol">
+            <summary>
+            Sql "*" wild card
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLFieldNameSymbol">
+            <summary>
+            Sql <c>"c"</c> default filed name
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLEqualSymbol">
+            <summary>
+            Sql equal operator
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLNotEqualSymbol">
+            <summary>
+            Sql not equal operator
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLGreaterThanSymbol">
+            <summary>
+            Sql greater than operator
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLGreaterThanOrEqualSymbol">
+            <summary>
+            Sql greater than or equal operator
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLLessThanSymbol">
+            <summary>
+            Sql less than operator
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLLessThanOrEqualSymbol">
+            <summary>
+            Sql less than or equal operator
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLAndSymbol">
+            <summary>
+            Sql "AND" operator
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SQLOrSymbol">
+            <summary>
+            Sql "OR" operator
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.RequestParamsPrefix">
+            <summary>
+            '?' Aggregator to merge request parameters
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.RequestParamsAggregator">
+            <summary>
+            <c>'&amp;'</c> constant as aggregator to merge request parameters
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolForwardSlash">
+            <summary>
+            '/' constant to represent the forward slash used in a query.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolDot">
+            <summary>
+            '.' constant to represent the dot.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolColon">
+            <summary>
+            ":" keyword for expression.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolEqual">
+            <summary>
+            '=' constant to represent an assignment in name=value
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolOpenParen">
+            <summary>
+            '(' constant to represent an open parenthesis
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolClosedParen">
+            <summary>
+            ')' constant to represent an closed parenthesis
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolSingleQuote">
+            <summary>
+            '\'' constant to represent a single quote as prefix/suffix for literals
+            /// </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolSpace">
+            <summary>
+            ' ' constant to represent a single white space for literals
+            /// </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolComma">
+            <summary>
+            ',' constant to represent a single comma for literals
+            /// </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolNegate">
+            <summary>
+            '-' constant to represent an negate unary operator.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolEmptyJsonArray">
+            <summary>
+            Empty JSON Array
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolOpenSquareBracket">
+            <summary>
+            Open Square Bracket
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolCloseSquareBracket">
+            <summary>
+            Close Square Bracket
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolOpenCurlyBracket">
+            <summary>
+            Open Curly Bracket
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolBeginJsonStringArray">
+            <summary>
+            Begin a JSON Array of string
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolEngJsonStringArray">
+            <summary>
+            End a JSON Array of string
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordAscending">
+            <summary>
+            <c>"asc"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordDescending">
+            <summary>
+            <c>"desc"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordAdd">
+            <summary>
+            <c>"add"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordSub">
+            <summary>
+            <c>"sub"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordDivide">
+            <summary>
+            <c>"div"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordModulo">
+            <summary>
+            <c>"mod"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordMultiply">
+            <summary>
+            <c>"mul"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordToUpper">
+            <summary>
+            <c>"toupper"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordToLower">
+            <summary>
+            <c>"tolower"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordIndexOf">
+            <summary>
+            <c>"indexof"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordTrim">
+            <summary>
+            <c>"trim"</c> keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolQueryConcatenate">
+            <summary>
+            <c>'&amp;'</c> constant to represent the concatenation of query parts.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SymbolQuerySelector">
+            <summary>
+            "$" sign that starts with all built-in query selectors such as $filter and $orderby
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordAnd">
+            <summary>
+            the expression operator and
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordOr">
+            <summary>
+            the expression operator or
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordGreaterThan">
+            <summary>
+            the expression operator greater than
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordGreaterThanOrEqual">
+            <summary>
+            the expression operator greater than or equal
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordLessThan">
+            <summary>
+            the expression operator less than
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordLessThanOrEqual">
+            <summary>
+            the expression operator less than or equal to
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordEqual">
+            <summary>
+            the expression operator less than or equal to
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordNotEqual">
+            <summary>
+            the expression operator not equal
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordAll">
+            <summary>
+            "all" keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordAny">
+            <summary>
+            "any" keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordNull">
+            <summary>
+            "null" keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordNot">
+            <summary>
+            "not" keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordMax">
+            <summary>
+            "max" keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.KeywordHas">
+            <summary>
+            "has" keyword for expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SearchKeywordNot">
+            <summary>
+            "NOT" keyword for search option.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SearchKeywordAnd">
+            <summary>
+            "AND" keyword for search option.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.Constants.SearchKeywordOr">
+            <summary>
+            "OR" keyword for search option.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder">
+            <summary>
+            Build QueryNode to string Representation 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.searchFlag">
+            <summary>
+            whether translating search options or others
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.QueryFormatter">
+            <summary>s
+            Gets the formatter to format the query
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.#ctor(Microsoft.Azure.Documents.OData.Sql.QueryFormatterBase)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder"/> class
+            </summary>
+            <param name="queryFormatter">the query format class</param>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder"/> class from being created
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.AllNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.AllNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.AnyNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.AnyNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.BinaryOperatorNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.BinaryOperatorNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.CollectionNavigationNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.CollectionPropertyAccessNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.CollectionPropertyAccessNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.CollectionPropertyAccessNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.ConstantNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.CollectionPropertyAccessNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.ConvertNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.ConvertNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.EntityCollectionCastNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.EntityCollectionCastNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string of EntityCollectionCastNode.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.CollectionPropertyCastNode)">
+            <summary>
+            Visit an CollectionPropertyCastNode
+            </summary>
+            <param name="node">the node to visit</param>
+            <returns>The translated string of CollectionPropertyCastNode</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.EntityRangeVariableReferenceNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.EntityRangeVariableReferenceNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.NonentityRangeVariableReferenceNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.NonentityRangeVariableReferenceNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.SingleEntityCastNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.SingleEntityCastNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.SingleValueCastNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.SingleValueCastNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string of SingleValueCastNode.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.SingleNavigationNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.SingleNavigationNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.SingleEntityFunctionCallNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.SingleEntityFunctionCallNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.SingleValueFunctionCallNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.SingleValueFunctionCallNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.CollectionFunctionCallNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.CollectionFunctionCallNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string of CollectionFunctionCallNode.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.EntityCollectionFunctionCallNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.EntityCollectionFunctionCallNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string of EntityCollectionFunctionCallNode.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.SingleValueOpenPropertyAccessNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.SingleValueOpenPropertyAccessNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.CollectionOpenPropertyAccessNode)">
+            <summary>
+            Translates an <see cref="T:Microsoft.OData.Core.UriParser.Semantic.CollectionOpenPropertyAccessNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.SingleValuePropertyAccessNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.SingleValuePropertyAccessNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.ParameterAliasNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.ParameterAliasNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.NamedFunctionParameterNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.NamedFunctionParameterNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string of NamedFunctionParameterNode.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.SearchTermNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.NamedFunctionParameterNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string of SearchTermNode.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.Visit(Microsoft.OData.Core.UriParser.Semantic.UnaryOperatorNode)">
+            <summary>
+            Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.UnaryOperatorNode"/> into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="node">The node to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.TranslateLevelsClause(Microsoft.OData.Core.UriParser.Semantic.LevelsClause)">
+            <summary>Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.LevelsClause"/> into a string.</summary>
+            <param name="levelsClause">The levels clause to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.TranslateNode(Microsoft.OData.Core.UriParser.Semantic.QueryNode)">
+            <summary>
+            Main dispatching visit method for translating query-nodes into expressions.
+            </summary>
+            <param name="node">The node to visit/translate.</param>
+            <returns>The LINQ string resulting from visiting the node.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.TranslateSearchClause(Microsoft.OData.Core.UriParser.Semantic.SearchClause)">
+            <summary>Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.SearchClause"/> into a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.SearchClause"/>.</summary>
+            <param name="searchClause">The search clause to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.TranslateParameterAliasNodes(System.Collections.Generic.IDictionary{System.String,Microsoft.OData.Core.UriParser.Semantic.SingleValueNode})">
+            <summary>
+            Add dictionary to url and each alias value will be URL encoded.
+            </summary>
+            <param name="dictionary">key value pair dictionary</param>
+            <returns>The url query string of dictionary's key value pairs (URL encoded)</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.TranslatePropertyAccess(Microsoft.OData.Core.UriParser.Semantic.QueryNode,System.String,Microsoft.OData.Edm.IEdmNavigationSource)">
+            <summary>
+            Helper for translating an access to a metadata-defined property or navigation.
+            </summary>
+            <param name="sourceNode">The source of the property access.</param>
+            <param name="edmPropertyName">The structural or navigation property being accessed.</param>
+            <param name="navigationSource">The navigation source of the result, required for navigations.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.TranslateFunctionCall(System.String,System.Collections.Generic.IEnumerable{Microsoft.OData.Core.UriParser.Semantic.QueryNode})">
+            <summary>
+            Translates a function call into a corresponding <see cref="T:System.String"/>.
+            </summary>
+            <param name="functionName">Name of the function.</param>
+            <param name="argumentNodes">The argument nodes.</param>
+            <returns>
+            The translated string.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.BinaryOperatorNodeToString(Microsoft.OData.Core.UriParser.TreeNodeKinds.BinaryOperatorKind)">
+            <summary>
+            Build BinaryOperatorNode to uri 
+            </summary>
+            <param name="operatorKind">the kind of the BinaryOperatorNode</param>
+            <returns>string format of the operator</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder.TranslateBinaryOperatorPriority(Microsoft.OData.Core.UriParser.TreeNodeKinds.BinaryOperatorKind)">
+            <summary>
+            Get the priority of BinaryOperatorNode
+            This priority table is from <c>http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html</c> (5.1.1.9 Operator Precedence )
+            </summary>
+            <param name="operatorKind">binary operator </param>
+            <returns>the priority value of the binary operator</returns>
+        </member>
+        <member name="T:Microsoft.Azure.Documents.OData.Sql.TranslateOptions">
+            <summary>
+            TranslateOptions
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.TranslateOptions.SELECT_CLAUSE">
+            <summary>
+            translate option for Sql SELECT clause
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.TranslateOptions.WHERE_CLAUSE">
+            <summary>
+            translate option for Sql WHERE clause
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.TranslateOptions.ORDERBY_CLAUSE">
+            <summary>
+            translate option for Sql ORDER BY clause
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.TranslateOptions.TOP_CLAUSE">
+            <summary>
+            translate option for sql TOP clause
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Documents.OData.Sql.TranslateOptions.ALL">
+            <summary>
+            translate option for all Sql clauses: SELECT, WHERE, ORDER BY, and TOP
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Documents.OData.Sql.ODataToSqlTranslator">
+            <summary>
+            ODataToSqlTranslator
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataToSqlTranslator.Translate(System.Web.OData.Query.ODataQueryOptions,Microsoft.Azure.Documents.OData.Sql.TranslateOptions,System.String)">
+            <summary>
+            function that takes in an <see cref="T:System.Web.OData.Query.ODataQueryOptions"/>, a string representing the type to filter, and a <see cref="!:FeedOptions"/>
+            </summary>
+            <param name="odataQueryOptions"></param>
+            <param name="translateOptions"></param>
+            <param name="additionalWhereClause"></param>
+            <returns>returns an SQL expression if successfully translated, otherwise a null string</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataToSqlTranslator.#ctor(Microsoft.Azure.Documents.OData.Sql.QueryFormatterBase)">
+            <summary>
+            Constructor for ODataSqlTranslator
+            </summary>
+            <param name="queryFormatter">Optional QueryFormatter, if no formatter provided, a SQLQueryFormatter is used by default</param>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataToSqlTranslator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataToSqlTranslator.TranslateFilterClause(Microsoft.OData.Core.UriParser.Semantic.FilterClause)">
+            <summary>Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.FilterClause"/> into a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.FilterClause"/>.</summary>
+            <param name="filterClause">The filter clause to translate.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.ODataToSqlTranslator.TranslateOrderByClause(Microsoft.OData.Core.UriParser.Semantic.OrderByClause,System.String)">
+            <summary>Translates a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.OrderByClause"/> into a <see cref="T:Microsoft.OData.Core.UriParser.Semantic.OrderByClause"/>.</summary>
+            <param name="orderByClause">The orderBy clause to translate.</param>
+            <param name="preExpr">expression built so far.</param>
+            <returns>The translated string.</returns>
+        </member>
+        <member name="P:Microsoft.Azure.Documents.OData.Sql.ODataToSqlTranslator.oDataNodeToStringBuilder">
+            <summary>
+            Visitor patterned ODataNodeToStringBuilder
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Documents.OData.Sql.QueryFormatterBase">
+            <summary>
+            abstract class for query formatter used in <see cref="T:Microsoft.Azure.Documents.OData.Sql.ODataNodeToStringBuilder"/>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.QueryFormatterBase.TranslateFieldName(System.String)">
+            <summary>
+            method to translate fieldName
+            </summary>
+            <param name="fieldName"></param>
+            <returns>returns translated field</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.QueryFormatterBase.TranslateEnumValue(System.String,System.String)">
+            <summary>
+            method to translate enum values
+            </summary>
+            <param name="value">the enum value</param>
+            <param name="nameSpace">Namespace of the enum type</param>
+            <returns>returns an enumValue without the namespace</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.QueryFormatterBase.TranslateSource(System.String,System.String)">
+            <summary>
+            method to convert parent/child field
+            </summary>
+            <param name="source">the parent field</param>
+            <param name="edmProperty">the child field</param>
+            <returns>returns translated parent and child</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.QueryFormatterBase.TranslateFunctionName(System.String)">
+            <summary>
+            method to convert function name
+            </summary>
+            <param name="functionName"></param>
+            <returns>returns a translated function name</returns>
+        </member>
+        <member name="T:Microsoft.Azure.Documents.OData.Sql.SQLQueryFormatter">
+            <summary>
+            string formmater for OData to Sql converter
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.SQLQueryFormatter.TranslateFieldName(System.String)">
+            <summary>
+            fieldName => c.fieldName
+            </summary>
+            <param name="fieldName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.SQLQueryFormatter.TranslateEnumValue(System.String,System.String)">
+            <summary>
+            Convert value to SQL format: Namespace'enumVal' => c.enumVal
+            </summary>
+            <param name="value">the enum value</param>
+            <param name="nameSpace">Namespace of the enum type</param>
+            <returns>enumValue without the namespace</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.SQLQueryFormatter.TranslateSource(System.String,System.String)">
+            <summary>
+            Convert fieldname (parent and child) to SQL format: "class/field" => "c.class.field'"
+            </summary>
+            <param name="source">the parent field</param>
+            <param name="edmProperty">the child field</param>
+            <returns>The translated source</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Documents.OData.Sql.SQLQueryFormatter.TranslateFunctionName(System.String)">
+            <summary>
+            Convert functionName to SQL format: funtionName => FUNCTIONNAME
+            </summary>
+            <param name="functionName"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

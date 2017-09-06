@@ -1,0 +1,609 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Azure.WebJobs</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Azure.WebJobs.AutoResolveAttribute">
+            <summary>
+            Place this on binding attributes properties to tell the binders that that the property contains
+            {key} or "%setting%" segments that should be automatically resolved.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.AutoResolveAttribute.#ctor">
+            <summary>
+            Creates a new instance.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.AutoResolveAttribute.AllowTokens">
+            <summary>
+            If true, the property allows tokens. Any value within %% will be automatically resolved.
+            If false, the property does not allow tokens. The property value itself is automatically resolved.
+            Default value is true.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.AutoResolveAttribute.ResolutionPolicyType">
+            <summary>
+            Specifies a type to use for runtime binding resolution. That type must derive from IResolutionPolicy, found
+            in the Microsoft.Azure.WebJobs.Host assembly.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.BlobTriggerAttribute">
+            <summary>
+            Attribute used to bind a parameter to an Azure Blob, causing the method to run when a blob is
+            uploaded.
+            </summary>
+            <remarks>
+            The method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description>ICloudBlob</description></item>
+            <item><description>CloudBlockBlob</description></item>
+            <item><description>CloudPageBlob</description></item>
+            <item><description><see cref="T:System.IO.Stream"/></description></item>
+            <item><description><see cref="T:System.IO.TextReader"/></description></item>
+            <item><description><see cref="T:System.String"/></description></item>
+            <item><description><see cref="T:byte[]"/></description></item>
+            <item><description>A custom type implementing <see cref="T:Microsoft.Azure.WebJobs.ICloudBlobStreamBinder`1"/></description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.BlobTriggerAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.BlobTriggerAttribute"/> class.
+            </summary>
+            <param name="blobPath">The path of the blob to which to bind.</param>
+            <remarks>
+            The blob portion of the path can contain tokens in curly braces to indicate a pattern to match. The matched
+            name can be used in other binding attributes to define the output name of a Job function.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.BlobTriggerAttribute.BlobPath">
+            <summary>Gets the path of the blob to which to bind.</summary>
+            <remarks>
+            The blob portion of the path can contain tokens in curly braces to indicate a pattern to match. The matched
+            name can be used in other binding attributes to define the output name of a Job function.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.BinderExtensions">
+            <summary>Provides extension methods for the <see cref="T:Microsoft.Azure.WebJobs.IBinder"/> interface.</summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.BinderExtensions.Bind``1(Microsoft.Azure.WebJobs.IBinder,System.Attribute)">
+            <summary>Binds the specified attribute.</summary>
+            <typeparam name="T">The type to which to bind.</typeparam>
+            <param name="binder">The binder to use to bind.</param>
+            <param name="attribute">The attribute to bind.</param>
+            <returns>The value bound.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.DisableAttribute">
+            <summary>
+            Attribute that can be applied to job functions, trigger parameters and classes
+            to conditionally disable triggered functions.
+            <remarks>
+            <para>
+            For example, by using this attribute, you can dynamically disable functions temporarily
+            by changing application settings. Note that the disable check is done on startup only.
+            If a <see cref="T:Microsoft.Azure.WebJobs.DisableAttribute"/> in the hierarchy (Parameter/Method/Class) exists and
+            indicates that the function should be disabled, the listener for that function will not be
+            started. The attribute only affects triggered functions.
+            </para>
+            <para>
+            Additionally, when running in an Azure Web App, you can set app setting WEBJOBS_STOPPED to 1
+            to completely disable the JobHost. In this case the JobHost won't even be started.
+            </para>
+            </remarks>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.DisableAttribute.#ctor">
+            <summary>
+            Constructs a new instance.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.DisableAttribute.#ctor(System.String)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="settingName">The name of an application setting or environment variable that
+            governs whether the function(s) should be disabled. If the specified setting exists and its
+            value is "1" or "True", the function will be disabled. The setting name can contain binding
+            parameters (e.g. {MethodName}, {MethodShortName}, %test%, etc.).</param>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.DisableAttribute.#ctor(System.Type)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="providerType">A Type which implements a method named "IsDisabled" taking
+            a <see cref="T:System.Reflection.MethodInfo"/> and returning <see cref="T:System.Boolean"/>. This
+            function will be called to determine whether the target function should be disabled.
+            </param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.DisableAttribute.SettingName">
+            <summary>
+            Gets the name of the application setting or environment variable that will
+            be used to determine whether the function(s) should be disabled.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.DisableAttribute.ProviderType">
+            <summary>
+            Gets the custom <see cref="T:System.Type"/> that will be invoked to determine
+            whether the function(s) should be disabled.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.IAsyncCollector`1">
+            <summary>
+            Defines an asynchronous collector (an insert-only collection).
+            </summary>
+            <typeparam name="T">The type of items to collect.</typeparam>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.IAsyncCollector`1.AddAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            Adds an item to the <see cref="T:Microsoft.Azure.WebJobs.IAsyncCollector`1"/>.
+            </summary>
+            <param name="item">The item to be added.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A task that will add the item to the collector.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.IAsyncCollector`1.FlushAsync(System.Threading.CancellationToken)">
+            <summary>
+            Flush all the events accumulated so far. 
+            This can be an empty operation if the messages are not batched. 
+            </summary>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.IAttributeInvokeDescriptor`1">
+            <summary>
+            Describes how an attribute is converted to and from an string-representation that can be both logged 
+            and used to invoke this function instance later. 
+            An attribute may implement this interface, or a default implementation may be inferred. 
+            </summary>
+            <typeparam name="TAttribute">Type of the attribute on this binding.</typeparam>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.IAttributeInvokeDescriptor`1.ToInvokeString">
+            <summary>
+            Get a string representation of this resolved attribute which can be logged and fed to FromInvokeString.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.IAttributeInvokeDescriptor`1.FromInvokeString(System.String)">
+            <summary>
+            Hydrate a resolved attribute from an invoke string which can then be used to create a binding. 
+            </summary>
+            <param name="invokeString">String representation of this argument</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ICloudBlobStreamBinder`1">
+            <summary>Defines a blob binder for a custom type.</summary>
+            <typeparam name="T">The type of object the binder can bind.</typeparam>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ICloudBlobStreamBinder`1.ReadFromStreamAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>Binds the content of the blob to a custom type.</summary>
+            <param name="input">The blob stream to read.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that will provide the deserialized object.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ICloudBlobStreamBinder`1.WriteToStreamAsync(`0,System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>Binds the custom type to the contents of a blob.</summary>
+            <param name="value">The value to serialize.</param>
+            <param name="output">The stream to which to write the value.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that will write to the stream.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.IBinder">
+            <summary>
+            Interface defining functionality for dynamically binding to WebJobs SDK attributes
+            at runtime.
+            </summary>
+            <remarks>This interface enables imperative binding with attribute information specified at runtime.</remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.IBinder.BindAsync``1(System.Attribute,System.Threading.CancellationToken)">
+            <summary>
+            Binds the specified attribute.
+            </summary>
+            <typeparam name="T">The type to bind to.</typeparam>
+            <param name="attribute">The attribute to bind.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that will provide the bound the value.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.BlobAttribute">
+            <summary>
+            Attribute used to bind a parameter to an Azure Blob. The attribute supports binding
+            to single blobs, blob containers, or collections of blobs.
+            </summary>
+            <remarks>
+            The method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description>ICloudBlob</description></item>
+            <item><description>CloudBlockBlob</description></item>
+            <item><description>CloudPageBlob</description></item>
+            <item><description><see cref="T:System.IO.Stream"/> (read-only)</description></item>
+            <item><description>CloudBlobStream (write-only)</description></item>
+            <item><description><see cref="T:System.IO.TextReader"/></description></item>
+            <item><description><see cref="T:System.IO.TextWriter"/></description></item>
+            <item><description>
+            <see cref="T:System.String"/> (normally for reading, or as an out parameter for writing)
+            </description>
+            </item>
+            <item><description>
+            <see cref="T:byte[]"/> (normally for reading, or as an out parameter for writing)
+            </description>
+            </item>
+            <item><description>
+            A custom type implementing <see cref="T:Microsoft.Azure.WebJobs.ICloudBlobStreamBinder`1"/> (normally for reading, or as an out parameter for
+            writing)
+            </description></item>
+            </list>
+            In addition to single blob bindings,  parameters can be bound to multiple blobs.
+            The parameter type can be CloudBlobContainer, CloudBlobDirectory or <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+            of one of the following element types: 
+            <list type = "bullet" >
+            <item><description>ICloudBlob</description></item>
+            <item><description>CloudBlockBlob</description></item>
+            <item><description>CloudPageBlob</description></item>
+            <item><description>Stream</description></item>
+            <item><description>string</description></item>
+            <item><description>TextReader</description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.BlobAttribute.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.BlobAttribute"/> class.</summary>
+            <param name="blobPath">The path of the blob to which to bind.</param>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.BlobAttribute.#ctor(System.String,System.IO.FileAccess)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.BlobAttribute"/> class.</summary>
+            <param name="blobPath">The path of the blob to which to bind.</param>
+            <param name="access">The kind of operations that can be performed on the blob.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.BlobAttribute.BlobPath">
+            <summary>Gets the path of the blob to which to bind.</summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.BlobAttribute.Access">
+            <summary>Gets the kind of operations that can be performed on the blob.</summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ICollector`1">
+            <summary>
+            Defines a collector (an insert-only collection).
+            </summary>
+            <typeparam name="T">The type of items to collect.</typeparam>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ICollector`1.Add(`0)">
+            <summary>
+            Adds an item to the <see cref="T:Microsoft.Azure.WebJobs.ICollector`1"/>.
+            </summary>
+            <param name="item">The item to be added.</param>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.QueueAttribute">
+            <summary>
+            Attribute used to bind a parameter to an Azure Queue.
+            </summary>
+            <remarks>
+            The method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description>CloudQueue</description></item>
+            <item><description>CloudQueueMessage (out parameter)</description></item>
+            <item><description><see cref="T:System.String"/> (out parameter)</description></item>
+            <item><description><see cref="T:byte[]"/> (out parameter)</description></item>
+            <item><description>A user-defined type (out parameter, serialized as JSON)</description></item>
+            <item><description><see cref="T:Microsoft.Azure.WebJobs.ICollector`1"/> of these types (to enqueue multiple messages via <see cref="M:Microsoft.Azure.WebJobs.ICollector`1.Add(`0)"/></description></item>
+            <item><description><see cref="T:Microsoft.Azure.WebJobs.IAsyncCollector`1"/> of these types (to enqueue multiple messages via <see cref="M:Microsoft.Azure.WebJobs.IAsyncCollector`1.AddAsync(`0,System.Threading.CancellationToken)"/></description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.QueueAttribute.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.QueueAttribute"/> class.</summary>
+            <param name="queueName">The name of the queue to which to bind.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.QueueAttribute.QueueName">
+            <summary>
+            Gets the name of the queue to which to bind.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.QueueTriggerAttribute">
+            <summary>
+            Attribute used to bind a parameter to an Azure Queue message, causing the function to run when a
+            message is enqueued.
+            </summary>
+            <remarks>
+            The method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description>CloudQueueMessage</description></item>
+            <item><description><see cref="T:System.String"/></description></item>
+            <item><description><see cref="T:byte[]"/></description></item>
+            <item><description>A user-defined type (serialized as JSON)</description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.QueueTriggerAttribute.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.QueueTriggerAttribute"/> class.</summary>
+            <param name="queueName">The name of the queue to which to bind.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.QueueTriggerAttribute.QueueName">
+            <summary>Gets the name of the queue to which to bind.</summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ODataFilterResolutionPolicy">
+            <summary>
+            Marker type for Table resolution
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.SingletonAttribute">
+            <summary>
+            This attribute can be applied to a job functions to ensure that only a single
+            instance of the function is executed at any given time (even across host instances).
+            A blob lease is used behind the scenes to implement the lock.
+            <remarks>
+            This attribute can also be used in <see cref="F:Microsoft.Azure.WebJobs.SingletonMode.Listener"/> mode to ensure that
+            the listener for a triggered function is only running on a single instance. Trigger bindings
+            can make this implicit by applying the attribute to their IListener implementation.
+            Functions can override an implicit singleton by applying a singleton to their function with
+            mode <see cref="F:Microsoft.Azure.WebJobs.SingletonMode.Listener"/>.
+            </remarks>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.SingletonAttribute.#ctor">
+            <summary>
+            Constructs a new instance.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.SingletonAttribute.#ctor(System.String,Microsoft.Azure.WebJobs.SingletonScope)">
+            <summary>
+            Constructs a new instance using the specified scope settings.
+            </summary>
+            <param name="scopeId">The scope value for the singleton lock. This value can be used to implement
+            finer grained locks by including binding parameters that bind to function input data.</param>
+            <param name="scope">The <see cref="T:Microsoft.Azure.WebJobs.SingletonScope"/> to use. When set to <see cref="F:Microsoft.Azure.WebJobs.SingletonScope.Function"/>, the lock
+            is only scoped to the specific function, meaning invocations of that function will be serialized. To implement locking across
+            multiple functions, you can use <see cref="F:Microsoft.Azure.WebJobs.SingletonScope.Host"/> and apply the same attribute to multiple functions.
+            Each function will then use the same lock, and invocations of all the functions will be serialized.
+            The default value is <see cref="F:Microsoft.Azure.WebJobs.SingletonScope.Function"/>.
+            </param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.SingletonAttribute.ScopeId">
+            <summary>
+            Gets the scope identifier for the singleton lock.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.SingletonAttribute.Scope">
+            <summary>
+            Gets or sets the <see cref="T:Microsoft.Azure.WebJobs.SingletonScope"/> this singleton should use.
+            Defaults to <see cref="F:Microsoft.Azure.WebJobs.SingletonScope.Function"/> if not explicitly specified.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.SingletonAttribute.Mode">
+            <summary>
+            Gets or sets the <see cref="T:Microsoft.Azure.WebJobs.SingletonMode"/> this singleton should use.
+            Defaults to <see cref="F:Microsoft.Azure.WebJobs.SingletonMode.Function"/> if not explicitly specified.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.SingletonAttribute.Account">
+            <summary>
+            Gets the name of the Azure Storage account that the blob lease should be
+            created in.
+            </summary>
+            <remarks>
+            If not specified, the default AzureWebJobs storage account will be used.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.SingletonAttribute.LockAcquisitionTimeout">
+            <summary>
+            Gets or sets the timeout value in seconds for lock acquisition.
+            If the lock is not obtained within this interval, the invocation will fail.
+            When set, this value will override the corresponding global configuration
+            value set in JobHostConfiguration.Singleton.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.SingletonMode">
+            <summary>
+            Enumeration of modes that <see cref="T:Microsoft.Azure.WebJobs.SingletonAttribute"/> can
+            operate in.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.WebJobs.SingletonMode.Function">
+            <summary>
+            Indicates a singleton lock that is taken before each
+            function invocation, and released immediately after.
+            This is the default.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.WebJobs.SingletonMode.Listener">
+            <summary>
+            Indicates a singleton lock that is taken when starting the
+            listener for a triggered function. Using this mode, the listener
+            (and therefore the function) will only be running on a single instance
+            (when scaled out).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.SingletonScope">
+            <summary>
+            Enumeration of values used to control the scope of Singleton locks.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.WebJobs.SingletonScope.Function">
+            <summary>
+            Indicates a Singleton lock that is scoped a single function.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.WebJobs.SingletonScope.Host">
+            <summary>
+            Indicates a Singleton lock that is scoped to the JobHost.
+            <remarks>
+            This is useful in scenarios where locking across multiple
+            functions is desired. In this case the same attribute can
+            be applied to multiple functions, and they'll share the
+            same lock.
+            </remarks>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.StorageAccountAttribute">
+            <summary>
+            Attribute used to override the default Azure Storage account used by triggers and binders.
+            </summary>
+            <remarks>
+            This attribute can be applied at the parameter/method/class level, and the precedence
+            is in that order.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.StorageAccountAttribute.#ctor(System.String)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="account">A string value indicating the Azure Storage connection string to use. This
+            string should be in one of the following formats. These checks will be applied in order and the
+            first match wins.
+            - The name of an "AzureWebJobs" prefixed app setting or connection string name. E.g., if your setting
+              name is "AzureWebJobsMyStorage", you can specify "MyStorage" here.
+            - Can be a string containing %% values (e.g. %StagingStorage%). The value provided will be passed
+              to any INameResolver registered on the JobHostConfiguration to resolve the actual setting name to use.
+            - Can be an app setting or connection string name of your choosing.
+            </param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.StorageAccountAttribute.Account">
+            <summary>
+            Gets the name of the Azure Storage connection string to use.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.TableAttribute">
+            <summary>
+            Attribute used to bind a parameter to an Azure Table or Table entity.
+            </summary>
+            <remarks>
+            When only the table name is provided, the attribute binds to a table, and the method parameter type can be one
+            of the following:
+            <list type="bullet">
+            <item><description>CloudTable</description></item>
+            <item><description><see cref="T:System.Linq.IQueryable`1"/> (where T implements ITableEntity)</description></item>
+            </list>
+            When the table name, partition key, and row key are provided, the attribute binds to a table entity, and the
+            method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description>ITableEntity</description></item>
+            <item><description>
+            A user-defined type not implementing ITableEntity (serialized as strings for simple types and JSON for complex
+            types)
+            </description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.TableAttribute.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.TableAttribute"/> class.</summary>
+            <param name="tableName">The name of the table to which to bind.</param>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.TableAttribute.#ctor(System.String,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.TableAttribute"/> class.</summary>
+            <param name="tableName">The name of the table containing the entity.</param>
+            <param name="partitionKey">The partition key of the entity.</param>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.TableAttribute.#ctor(System.String,System.String,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.TableAttribute"/> class.</summary>
+            <param name="tableName">The name of the table containing the entity.</param>
+            <param name="partitionKey">The partition key of the entity.</param>
+            <param name="rowKey">The row key of the entity.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TableAttribute.TableName">
+            <summary>Gets the name of the table to which to bind.</summary>
+            <remarks>When binding to a table entity, gets the name of the table containing the entity.</remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TableAttribute.PartitionKey">
+            <summary>When binding to a table entity, gets the partition key of the entity.</summary>
+            <remarks>When binding to an entire table, returns <see langword="null"/>.</remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TableAttribute.RowKey">
+            <summary>When binding to a table entity, gets the row key of the entity.</summary>
+            <remarks>When binding to an entire table, returns <see langword="null"/>.</remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TableAttribute.Filter">
+            <summary>
+            Allow arbitrary table filter. RowKey should be null. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TableAttribute.Take">
+            <summary>
+            Used with filter. RowKey should be null. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.NoAutomaticTriggerAttribute">
+            <summary>
+            Attribute used to mark a job function that will not be automatically triggered.
+            </summary>
+            <remarks>
+            This attribute is useful in two cases:
+            <list type="number">
+            <item>
+            <term>Functions with triggers</term>
+            <description>Prevents automatic invocation of the triggers, allowing manual polling.</description>
+            </item>
+            <item>
+            <term>Functions without other attributes</term>
+            <description>Flags the function as an available job function.</description>
+            </item>
+            </list>
+            In both cases, functions marked with this attribute are never called automatically by JobHost (during
+            RunAndBlock). Instead, they must be invoked manually using the Call method.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.TimeoutAttribute">
+            <summary>
+            Attribute that can be applied at the class or function level to limit the
+            execution time of job functions. To receive the timeout cancellation, a function
+            must include a <see cref="T:System.Threading.CancellationToken"/> parameter. Then, if a particular
+            function invocation exceeds the timeout, the <see cref="T:System.Threading.CancellationToken"/>
+            will be cancelled, and an error will be logged. The function should monitor
+            the token for cancellation and abort when it is cancelled, and it should pass
+            it to any async operations it initiates.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.TimeoutAttribute.#ctor(System.String)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="timeout">The timeout limit as a <see cref="T:System.TimeSpan"/> string (e.g. "00:30:00").</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TimeoutAttribute.Timeout">
+            <summary>
+            Gets the timeout value.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TimeoutAttribute.TimeoutWhileDebugging">
+            <summary>
+            Gets or sets a value indicating whether function invocations will timeout when
+            a <see cref="P:Microsoft.Azure.WebJobs.TimeoutAttribute.Timeout"/> is specified and a debugger is attached. False by default.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TimeoutAttribute.ThrowOnTimeout">
+            <summary>
+            When true, an exception is thrown when a function timeout expires.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TimeoutAttribute.GracePeriod">
+            <summary>
+            The amount of time to wait between canceling the timeout <see cref="T:System.Threading.CancellationToken"/> and throwing
+            a FunctionTimeoutException. This gives functions time to perform any graceful shutdown. 
+            Only applies if <see cref="P:Microsoft.Azure.WebJobs.TimeoutAttribute.ThrowOnTimeout"/> is true.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.TraceLevelAttribute">
+            <summary>
+            Attribute used to specify <see cref="T:System.Diagnostics.TraceLevel"/> for job functions.
+            This setting will affect both Console logging as well as Dashboard logging.
+            </summary>
+            <remarks>
+            For very high throughput functions where performance is key you can set the
+            level to <see cref="F:System.Diagnostics.TraceLevel.Off"/> if you don't want any logs (Console or
+            Dashboard) to be produced. Dashboard logging is somewhat expensive, so this
+            can improve your throughput. You can also choose to set the level to
+            <see cref="F:System.Diagnostics.TraceLevel.Error"/> and logs will only be written for function
+            invocations that fail.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.TraceLevelAttribute.#ctor(System.Diagnostics.TraceLevel)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="level">The <see cref="T:System.Diagnostics.TraceLevel"/> to use for the function.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.TraceLevelAttribute.Level">
+            <summary>
+            Gets the <see cref="T:System.Diagnostics.TraceLevel"/> to use for the function.
+            </summary>
+        </member>
+    </members>
+</doc>

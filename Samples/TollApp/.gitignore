@@ -1,0 +1,11 @@
+packages/
+TollApp/bin/
+TollApp.WebApp/bin/
+TollApp/obj/
+TollApp.WebApp/obj/
+.vs/
+TollAppDeployment/bin/
+TollApp.WebApp/Properties/PublishProfiles/
+TollApp.Tests/bin/
+TollApp.Tests/obj/
+TestResults/
