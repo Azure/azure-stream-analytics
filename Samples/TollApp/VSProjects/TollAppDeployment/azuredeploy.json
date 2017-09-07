@@ -15,7 +15,7 @@
     "functionAppPlanName": "[concat('tollfuncapp',uniqueString(resourceGroup().id, resourceGroup().id))]",
     "webAppName": "[concat('tollapp',uniqueString(resourceGroup().id, resourceGroup().id))]",
     "webAppPlanSkuName": "S1",
-    "repoURL": "https://github.com/meyergm/azure-stream-analytics.git",
+    "repoURL": "https://github.com/Azure/azure-stream-analytics.git",
     "branch": "master",
     "storageAccountName": "[concat('tollapp',uniqueString(resourceGroup().id, resourceGroup().id),'sa')]",
     "lowerCaseStorageAccountName": "[toLower(variables('storageAccountName'))]",
