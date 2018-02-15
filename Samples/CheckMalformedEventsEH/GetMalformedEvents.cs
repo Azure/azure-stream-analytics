@@ -7,7 +7,7 @@ using Microsoft.ServiceBus.Messaging;
 
 namespace CheckMalformedEvents
 {
-    class MalformedEvents
+    class GetMalformedEvents
     {
         //static string connectionString = "HostName=xxxxx.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=xxxxxx";
         static string connectionString;
@@ -22,11 +22,11 @@ namespace CheckMalformedEvents
             connectionString = Console.ReadLine();
             Console.Write("Enter the partition Id:");
             partitionId = Console.ReadLine();
-            Console.Write("Enter the resource number:");
+            Console.Write("Enter the offset number:");
             long offset;
             if (long.TryParse(Console.ReadLine(), out offset) == false)
             {
-                Console.Write("Enter a valid number.");
+                Console.Write("Enter a valid offset value.");
                 Console.ReadLine();
                 return;
             }
