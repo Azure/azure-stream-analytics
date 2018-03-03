@@ -9,7 +9,8 @@ namespace CheckMalformedEvents
 {
     class GetMalformedEvents
     {
-        //static string connectionString = "HostName=xxxxx.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=xxxxxx";
+        // IoT connection string looks like "HostName=xxxxx.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=xxxxxx";
+        // EH connection string looks like "Endpoint=sb://[namespace].servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[key]";
         static string connectionString;
 
         private static string partitionId;
@@ -17,11 +18,14 @@ namespace CheckMalformedEvents
         static EventHubClient eventHubClient;
 
         static void Main(string[] args)
+
         {
             Console.Write("Enter the connection string:");
             connectionString = Console.ReadLine();
+
             Console.Write("Enter the partition Id:");
             partitionId = Console.ReadLine();
+
             Console.Write("Enter the offset number:");
             long offset;
             if (long.TryParse(Console.ReadLine(), out offset) == false)
@@ -31,20 +35,30 @@ namespace CheckMalformedEvents
                 return;
             }
 
+            // Uncomment the following line if you are using event hub 
+            // eventHubClient = EventHubClient.CreateFromConnectionString("your_connection_string");
+            
+            // Use the following for IoT hub 
             eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
 
+            // Number of events is set to 1000 in this example, you can choose to use a different value. 
             PrintMessages(partitionId, offset, 1000);
+
             Console.WriteLine("Done");
             Console.ReadLine();
+
         }
 
         static void PrintMessages(string partitionId, long offset, int numberOfEvents)
+
         {
             EventHubReceiver receiver;
+
             try
             {
                 receiver = eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partitionId, offset.ToString(), true);
             }
+
             catch (ArgumentException)
             {
                 Console.WriteLine("No data for the specified offset in this partition.");
@@ -59,6 +73,7 @@ namespace CheckMalformedEvents
                     Console.WriteLine("----");
                 }
             }
+
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
@@ -68,5 +83,4 @@ namespace CheckMalformedEvents
             receiver.Close();
         }
     }
-
 }
