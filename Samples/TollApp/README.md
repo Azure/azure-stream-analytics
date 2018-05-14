@@ -15,7 +15,7 @@ For more information about the Stream Analytics service, see http://azure.micros
 To complete this solution, you need a Microsoft Azure subscription. If you do not have an Azure account, you can [request a free trial version](http://azure.microsoft.com/pricing/free-trial/).
 
 ### Deploy the TollApp template in the Azure portal
-1. To deploy the TollApp environment to Azure, use this link to [Deploy TollApp Azure Template]
+1. To deploy the TollApp environment to Azure, use this link to [Deploy TollApp Azure Template](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-stream-analytics%2Fmaster%2FSamples%2FTollApp%2FVSProjects%2FTollAppDeployment%2Fazuredeploy.json).
 
    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-stream-analytics%2Fmaster%2FSamples%2FTollApp%2FVSProjects%2FTollAppDeployment%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
 
