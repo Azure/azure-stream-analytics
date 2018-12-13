@@ -189,3 +189,5 @@ _Pvt_Extensions/
 ModelManifest.xml
 /Samples/TwitterWPFClient
 /Samples/TelcoDatGeneratorUI/App/TelcoDataGeneratorWPF
+DataGenerators/TwitterClientCore/bin/
+DataGenerators/TwitterClientCore/obj/
