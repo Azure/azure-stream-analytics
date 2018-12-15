@@ -47,8 +47,11 @@ namespace TwitterClient
                     .ToObservable();
 
             int maxMessageSizeInBytes = 250 * 1024;
+            int maxSecondsToBuffer = 30;
+
             IObservable<EventData> eventDataObserver = Observable.Create<EventData>(
-                outputObserver => twitterStream.Subscribe(new EventDataGenerator(outputObserver, maxMessageSizeInBytes)));
+                outputObserver => twitterStream.Subscribe(
+                    new EventDataGenerator(outputObserver, maxMessageSizeInBytes, maxSecondsToBuffer)));
             var subscription = eventDataObserver.Subscribe(
                 eventData => client.SendAsync(eventData),
                 e => Console.WriteLine(e));

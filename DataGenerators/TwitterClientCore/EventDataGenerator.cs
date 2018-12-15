@@ -22,6 +22,7 @@ namespace TwitterClient
         private readonly int maxSizePerMessageInBytes;
         private readonly IObserver<EventData> eventDataOutputObserver;
         private readonly Stopwatch waitIntervalStopWatch = Stopwatch.StartNew();
+        private readonly TimeSpan maxTimeToBuffer;
 
         private MemoryStream memoryStream;
         private GZipStream gzipStream;
@@ -30,8 +31,10 @@ namespace TwitterClient
         private long messagesCount = 0;
         private long tweetCount = 0;
 
-        public EventDataGenerator(IObserver<EventData> eventDataOutputObserver, int maxSizePerMessageInBytes)
+
+        public EventDataGenerator(IObserver<EventData> eventDataOutputObserver, int maxSizePerMessageInBytes, int maxSecondsToBuffer)
         {
+            this.maxTimeToBuffer = TimeSpan.FromSeconds(maxSecondsToBuffer);
             this.maxSizePerMessageInBytes = maxSizePerMessageInBytes;
             this.eventDataOutputObserver = eventDataOutputObserver;
             this.memoryStream = new MemoryStream(this.maxSizePerMessageInBytes);
@@ -56,7 +59,7 @@ namespace TwitterClient
             this.tweetCount++;
             this.streamWriter.WriteLine(value);
             this.streamWriter.Flush();
-            if(this.waitIntervalStopWatch.ElapsedMilliseconds > 5000 || this.memoryStream.Length >= this.maxSizePerMessageInBytes)
+            if(this.waitIntervalStopWatch.Elapsed > this.maxTimeToBuffer || this.memoryStream.Length >= this.maxSizePerMessageInBytes)
             {
                 this.SendEventData();
             }
@@ -83,7 +86,7 @@ namespace TwitterClient
                 this.streamWriter = new StreamWriter(this.gzipStream);
             }
 
-            Console.WriteLine($"Sent TweetCount = {this.tweetCount} MessageCount = {this.messagesCount}");
+            Console.WriteLine($"Time: {DateTime.UtcNow:o} Sent TweetCount = {this.tweetCount} MessageCount = {this.messagesCount}");
             this.waitIntervalStopWatch.Restart();
         }
     }
