@@ -31,7 +31,6 @@ namespace TwitterClient
         private long messagesCount = 0;
         private long tweetCount = 0;
 
-
         public EventDataGenerator(IObserver<EventData> eventDataOutputObserver, int maxSizePerMessageInBytes, int maxSecondsToBuffer)
         {
             this.maxTimeToBuffer = TimeSpan.FromSeconds(maxSecondsToBuffer);

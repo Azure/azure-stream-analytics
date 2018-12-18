@@ -12,7 +12,9 @@
 using System;
 using System.Linq;
 using System.Configuration;
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Microsoft.Azure.EventHubs;
 
 namespace TwitterClient
@@ -47,13 +49,21 @@ namespace TwitterClient
                     .ToObservable();
 
             int maxMessageSizeInBytes = 250 * 1024;
-            int maxSecondsToBuffer = 30;
+            int maxSecondsToBuffer = 20;
 
             IObservable<EventData> eventDataObserver = Observable.Create<EventData>(
                 outputObserver => twitterStream.Subscribe(
                     new EventDataGenerator(outputObserver, maxMessageSizeInBytes, maxSecondsToBuffer)));
-            var subscription = eventDataObserver.Subscribe(
-                eventData => client.SendAsync(eventData),
+            
+            // keep upto 5 ongoing requests.
+            int maxRequestsInProgress = 5;
+            IObservable<Task> sendTasks = eventDataObserver
+            .Select(e => client.SendAsync(e))
+            .Buffer(TimeSpan.FromMinutes(1), maxRequestsInProgress)
+            .Select(sendTaskList => Task.WhenAll(sendTaskList));
+            
+            var subscription = sendTasks.Subscribe(
+                sendEventDatasTask => sendEventDatasTask.Wait(),
                 e => Console.WriteLine(e));
         }
     }
