@@ -9,7 +9,7 @@
 // 
 //********************************************************* 
 
-
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -33,16 +33,22 @@ namespace ExampleCustomCode.AvroSerialization
 
         public override IEnumerable<T> Deserialize(Stream stream)
         {
-            var reader = DataFileReader<GenericRecord>.OpenReader(stream);
+            IFileReader<GenericRecord> reader = null;
+            try
+            {
+                reader = DataFileReader<GenericRecord>.OpenReader(stream);
+            }
+            catch(Exception e)
+            {
+                this.diagnostics.WriteError(
+                    briefMessage: "Unable to open stream as avro. Please check if the stream is from eventhub capture. https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-capture-overview ",
+                    detailedMessage: e.Message);
+                throw;
+            }
+            
             foreach(GenericRecord genericRecord in reader.NextEntries)
             {
-                var eventData = new EventDataFromCapture()
-                {
-                    EnqueuedTimeUtc = (string)genericRecord["EnqueuedTimeUtc"],
-                    Offset = (string)genericRecord["Offset"],
-                    SequenceNumber = (long)genericRecord["SequenceNumber"],
-                    Body = (byte[])genericRecord["Body"],
-                };
+                EventDataFromCapture eventData = this.ConvertToEventDataFromCapture(genericRecord);
 
                 // deserialize records from eventdata body.  
                 foreach (T record in this.DeserializeEventData(eventData))
@@ -55,6 +61,29 @@ namespace ExampleCustomCode.AvroSerialization
         }
 
         protected abstract IEnumerable<T> DeserializeEventData(EventDataFromCapture eventData);
+
+        private EventDataFromCapture ConvertToEventDataFromCapture(GenericRecord genericRecord)
+        {
+            try
+            {
+                var eventData = new EventDataFromCapture()
+                {
+                    EnqueuedTimeUtc = (string)genericRecord["EnqueuedTimeUtc"],
+                    Offset = (string)genericRecord["Offset"],
+                    SequenceNumber = (long)genericRecord["SequenceNumber"],
+                    Body = (byte[])genericRecord["Body"],
+                };
+
+                return eventData;
+            }
+            catch(Exception e)
+            {
+                this.diagnostics.WriteError(
+                    briefMessage: $"Unable to get fields required to create captured event data. Error: {e.Message}",
+                    detailedMessage: e.ToString());
+                throw;
+            }
+        }
     }
 
     public class EventDataFromCapture
