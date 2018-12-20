@@ -70,17 +70,10 @@ namespace TwitterClient
             var resource_url = "https://stream.twitter.com/1.1/statuses/filter.json";
 
             // create oauth signature
-            var baseString = string.Format(
-                "oauth_consumer_key={0}&oauth_nonce={1}&oauth_signature_method={2}&" +
-                "oauth_timestamp={3}&oauth_token={4}&oauth_version={5}&track={6}",
-                config.OAuthConsumerKey,
-                oauth_nonce,
-                oauth_signature_method,
-                oauth_timestamp,
-                config.OAuthToken,
-                oauth_version,
-                Uri.EscapeDataString(config.Keywords));
-
+            var baseString = 
+                $"oauth_consumer_key={config.OAuthConsumerKey}&oauth_nonce={oauth_nonce}&oauth_signature_method={oauth_signature_method}&" +
+                $"oauth_timestamp={oauth_timestamp}&oauth_token={config.OAuthToken}&oauth_version={oauth_version}&track={Uri.EscapeDataString(config.Keywords)}";
+            
             baseString = string.Concat("POST&", Uri.EscapeDataString(resource_url), "&", Uri.EscapeDataString(baseString));
 
             var compositeKey = string.Concat(Uri.EscapeDataString(config.OAuthConsumerSecret),
@@ -94,19 +87,11 @@ namespace TwitterClient
             }
 
             // create the request header
-            var authHeader = string.Format(
-                "OAuth oauth_nonce=\"{0}\", oauth_signature_method=\"{1}\", " +
-                "oauth_timestamp=\"{2}\", oauth_consumer_key=\"{3}\", " +
-                "oauth_token=\"{4}\", oauth_signature=\"{5}\", " +
-                "oauth_version=\"{6}\"",
-                Uri.EscapeDataString(oauth_nonce),
-                Uri.EscapeDataString(oauth_signature_method),
-                Uri.EscapeDataString(oauth_timestamp),
-                Uri.EscapeDataString(config.OAuthConsumerKey),
-                Uri.EscapeDataString(config.OAuthToken),
-                Uri.EscapeDataString(oauth_signature),
-                Uri.EscapeDataString(oauth_version)
-            );
+            var authHeader =
+                $"OAuth oauth_nonce=\"{Uri.EscapeDataString(oauth_nonce)}\", oauth_signature_method=\"{Uri.EscapeDataString(oauth_signature_method)}\", " +
+                $"oauth_timestamp=\"{Uri.EscapeDataString(oauth_timestamp)}\", oauth_consumer_key=\"{Uri.EscapeDataString(config.OAuthConsumerKey)}\", " +
+                $"oauth_token=\"{Uri.EscapeDataString(config.OAuthToken)}\", oauth_signature=\"{Uri.EscapeDataString(oauth_signature)}\", " +
+                $"oauth_version=\"{Uri.EscapeDataString(oauth_version)}\"";
 
             // make the request
             ServicePointManager.Expect100Continue = false;
