@@ -15,19 +15,22 @@ using System.IO.Compression;
 
 using ExampleCustomCode.Serialization;
 
+using Microsoft.Azure.StreamAnalytics;
+
 namespace ExampleCustomCode.AvroSerialization
 {
     // Reads eventhub capture in avro format and deserializes EventData.Body as a simple record.
-    public sealed class EventhubCaptureCustomEvent : EventhubCaptureReader<EventHubRecord>
+    public sealed class EventhubCaptureCustomEventReader : EventhubCaptureReader<EventHubRecord>
     {
         private readonly ExampleDeserializer contentDeserializer = new ExampleDeserializer();
 
-        public override void Initialize(Microsoft.Azure.StreamAnalytics.StreamingContext streamingContext)
+        public override void Initialize(StreamingContext streamingContext)
         {
             this.contentDeserializer.Initialize(streamingContext);
+            base.Initialize(streamingContext);
         }
 
-        protected override IEnumerable<EventHubRecord> DeserializeEventData(EventData eventData)
+        protected override IEnumerable<EventHubRecord> DeserializeEventData(EventDataFromCapture eventData)
         {
             // assumes EventData.Body is a gzipped line separated records.
             using (var stream = new MemoryStream(eventData.Body))

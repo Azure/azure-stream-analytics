@@ -24,12 +24,19 @@ namespace ExampleCustomCode.AvroSerialization
     // Reads eventhub capture format. https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-capture-overview
     public abstract class EventhubCaptureReader<T> : StreamDeserializer<T>
     {
+        protected StreamingDiagnostics diagnostics;
+
+        public override void Initialize(StreamingContext streamingContext)
+        {
+            this.diagnostics = streamingContext.Diagnostics;
+        }
+
         public override IEnumerable<T> Deserialize(Stream stream)
         {
             var reader = DataFileReader<GenericRecord>.OpenReader(stream);
             foreach(GenericRecord genericRecord in reader.NextEntries)
             {
-                var eventData = new EventData()
+                var eventData = new EventDataFromCapture()
                 {
                     EnqueuedTimeUtc = (string)genericRecord["EnqueuedTimeUtc"],
                     Offset = (string)genericRecord["Offset"],
@@ -47,10 +54,10 @@ namespace ExampleCustomCode.AvroSerialization
             reader.Dispose();
         }
 
-        protected abstract IEnumerable<T> DeserializeEventData(EventData eventData);
+        protected abstract IEnumerable<T> DeserializeEventData(EventDataFromCapture eventData);
     }
 
-    public class EventData
+    public class EventDataFromCapture
     {
         public long SequenceNumber { get; set; }
         public string Offset { get; set; }

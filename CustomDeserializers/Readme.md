@@ -8,7 +8,7 @@ Interfaces for deserializers are defined in [this nuget](https://www.nuget.org/p
 - Abstract class with logic to read [EventHub capture](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-capture-overview) format.
 - To use `EventhubCaptureReader` inherit and implement `DeserializeEventData<T>`
 
-`EventhubCaptureCustomEvent` :
+`EventhubCaptureCustomEventReader` :
 - Example implementation of `EventhubCaptureReader`.
 - Assumes eventhub message body is gzip compressed.
 - Uses `ExampleDeserializer` to deserialize message body.
