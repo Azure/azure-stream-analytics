@@ -9,9 +9,11 @@
 // 
 //********************************************************* 
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 using ExampleCustomCode.Serialization;
 
@@ -34,15 +36,30 @@ namespace ExampleCustomCode.AvroSerialization
         {
             // assumes EventData.Body is a gzipped line separated records.
             using (var stream = new MemoryStream(eventData.Body))
-            using( var unzippedStream = new GZipStream(stream, CompressionMode.Decompress))
             {
-                foreach (var payload in this.contentDeserializer.Deserialize(unzippedStream))
+                try
                 {
-                    yield return new EventHubRecord()
+                    // deserialize body from a single eventdata completely. Skip eventData message body with invalid format.
+                    using (var unzippedStream = new GZipStream(stream, CompressionMode.Decompress))
                     {
-                        Offset = eventData.Offset,
-                        Payload = payload
-                    };
+                        return this.contentDeserializer
+                        .Deserialize(unzippedStream)
+                        .Select(
+                            payload => new EventHubRecord()
+                            {
+                                Offset = eventData.Offset,
+                                Payload = payload
+                            })
+                        .ToArray();
+                    }
+                }
+                catch (Exception e)
+                {
+                    var shortErrorMessage = $"Error deserializing eventhub message with offset: {eventData.Offset} SequenceNumber:{eventData.SequenceNumber}";
+                    this.diagnostics.WriteError(
+                        shortErrorMessage,
+                        $"{shortErrorMessage} Exception: {e}");
+                    return Enumerable.Empty<EventHubRecord>();
                 }
             }
         }
