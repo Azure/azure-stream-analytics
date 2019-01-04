@@ -24,6 +24,7 @@ namespace ExampleCustomCode.AvroSerialization
     // Reads eventhub capture in avro format and deserializes EventData.Body as a simple record.
     public sealed class EventhubCaptureCustomEventReader : EventhubCaptureReader<EventHubRecord>
     {
+        // Replace ExampleDeserializer according to the actual data format. Alternatively, implement deserialization of EventData.Body inline in DeserializeEventData() function.
         private readonly ExampleDeserializer contentDeserializer = new ExampleDeserializer();
 
         public override void Initialize(StreamingContext streamingContext)
@@ -32,6 +33,7 @@ namespace ExampleCustomCode.AvroSerialization
             base.Initialize(streamingContext);
         }
 
+        // this method shows an example of how EventData.Body can be deserialized into multiple records.
         protected override IEnumerable<EventHubRecord> DeserializeEventData(EventDataFromCapture eventData)
         {
             // assumes EventData.Body is a gzipped line separated records.
