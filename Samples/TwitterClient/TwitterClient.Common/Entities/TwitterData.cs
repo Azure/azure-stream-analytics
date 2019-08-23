@@ -155,7 +155,8 @@ namespace TwitterClient.Common
 
             // make the request
             ServicePointManager.Expect100Continue = false;
-
+            // updating TLS version "TLS  <  1.2 is unsupported by  Tweeter starting July 15, 2019"
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
             var postBody = "track=" + HttpUtility.UrlEncode(config.Keywords);
             resource_url += "?" + postBody;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(resource_url);
