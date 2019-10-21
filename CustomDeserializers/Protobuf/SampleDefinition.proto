@@ -1,0 +1,20 @@
+syntax = "proto3";
+// protoc.exe from nuget "Google.Protobuf.Tools" is used to generate .cs file fromthis schema definition.
+// Run below command to generate the csharp class
+// protoc.exe --csharp_out=. MessageBodyProto.proto
+package SimulatedTemperatureSensor;
+message MessageBodyProto {
+    message Ambient {
+        double temperature = 1;
+        int64 humidity = 2;
+    }    
+        
+    message Machine {
+        double temperature = 1;
+        double pressure = 2;
+    }    
+        
+    Machine machine = 1;
+    Ambient ambient = 2;
+    string timeCreated = 3;
+}
