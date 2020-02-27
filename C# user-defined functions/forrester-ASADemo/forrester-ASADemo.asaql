@@ -1,0 +1,18 @@
+﻿--SELECT all relevant fields from TaxiRide Streaming input
+WITH 
+TripData AS (
+    SELECT TRY_CAST(pickupLat AS float) as pickupLat,
+    TRY_CAST(pickupLon AS float) as pickupLon,
+    passengerCount, TripTimeinSeconds, tripDistanceInMiles, 
+    pickupTime, VendorID
+    FROM TaxiRide timestamp by pickupTime
+    WHERE pickupLat > -90 AND pickupLat < 90 AND pickupLon > -180 AND pickupLon < 180
+)
+
+--Predict fares per region
+SELECT RegionReferenceData.Name AS countyName, count(*), system.timestamp as timestamps, avg(udf.predict(TripData.vendorId,TripData.passengerCount, TripData.tripDistanceInMiles, datepart(month, TripData.pickupTime), datepart(day, TripData.pickupTime), datepart(hour, TripData.pickupTime))) as rate
+INTO output
+FROM TripData
+JOIN RegionReferenceData ON 
+ST_WITHIN(CreatePoint(TripData.pickupLat, TripData.pickupLon), RegionReferenceData.geometry) = 1
+Group by RegionReferenceData.Name, hoppingwindow(second,60,5)

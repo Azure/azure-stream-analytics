@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+  <Import Project="Microsoft.Azure.StreamAnalytics.targets" Condition="Exists('Microsoft.Azure.StreamAnalytics.targets')" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.StreamAnalytics" Version="0.2.63905.1" />
+    <PackageReference Include="Microsoft.ML" Version="1.4.0-preview2" />
+    <PackageReference Include="Microsoft.ML.ImageAnalytics" Version="1.4.0-preview2" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="0.5.1" />
+    <PackageReference Include="Microsoft.ML.OnnxTransformer" Version="1.3.1" />
+  </ItemGroup>
+</Project>

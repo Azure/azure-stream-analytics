@@ -1,0 +1,30 @@
+﻿{
+  "Sample": null,
+  "EventHubProperties": {
+    "ConsumerGroupName": null,
+    "EventHubName": "test",
+    "ServiceBusNamespace": "test",
+    "SharedAccessPolicyKey": null,
+    "SharedAccessPolicyName": "RootManageSharedAccessKey"
+  },
+  "BlobStorageProperties": null,
+  "IoTHubProperties": null,
+  "BlobReferenceProperties": null,
+  "SqlReferenceInputInfo": null,
+  "InputPartionKey": null,
+  "DataSourceCredentialDomain": "d13b4d47-7e72-42de-8661-a7f5831fe7a2.StreamAnalyticsCredential",
+  "Name": "TaxiRide",
+  "Type": "Data Stream",
+  "DataSourceType": "Event Hub",
+  "Serialization": {
+    "Encoding": "UTF8",
+    "Type": "Json",
+    "FieldDelimiter": null,
+    "Format": null,
+    "SerializationDllPath": null,
+    "SerializationClassName": null,
+    "SerializationDllPathInLocal": null
+  },
+  "CompresssionType": "None",
+  "ScriptType": "Input"
+}

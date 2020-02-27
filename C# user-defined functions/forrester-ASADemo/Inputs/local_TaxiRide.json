@@ -1,0 +1,11 @@
+﻿{
+  "InputAlias": "TaxiRide",
+  "Type": "Data Stream",
+  "Format": "Json",
+  "FilePath": "..\\..\\..\\..\\..\\tutorial\\ignite 2019\\taxi sample input\\forrester-ASADemo-TaxiRide.json",
+  "SerializationDllPath": null,
+  "SerializationClassName": null,
+  "SerializationDllPathInLocal": null,
+  "Sample": "{\r\n  \"rateCode\": 1,\r\n  \"storeAndForwardFlag\": \"\",\r\n  \"dropoffTime\": \"2013-01-01T00:12:00.0000000\",\r\n  \"passengerCount\": 2,\r\n  \"tripTimeInSeconds\": 720.0,\r\n  \"tripDistanceInMiles\": 6.63,\r\n  \"pickupLon\": -73.9293442,\r\n  \"pickupLat\": 40.8077278,\r\n  \"dropoffLon\": -73.9799347,\r\n  \"dropoffLat\": 40.740757,\r\n  \"medallion\": 2013000031,\r\n  \"hackLicense\": 2013000031,\r\n  \"vendorId\": \"VTS\",\r\n  \"pickupTime\": \"2019-10-07T00:03:54.0000000\",\r\n  \"EventProcessedUtcTime\": \"2019-10-07T00:07:07.0256517Z\",\r\n  \"PartitionId\": 3,\r\n  \"EventEnqueuedUtcTime\": \"2019-10-07T00:03:57.4680000Z\"\r\n}",
+  "ScriptType": "InputMock"
+}

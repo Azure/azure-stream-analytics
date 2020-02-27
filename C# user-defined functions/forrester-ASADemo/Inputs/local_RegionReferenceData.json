@@ -1,0 +1,11 @@
+﻿{
+  "InputAlias": "RegionReferenceData",
+  "Type": "Reference data",
+  "Format": "Json",
+  "FilePath": "..\\..\\..\\..\\..\\Microsoft Teams Chat Files\\regionrefdata.json",
+  "SerializationDllPath": null,
+  "SerializationClassName": null,
+  "SerializationDllPathInLocal": null,
+  "Sample": "{\r\n  \"State\": \"NY\",\r\n  \"County\": \"New York\",\r\n  \"City\": \"New York\",\r\n  \"Name\": \"Chinatown\",\r\n  \"RegionID\": \"193821\",\r\n  \"geometry\": {\r\n    \"type\": \"Polygon\",\r\n    \"coordinates\": [\r\n      [\r\n        [\r\n          -73.993006768725721,\r\n          40.714331877121737\r\n        ],\r\n        [\r\n          -73.993147482945645,\r\n          40.714823354812189\r\n        ],\r\n        [\r\n          -73.993125475636333,\r\n          40.714862710043441\r\n        ],\r\n        [\r\n          -73.992171100709612,\r\n          40.716610153900348\r\n        ],\r\n        [\r\n          -73.995351698756409,\r\n          40.71768835018193\r\n        ],\r\n        [\r\n          -74.000143411534268,\r\n          40.719315183263426\r\n        ],\r\n        [\r\n          -74.000471244091628,\r\n          40.718952846417835\r\n        ],\r\n        [\r\n          -74.002963573002972,\r\n          40.716061275182753\r\n        ],\r\n        [\r\n          -73.998212187623523,\r\n          40.71385758007947\r\n        ],\r\n        [\r\n          -73.993006768725721,\r\n          40.714331877121737\r\n        ]\r\n      ]\r\n    ]\r\n  }\r\n}",
+  "ScriptType": "InputMock"
+}
