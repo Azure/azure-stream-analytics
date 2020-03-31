@@ -1,0 +1,93 @@
+﻿<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ <!--
+    ============================================================
+        _ResolveAdditionalReferenceCopyLocalPathsForFunctions
+
+    CopyLocalLockFileAssemblies does not copy all the required assemblies 
+    to the TargetDir folder. This target will copy all the required files
+    to the TargetDir folder.
+    ============================================================
+    -->
+  <Target
+   Name="_ResolveAdditionalReferenceCopyLocalPathsForFunctions"
+   DependsOnTargets="_RunResolvePublishAssembliesForFunctions"
+   AfterTargets="ResolveReferences">
+    <!--
+      Copy publish assemblies that not already included in ReferenceCopyLocalPaths
+      via CopyLocalLockFileAssemblies=true. This will include RID-specific assets 
+      that would be published in  the runtimes/ folder, but excluded from 
+      CopyLocalLockFileAssemblies when no RuntimeIdentifier is set.
+    -->
+    <ItemGroup Condition="'$(RuntimeIdentifier)' == ''">
+      <!-- 
+       NOTE: The exclusion here is to ensure that we do not override any existing 
+             ReferenceCopyLocalPaths with assets from RunResolvedPublishAssemblies.
+             The ReferenceCopyLocalPaths can have conflicts resolved that are not 
+             also resolved in the publish set, and publish currently relies on copy
+             local paths having precedence over it to ensure conflict resolution 
+             applies. We must preserve that precedence here.
+     -->
+      <_RidSpecificAssembliesByDestination
+        Include="@(ResolvedAssembliesToPublish->'%(DestinationSubPath)')"
+        Exclude="@(ReferenceCopyLocalPaths->'%(DestinationSubDirectory)%(Filename)%(Extension)')"
+        OriginalItemSpec="%(ResolvedAssembliesToPublish.Identity)"
+       />
+
+      <_RidSpecificAssembliesByDestination
+        DestinationSubDirectory="%(_RidSpecificAssembliesByDestination.RelativeDir)"
+       />
+
+      <ReferenceCopyLocalPaths
+        Include="@(_RidSpecificAssembliesByDestination->'%(OriginalItemSpec)')"
+        Exclude="@(ReferenceCopyLocalPaths)"
+       />
+
+    </ItemGroup>
+
+    <!--
+       Copy reference assemblies needed for runtime compilation to refs/ folder. Only 
+       those that are not a also runtime assemblies and therefore already included in 
+       ReferenceCopyLocalPaths via CopyLocalLockFileAssemblies=true are needed.
+      -->
+    <ItemGroup Condition="'$(PreserveCompilationContext)' == 'true'">
+      <ReferenceCopyLocalPaths
+        Include="@(ReferencePath)"
+        Exclude="@(ReferenceCopyLocalPaths)"
+        DestinationSubDirectory="$(RefAssembliesFolderName)\"/>
+    </ItemGroup>
+  </Target>
+  <!-- 
+     We only need to call _RunResolvePublishAssembliesForFunctions during build when we do not 
+     have a RuntimeIdentifier.Otherwise, we already have everything we need from
+     CopyLocalLockFileAssemblies.
+   -->
+  <Target
+    Name="_RunResolvePublishAssembliesForFunctions"
+    Condition="'$(RuntimeIdentifier)' == ''"
+    DependsOnTargets="RunResolvePublishAssemblies"
+  />
+
+  <!--
+    ============================================================
+                     _CleanFunctions
+
+    Cleans up all the files in $(TargetDir)
+    ============================================================
+    -->
+  <Target
+    Name="_CleanFunctions"
+    AfterTargets="Clean">
+
+    <ItemGroup>
+      <_FilesInTargetDir Include="$(TargetDir)**\*" />
+    </ItemGroup>
+
+    <Delete Files="@(_FilesInTargetDir)"
+            ContinueOnError="true" />
+
+    <RemoveDir Directories="$(TargetDir)"
+               ContinueOnError="true" />
+  </Target>
+
+</Project>
+

@@ -1,0 +1,30 @@
+﻿{
+  "Sample": "{\"rateCode\":1,\"storeAndForwardFlag\":\"N\",\"dropoffTime\":\"2013-01-02T10:01:05+00:00\",\"passengerCount\":1,\"tripTimeInSeconds\":382.0,\"tripDistanceInMiles\":1.2,\"pickupLon\":-73.9801559,\"pickupLat\":40.74975,\"dropoffLon\":-73.9697952,\"dropoffLat\":40.76382,\"medallion\":2013002288,\"hackLicense\":2013014938,\"vendorId\":\"CMT\",\"pickupTime\":\"2020-03-04T14:52:46+00:00\"}",
+  "EventHubProperties": {
+    "ConsumerGroupName": null,
+    "EventHubName": "taxi-ride-5",
+    "ServiceBusNamespace": "forrester-demo-EHNS",
+    "SharedAccessPolicyKey": null,
+    "SharedAccessPolicyName": "RootManageSharedAccessKey"
+  },
+  "BlobStorageProperties": null,
+  "IoTHubProperties": null,
+  "BlobReferenceProperties": null,
+  "SqlReferenceInputInfo": null,
+  "InputPartionKey": null,
+  "DataSourceCredentialDomain": "d13b4d47-7e72-42de-8661-a7f5831fe7a2.StreamAnalyticsCredential",
+  "Name": "TaxiRide",
+  "Type": "Data Stream",
+  "DataSourceType": "Event Hub",
+  "Serialization": {
+    "Encoding": "UTF8",
+    "Type": "Json",
+    "FieldDelimiter": null,
+    "Format": null,
+    "SerializationDllPath": null,
+    "SerializationClassName": null,
+    "SerializationDllPathInLocal": null
+  },
+  "CompresssionType": "None",
+  "ScriptType": "Input"
+}
