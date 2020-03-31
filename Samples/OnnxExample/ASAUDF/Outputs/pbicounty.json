@@ -1,0 +1,28 @@
+﻿{
+  "EventHubProperties": null,
+  "BlobStorageProperties": null,
+  "SQLDatabaseProperties": null,
+  "TableStorageProperties": null,
+  "ServiceBusQueueProperties": null,
+  "ServiceBusTopicProperties": null,
+  "DocumentDbProperties": null,
+  "PowellBIProperties": {
+    "RefreshToken": null,
+    "TokenUserPrincipalName": "sidram@microsoft.com",
+    "TokenUserDisplayName": "Sid Ramadoss",
+    "Dataset": "county",
+    "Table": "alert1",
+    "GroupId": "test",
+    "GroupName": "Azure Stream Analytics",
+    "AuthenticationMode": "UserToken"
+  },
+  "AzureDataLakeStoreProperties": null,
+  "AzureFunctionProperties": null,
+  "DataSourceCredentialDomain": null,
+  "Name": "output",
+  "DataSourceType": "Power BI",
+  "Serialization": null,
+  "MinimumRows": null,
+  "MaximumTime": null,
+  "ScriptType": "Output"
+}

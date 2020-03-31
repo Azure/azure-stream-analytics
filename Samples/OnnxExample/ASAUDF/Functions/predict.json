@@ -1,0 +1,36 @@
+﻿{
+  "AssemblyName": "onnxmodel",
+  "ClassName": "ASAUDF.onnxModel",
+  "MethodName": "Score",
+  "LibraryPathInLocal": "..\\..\\onnxmodel\\bin\\Debug\\netstandard2.0\\onnxmodel.dll",
+  "Name": "predict",
+  "OutputType": "any",
+  "Type": "Scalar",
+  "FunctionInputs": [
+    {
+      "DataType": "nvarchar(max)",
+      "IsConfigurationParameter": null
+    },
+    {
+      "DataType": "float",
+      "IsConfigurationParameter": null
+    },
+    {
+      "DataType": "float",
+      "IsConfigurationParameter": null
+    },
+    {
+      "DataType": "float",
+      "IsConfigurationParameter": null
+    },
+    {
+      "DataType": "float",
+      "IsConfigurationParameter": null
+    },
+    {
+      "DataType": "float",
+      "IsConfigurationParameter": null
+    }
+  ],
+  "ScriptType": "CSharpFunction"
+}
