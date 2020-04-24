@@ -25,7 +25,7 @@ namespace ExampleCustomCode.AvroSerialization
     public sealed class EventhubCaptureCustomEventReader : EventhubCaptureReader<EventHubRecord>
     {
         // Replace ExampleDeserializer according to the actual data format. Alternatively, implement deserialization of EventData.Body inline in DeserializeEventData() function.
-        private readonly ExampleDeserializer contentDeserializer = new ExampleDeserializer();
+        private readonly CustomCsvDeserializer contentDeserializer = new CustomCsvDeserializer();
 
         public override void Initialize(StreamingContext streamingContext)
         {
