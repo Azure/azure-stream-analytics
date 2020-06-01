@@ -73,15 +73,21 @@ $getJobUri = "https://management.azure.com/subscriptions/$subId/resourceGroups/$
 $jobState = Invoke-RestMethod -Uri $getJobUri -Method Get -Headers $headers 
 $curState = $jobState.properties.jobState
 $curSU = $jobState.properties.transformation.properties.streamingUnits
-"Current Job state: $curState; Current SU: $curSU"
-if ($curSU -ge 12) {
-    if($curSU-6 -ge $minSU) { $targetSU = $curSU-6}
+$response = $jobState.properties.transformation.properties.validStreamingUnits | Sort-Object
+
+$lengthArray = $response.Count
+$index = $response.IndexOf($curSU)
+
+if($index -gt 0) {
+    #there are valid SU options job can scale down to
+    if($response[$index-1] -ge $minSU){ $targetSU = $response[$index-1]}
     else {$targetSU = $curSU}
 }
-else { 
-    if($curSU-3 -ge $minSU) { $targetSU = $curSU-3}
-    else {$targetSU = $curSU}
+else {
+    #no valid SU options job can scale down to
+    $targetSU = $curSU
 }
+"Current Job state: $curState; Current SU: $curSU; List of valid SUs: $response; Min SU for autoscale: $minSU; Target SU to scale down to now: $targetSU"
 
 $scaleUri = "https://management.azure.com/subscriptions/$subId/resourceGroups/$resourceGroupName/providers/Microsoft.StreamAnalytics/streamingjobs/$jobName/scale?api-version=2017-04-01-preview"
 
