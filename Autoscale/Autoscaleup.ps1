@@ -5,7 +5,7 @@ $resourceGroupName = Get-AutomationVariable -Name 'resourceGroupName'
 $jobName = Get-AutomationVariable -Name 'jobName'
 $maxSU = Get-AutomationVariable -Name 'maxSU'
 $targetSU = 0
-"Executing with subscription id: $subId; resource group name: $resourceGroupName; job name: $jobName"
+"Executing with subscription id: $subId; resource group name: $resourceGroupName; job name: $jobName; target SU: $maxSU"
 
 $ErrorActionPreference = 'Stop'
 function Get-AzureRmCachedAccessToken()
@@ -73,15 +73,21 @@ $getJobUri = "https://management.azure.com/subscriptions/$subId/resourceGroups/$
 $jobState = Invoke-RestMethod -Uri $getJobUri -Method Get -Headers $headers 
 $curState = $jobState.properties.jobState
 $curSU = $jobState.properties.transformation.properties.streamingUnits
-"Current Job state: $curState; Current SU: $curSU"
-if ($curSU -ge 6) {
-    if($curSU+6 -le $maxSU) { $targetSU = $curSU+6}
+$response = $jobState.properties.transformation.properties.validStreamingUnits | Sort-Object
+
+$lengthArray = $response.Count
+$index = $response.IndexOf($curSU)
+
+if($index -lt $lengthArray-1) {
+    #there are valid SU options job can scale up to
+    if($response[$index+1] -le $maxSU){ $targetSU = $response[$index+1]}
     else {$targetSU = $curSU}
 }
-else { 
-    if($curSU+3 -le $maxSU) { $targetSU = $curSU+3}
-    else {$targetSU = $curSU}
+else {
+    #no valid SU options job can scale up to
+    $targetSU = $curSU
 }
+"Current Job state: $curState; Current SU: $curSU; List of valid SUs: $response; Max SU for autoscale: $maxSU; Target SU to scale up to now: $targetSU"
 
 $scaleUri = "https://management.azure.com/subscriptions/$subId/resourceGroups/$resourceGroupName/providers/Microsoft.StreamAnalytics/streamingjobs/$jobName/scale?api-version=2017-04-01-preview"
 
@@ -112,4 +118,4 @@ $finalSU = $jobState.properties.transformation.properties.streamingUnits
 "Final Job state: $finalState; Final SU: $finalSU"
 
 if ($finalState.equals("Running") -and $finalSU -eq $targetSU.ToString()) { "Scaling has completed." }
-else { throw 'Failed to scale the job' }
+else { throw 'Failed to scale the job' } 
