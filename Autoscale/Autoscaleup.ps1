@@ -5,7 +5,7 @@ $resourceGroupName = Get-AutomationVariable -Name 'resourceGroupName'
 $jobName = Get-AutomationVariable -Name 'jobName'
 $maxSU = Get-AutomationVariable -Name 'maxSU'
 $targetSU = 0
-"Executing with subscription id: $subId; resource group name: $resourceGroupName; job name: $jobName; target SU: $maxSU"
+"Executing with subscription id: $subId; resource group name: $resourceGroupName; job name: $jobName"
 
 $ErrorActionPreference = 'Stop'
 function Get-AzureRmCachedAccessToken()
