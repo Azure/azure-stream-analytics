@@ -5,7 +5,7 @@ $resourceGroupName = Get-AutomationVariable -Name 'resourceGroupName'
 $jobName = Get-AutomationVariable -Name 'jobName'
 $minSU = Get-AutomationVariable -Name 'minSU'
 $targetSU = 0
-"Executing with subscription id: $subId; resource group name: $resourceGroupName; job name: $jobName;"
+"Executing StepScaleDown with subscription id: $subId; resource group name: $resourceGroupName; job name: $jobName;"
 
 $ErrorActionPreference = 'Stop'
 function Get-AzureRmCachedAccessToken()
@@ -67,7 +67,7 @@ $headers = @{
     'Content-Type' = 'application/json'
     'Authorization' = 'Bearer ' + $accessToken
 }
-
+$WarningPreference = 'Continue'
 $getJobUri = "https://management.azure.com/subscriptions/$subId/resourceGroups/$resourceGroupName/providers/Microsoft.StreamAnalytics/streamingjobs/$jobName" + '?$expand=transformation&api-version=2017-04-01-preview'
 
 $jobState = Invoke-RestMethod -Uri $getJobUri -Method Get -Headers $headers 
@@ -81,11 +81,17 @@ $index = $response.IndexOf($curSU)
 if($index -gt 0) {
     #there are valid SU options job can scale down to
     if($response[$index-1] -ge $minSU){ $targetSU = $response[$index-1]}
-    else {$targetSU = $curSU}
+    else {
+        $targetSU = $response[$index-1]
+        Write-Warning –Message "Cannot scale down to $targetSU SUs as minSU variable is set to $minSU SUs."
+        exit
+    }
 }
 else {
     #no valid SU options job can scale down to
     $targetSU = $curSU
+    Write-Warning –Message "Job is running with $curSU SUs and cannot be scaled down further."
+    exit
 }
 "Current Job state: $curState; Current SU: $curSU; List of valid SUs: $response; Min SU for autoscale: $minSU; Target SU to scale down to now: $targetSU"
 
