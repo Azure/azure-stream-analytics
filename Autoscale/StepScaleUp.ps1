@@ -5,7 +5,7 @@ $resourceGroupName = Get-AutomationVariable -Name 'resourceGroupName'
 $jobName = Get-AutomationVariable -Name 'jobName'
 $maxSU = Get-AutomationVariable -Name 'maxSU'
 $targetSU = 0
-"Executing with subscription id: $subId; resource group name: $resourceGroupName; job name: $jobName;"
+"Executing StepScaleUp with subscription id: $subId; resource group name: $resourceGroupName; job name: $jobName;"
 
 $ErrorActionPreference = 'Stop'
 function Get-AzureRmCachedAccessToken()
@@ -67,7 +67,7 @@ $headers = @{
     'Content-Type' = 'application/json'
     'Authorization' = 'Bearer ' + $accessToken
 }
-
+$WarningPreference = 'Continue'
 $getJobUri = "https://management.azure.com/subscriptions/$subId/resourceGroups/$resourceGroupName/providers/Microsoft.StreamAnalytics/streamingjobs/$jobName" + '?$expand=transformation&api-version=2017-04-01-preview'
 
 $jobState = Invoke-RestMethod -Uri $getJobUri -Method Get -Headers $headers 
@@ -81,11 +81,17 @@ $index = $response.IndexOf($curSU)
 if($index -lt $lengthArray-1) {
     #there are valid SU options job can scale up to
     if($response[$index+1] -le $maxSU){ $targetSU = $response[$index+1]}
-    else {$targetSU = $curSU}
+    else {
+        $targetSU = $response[$index+1]
+        Write-Warning –Message "Cannot scale up to $targetSU SUs as maxSU variable is set to $maxSU SUs."
+        exit
+    }
 }
 else {
     #no valid SU options job can scale up to
     $targetSU = $curSU
+    Write-Warning –Message "Job is running with $curSU SUs and cannot be scaled up further."
+    exit
 }
 "Current Job state: $curState; Current SU: $curSU; List of valid SUs: $response; Max SU for autoscale: $maxSU; Target SU to scale up to now: $targetSU"
 
@@ -118,4 +124,4 @@ $finalSU = $jobState.properties.transformation.properties.streamingUnits
 "Final Job state: $finalState; Final SU: $finalSU"
 
 if ($finalState.equals("Running") -and $finalSU -eq $targetSU.ToString()) { "Scaling has completed." }
-else { throw 'Failed to scale the job' } 
+else { throw 'Failed to scale the job' }
