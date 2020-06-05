@@ -1,0 +1,134 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "nyc-fare-predict",
+        "description": "API specification for the Azure Machine Learning service nyc-fare-predict",
+        "version": "1"
+    },
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "For example: Bearer abc123"
+        }
+    },
+    "paths": {
+        "/api/v1/service/nyc-fare-predict/": {
+            "get": {
+                "operationId": "ServiceHealthCheck",
+                "description": "Simple health check endpoint to ensure the service is up at any given point.",
+                "responses": {
+                    "200": {
+                        "description": "If service is up and running, this response will be returned with the content 'Healthy'",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "application/json": "Healthy"
+                        }
+                    },
+                    "default": {
+                        "description": "The service failed to execute due to an error.",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/service/nyc-fare-predict/score": {
+            "post": {
+                "operationId": "RunMLService",
+                "description": "Run web service's model and get the prediction output",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "serviceInputPayload",
+                        "in": "body",
+                        "description": "The input payload for executing the real-time machine learning service.",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The service processed the input correctly and provided a result prediction, if applicable.",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceOutput"
+                        }
+                    },
+                    "default": {
+                        "description": "The service failed to execute due to an error.",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ServiceInput": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "example": {
+                "data": [
+                    [
+                        "1",
+                        "Thursday",
+                        "16",
+                        "1",
+                        "3.48"
+                    ]
+                ]
+            }
+        },
+        "ServiceOutput": {
+            "type": "array",
+            "items": {
+                "type": "number",
+                "format": "double"
+            },
+            "example": [
+                13.66304196
+            ]
+        },
+        "ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "status_code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
