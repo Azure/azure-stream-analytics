@@ -1,0 +1,1 @@
+The score.py is an example scoring script that showcases how to define sample input and output. This will be used by Azure ML to automatically generate the swagger for your API. An example swagger for the given scoring script is also included for your reference.
