@@ -13,10 +13,11 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using System.Diagnostics;
-using Microsoft.Azure.EventHubs;
+using Azure.Messaging.EventHubs;
 
 namespace TwitterClient
 {
+    // gets a list of strings, accumulates it in EventData and calls send on eventDataOutputObserver
     internal class EventDataGenerator : IObserver<string>
     {
         private readonly int maxSizePerMessageInBytes;
