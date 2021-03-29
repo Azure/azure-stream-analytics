@@ -12,16 +12,16 @@
 using System;
 using System.Linq;
 using System.Configuration;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Microsoft.Azure.EventHubs;
+using Azure.Messaging.EventHubs;
+using Azure.Messaging.EventHubs.Producer;
 
 namespace TwitterClient
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             //Configure Twitter OAuth
             var oauthToken = ConfigurationManager.AppSettings["oauth_token"];
@@ -30,14 +30,14 @@ namespace TwitterClient
             var oauthConsumerSecret = ConfigurationManager.AppSettings["oauth_consumer_secret"];
             var keywords = ConfigurationManager.AppSettings["twitter_keywords"];
 
-            //Configure EventHub
-            var ehConnectionBuilder = new EventHubsConnectionStringBuilder(ConfigurationManager.AppSettings["EventHubConnectionString"])
-            {
-                EntityPath = ConfigurationManager.AppSettings["EventHubName"]
-            };
+            var producer = new EventHubProducerClient(
+                ConfigurationManager.AppSettings["EventHubConnectionString"],
+                ConfigurationManager.AppSettings["EventHubName"],
+                new EventHubProducerClientOptions() {
+                }
+            );
 
-            EventHubClient client = EventHubClient.CreateFromConnectionString(ehConnectionBuilder.ToString());
-            Console.WriteLine($"Sending data eventhub : {client.EventHubName} PartitionCount = {client.GetRuntimeInformationAsync().Result.PartitionCount}");
+            Console.WriteLine($"Sending data eventhub : {producer.EventHubName} PartitionCount = {(await producer.GetPartitionIdsAsync()).Count()}");
             
             IObservable<string> twitterStream = TwitterStream.StreamStatuses(
                 new TwitterConfig(
@@ -58,7 +58,15 @@ namespace TwitterClient
             // keep upto 5 ongoing requests.
             int maxRequestsInProgress = 5;
             IObservable<Task> sendTasks = eventDataObserver
-            .Select(e => client.SendAsync(e))
+            .Select(e => 
+            {
+                var batch = producer.CreateBatchAsync().Result;
+                if(!batch.TryAdd(e))
+                {
+                    throw new ArgumentOutOfRangeException("Content too big to send in a single eventhub message");
+                }
+                return producer.SendAsync(batch);
+            })
             .Buffer(TimeSpan.FromMinutes(1), maxRequestsInProgress)
             .Select(sendTaskList => Task.WhenAll(sendTaskList));
             
