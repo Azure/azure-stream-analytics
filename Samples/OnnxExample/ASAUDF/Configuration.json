@@ -1,20 +1,30 @@
-﻿{
-  "DataLocale": "en-US",
-  "OutputErrorPolicy": "Retry",
-  "EventsLateArrivalMaxDelayInSeconds": 5,
-  "EventsOutOfOrderMaxDelayInSeconds": 0,
-  "EventsOutOfOrderPolicy": "Adjust",
-  "StreamingUnits": 3,
-  "CompatibilityLevel": "1.1",
-  "UseSystemAssignedIdentity": false,
-  "GlobalStorageAccountName": "sidsblobstore",
-  "GlobalStorageAccountKey": null,
-  "AccountName": "sidsblobstore",
-  "AccountKey": null,
-  "ContainerName": "test",
-  "Path": "UserCustomCode.zip",
-  "UploadFromLocal": true,
-  "DataSourceCredentialDomain": "548569cd-ded0-4948-b63b-865b59027bd6.StreamAnalyticsCredential",
-  "Tags": {},
-  "ScriptType": "JobConfig"
+{
+    "DataLocale": "en-US",
+    "OutputErrorPolicy": "Retry",
+    "EventsLateArrivalMaxDelayInSeconds": 5,
+    "EventsOutOfOrderMaxDelayInSeconds": 0,
+    "EventsOutOfOrderPolicy": "Adjust",
+    "StreamingUnits": 3,
+    "CompatibilityLevel": "1.1",
+    "UseSystemAssignedIdentity": false,
+    "AccountName": "sidsblobstore",
+    "AccountKey": null,
+    "ContainerName": "test",
+    "Path": "UserCustomCode.zip",
+    "UploadFromLocal": true,
+    "DataSourceCredentialDomain": "548569cd-ded0-4948-b63b-865b59027bd6.StreamAnalyticsCredential",
+    "Tags": {},
+    "ScriptType": "JobConfig",
+    "GlobalStorage": {
+        "AccountName": "sidsblobstore",
+        "AccountKey": null,
+        "AuthenticationMode": "ConnectionString"
+    },
+    "CustomCodeStorage": {
+        "AccountName": null,
+        "AccountKey": null,
+        "ContainerName": null,
+        "Path": "UserCustomCode.zip"
+    },
+    "ContentStoragePolicy": "SystemAccount"
 }
