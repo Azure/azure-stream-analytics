@@ -1,0 +1,44 @@
+# Using Bash (WSL if Windows)
+bash
+
+# Login to Azure
+az login
+
+# If necessary (multiple subscriptions available), select the appropriate one
+az account list --output table
+az account set --subscription "mySubscription"
+
+# Set variables (bash syntax)
+_location="canadacentral"
+_suffix="dev"
+_datecreated=`date +"%Y%m%d"`
+
+_rg_name="rg-asafunmerge"
+_rg_name+=$_suffix
+_sa_name="saasafunmerge"
+_sa_name+=$_suffix
+_sa_container="container001"
+_asa_job_name="asafunmerge"
+_asa_job_name+=$_suffix
+
+# Create a resource group
+az group create --location $_location  --name $_rg_name --tags 'datecreated='$_datecreated 'environment=dev' 'purpose=stream-processing'
+
+# Create a storage account
+az storage account create \
+    --name $_sa_name \
+    --resource-group $_rg_name \
+    --location $_location \
+    --sku Standard_LRS \
+    --kind StorageV2
+
+# Get the key of that storage account to create a storage container later
+_key1=$(az storage account keys list -g $_rg_name -n $_sa_name --query '[0].value' -o tsv)
+
+# Create a storage container
+az storage container create --account-name $_sa_name --account-key $_key1 --name $_sa_container
+
+# if necessary, install teh stream-analytics extension
+#az extension add --name stream-analytics
+# Compat mode above 1.0 not yet supported, switching to PS
+#az stream-analytics job create --resource-group $_rg_name --name $_asa_job_name --location $_location --output-error-policy "Drop" --events-outoforder-policy "Adjust" --compatibility-level 1.1

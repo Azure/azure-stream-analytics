@@ -1,0 +1,14 @@
+{
+    "name": "asaFunctionOutput",
+    "startFile": "asaFunctionOutput.asaql",
+    "configurations": [
+        {
+            "filePath": "JobConfig.json",
+            "subType": "JobConfig"
+        },
+        {
+            "filePath": "Inputs/Local_entry.json",
+            "subType": "InputMock"
+        }
+    ]
+}

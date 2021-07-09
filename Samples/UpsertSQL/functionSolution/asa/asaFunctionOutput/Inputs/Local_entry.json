@@ -1,0 +1,7 @@
+{
+    "InputAlias": "entry",
+    "Type": "Data Stream",
+    "Format": "Json",
+    "FilePath": "Data_entry.json",
+    "ScriptType": "InputMock"
+}
