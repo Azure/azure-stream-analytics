@@ -26,12 +26,12 @@ if (-not $AzContext.Subscription.Id)
     Throw ("Managed identity is not enabled for this app or it has not been granted access to any Azure resources. Please see https://docs.microsoft.com/en-us/azure/app-service/overview-managed-identity for additional details.")
 }
 
-# Check current ASA job status
-$currentJobState = Get-AzStreamAnalyticsJob  -ResourceGroupName $resourceGroupName -Name $asaJobName | Foreach-Object {$_.JobState}
-Write-Output "asaRobotPause - Job $($asaJobName) is $($currentJobState)."
-
 try
 {
+    # Check current ASA job status
+    $currentJobState = Get-AzStreamAnalyticsJob  -ResourceGroupName $resourceGroupName -Name $asaJobName | Foreach-Object {$_.JobState}
+    Write-Output "asaRobotPause - Job $($asaJobName) is $($currentJobState)."
+
     # Switch state
     if ($currentJobState -eq "Running")
     {
