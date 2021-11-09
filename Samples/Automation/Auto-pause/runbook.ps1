@@ -74,7 +74,8 @@ try
         if ($minutesSinceStopped -ge $restartThresholdMinute)
         {
             Write-Output "asaRobotPause - Job $($jobName) was paused $($minutesSinceStopped) minutes ago, set interval is $($restartThresholdMinute), it is now starting..."
-            Start-AzStreamAnalyticsJob -ResourceGroupName $resourceGroupName -Name $asaJobName
+            # LastOutputEventTime requires that the job has been started at least once before
+            Start-AzStreamAnalyticsJob -ResourceGroupName $resourceGroupName -Name $asaJobName -OutputStartMode LastOutputEventTime
         }
         else{
             Write-Output "asaRobotPause - Job $($jobName) was paused $($minutesSinceStopped) minutes ago, set interval is $($restartThresholdMinute), it will not be restarted yet."
