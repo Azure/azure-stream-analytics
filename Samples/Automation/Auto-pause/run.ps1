@@ -9,7 +9,9 @@ $currentUTCtime = (Get-Date).ToUniversalTime()
 Write-Host "asaRobotPause - PowerShell timer trigger function is starting at time: $currentUTCtime"
 
 # Set variables
-$metricName = "InputEventsSourcesBacklogged"
+$maxInputBacklog = $env:maxInputBacklog
+$maxWatermark = $env:maxWatermark
+
 $restartThresholdMinute = $env:restartThresholdMinute
 $stopThresholdMinute = $env:stopThresholdMinute
 
@@ -28,30 +30,56 @@ if (-not $AzContext.Subscription.Id)
 
 try
 {
+    # throw "This is an error."
+    
     # Check current ASA job status
     $currentJobState = Get-AzStreamAnalyticsJob  -ResourceGroupName $resourceGroupName -Name $asaJobName | Foreach-Object {$_.JobState}
     Write-Output "asaRobotPause - Job $($asaJobName) is $($currentJobState)."
 
     # Switch state
     if ($currentJobState -eq "Running")
-    {
+    { 
+        # Get-AzActivityLog issues warnings about deprecation coming in future releases, here we ignore them via -WarningAction Ignore
+        # We check in 1000 record of history, to make sure we're not missing what we're looking for. It may need adjustment for a job that has a lot of logging happening.
+        # There is a bug in Get-AzActivityLog that triggers an error when Select-Object First is in the same pipeline (on the same line). We move it down.
+        $startTimeStamp = Get-AzActivityLog -ResourceId $resourceId -MaxRecord 1000 -WarningAction Ignore | Where-Object {$_.EventName.Value -like "Start Job*"}
+        $startTimeStamp = $startTimeStamp | Select-Object -First 1 | Foreach-Object {$_.EventTimeStamp}
+
         # Get-AzMetric issues warnings about deprecation coming in future releases, here we ignore them via -WarningAction Ignore
-        $currentMetricValues = Get-AzMetric -ResourceId $resourceId -TimeGrain 00:01:00 -MetricName $metricName -DetailedOutput -WarningAction Ignore
+        $currentBacklog = Get-AzMetric -ResourceId $resourceId -TimeGrain 00:01:00 -MetricName "InputEventsSourcesBacklogged" -DetailedOutput -WarningAction Ignore
+        $currentWatermark = Get-AzMetric -ResourceId $resourceId -TimeGrain 00:01:00 -MetricName "OutputWatermarkDelaySeconds" -DetailedOutput -WarningAction Ignore
 
         # Metric are always lagging 1-3 minutes behind, so grabbing the last N minutes means checking N+3 actually. This may be overly safe and fined tune down per job.
-        $lastMetricValues = $currentMetricValues.Data | Sort-Object -Property Timestamp -Descending | Select-Object -First $stopThresholdMinute | Measure-Object -Sum Maximum
-        $lastMetricValue = $lastMetricValues.Sum
+        $Backlog =  $currentBacklog.Data | `
+                        Where-Object {$_.Maximum -ge 0} | `
+                        Sort-Object -Property Timestamp -Descending | `
+                        Where-Object {$_.Timestamp -ge $startTimeStamp} | `
+                        Select-Object -First $stopThresholdMinute | 
+                        Measure-Object -Sum Maximum
+        $BacklogSum = $Backlog.Sum
 
-        Write-Output "asaRobotPause - Job $($asaJobName) is running with a sum of $($lastMetricValue) backlogged events over the last $($stopThresholdMinute) minutes."
+        $Watermark = $currentWatermark.Data | `
+                        Where-Object {$_.Maximum -ge 0} | `
+                        Sort-Object -Property Timestamp -Descending | `
+                        Where-Object {$_.Timestamp -ge $startTimeStamp} | `
+                        Select-Object -First $stopThresholdMinute | `
+                        Measure-Object -Average Maximum
+        $WatermarkAvg = [int]$Watermark.Average
 
-        # -eq for equal
-        if ($lastMetricValue -eq 0)
+        Write-Output "asaRobotPause - Job $($asaJobName) is running since $($startTimeStamp) with a sum of $($BacklogSum) backlogged events, and an average watermark of $($WatermarkAvg) sec, for $($Watermark.Count) minutes."
+
+        # -le for lesser or equal
+        if (
+            ($BacklogSum -ge 0) -and ($BacklogSum -le $maxInputBacklog) -and ` # is not null and under the threshold
+            ($WatermarkAvg -ge 0) -and ($WatermarkAvg -le $maxWatermark) -and ` # is not null and under the threshold
+            ($Watermark.Count -ge $stopThresholdMinute) # at least N values
+            )
         {
             Write-Output "asaRobotPause - Job $($asaJobName) is stopping..."
             Stop-AzStreamAnalyticsJob -ResourceGroupName $resourceGroupName -Name $asaJobName
         }
         else {
-            Write-Output "asaRobotPause - Job $($asaJobName) is not stopping yet, it needs to have 0 backlogged events over the last $($stopThresholdMinute) minutes."
+            Write-Output "asaRobotPause - Job $($asaJobName) is not stopping yet, it needs to have less than $($maxInputBacklog) backlogged events and under $($maxWatermark) sec watermark for at least $($stopThresholdMinute) minutes."
         }
     }
 
@@ -69,12 +97,11 @@ try
         # -ge for greater or equal
         if ($minutesSinceStopped -ge $restartThresholdMinute)
         {
-            Write-Output "asaRobotPause - Job $($jobName) was paused $($minutesSinceStopped) minutes ago, set interval is $($restartThresholdMinute), it is now starting..."
-            # LastOutputEventTime requires that the job has been started at least once before
+            Write-Output "asaRobotPause - Job $($jobName) was paused $([int]$minutesSinceStopped) minutes ago, set interval is $($restartThresholdMinute), it is now starting..."
             Start-AzStreamAnalyticsJob -ResourceGroupName $resourceGroupName -Name $asaJobName -OutputStartMode LastOutputEventTime
         }
         else{
-            Write-Output "asaRobotPause - Job $($jobName) was paused $($minutesSinceStopped) minutes ago, set interval is $($restartThresholdMinute), it will not be restarted yet."
+            Write-Output "asaRobotPause - Job $($jobName) was paused $([int]$minutesSinceStopped) minutes ago, set interval is $($restartThresholdMinute), it will not be restarted yet."
         }
     }
     else {
