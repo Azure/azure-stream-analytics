@@ -1,0 +1,562 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1",
+      "title": "rtendpoint",
+      "description": ""
+    },
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/swagger.json": {
+        "get": {
+          "summary": "Get swagger API document for the web service",
+          "operationId": "getSwaggerDocument",
+          "responses": {
+            "200": {
+              "description": "Swagger API document for this service"
+            }
+          }
+        }
+      },
+      "/": {
+        "get": {
+          "description": "Simple health check endpoint to ensure the service is up at any given point.",
+          "operationId": "ServiceHealthCheck",
+          "responses": {
+            "200": {
+              "description": "If service is up and running, this response will be returned with the content \\'Healthy\\'",
+              "schema": {
+                "type": "string"
+              },
+              "examples": {
+                "application/json": "Healthy"
+              }
+            },
+            "default": {
+              "description": "The service failed to execute due to an error.",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponse"
+              }
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ]
+        }
+      },
+      "/score": {
+        "post": {
+          "description": "Run web service\\'s model and get the prediction output",
+          "operationId": "RunMLService",
+          "parameters": [
+            {
+              "name": "serviceInputPayload",
+              "in": "body",
+              "description": "The input payload for executing the real-time machine learning service.",
+              "schema": {
+                "$ref": "#/definitions/ExecutionRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The service processed the input correctly and provided a result prediction, if applicable.",
+              "schema": {
+                "$ref": "#/definitions/ExecutionResults"
+              }
+            },
+            "default": {
+              "description": "The service failed to execute due to an error.",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponse"
+              }
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ]
+        }
+      }
+    },
+    "definitions": {
+      "ExecutionRequest": {
+        "title": "Execution request",
+        "properties": {
+          "Inputs": {
+            "$ref": "#/definitions/ExecutionInputs"
+          },
+          "GlobalParameters": {
+            "$ref": "#/definitions/GlobalParameters"
+          }
+        },
+        "example": {
+          "Inputs": {
+            "WebServiceInput0": [
+              {
+                "symboling": 3,
+                "normalized-losses": 1,
+                "make": "alfa-romero",
+                "fuel-type": "gas",
+                "aspiration": "std",
+                "num-of-doors": "two",
+                "body-style": "convertible",
+                "drive-wheels": "rwd",
+                "engine-location": "front",
+                "wheel-base": 88.6,
+                "length": 168.8,
+                "width": 64.1,
+                "height": 48.8,
+                "curb-weight": 2548,
+                "engine-type": "dohc",
+                "num-of-cylinders": "four",
+                "engine-size": 130,
+                "fuel-system": "mpfi",
+                "bore": 3.47,
+                "stroke": 2.68,
+                "compression-ratio": 9,
+                "horsepower": 111,
+                "peak-rpm": 5000,
+                "city-mpg": 21,
+                "highway-mpg": 27,
+                "price": 13495
+              },
+              {
+                "symboling": 3,
+                "normalized-losses": 1,
+                "make": "alfa-romero",
+                "fuel-type": "gas",
+                "aspiration": "std",
+                "num-of-doors": "two",
+                "body-style": "convertible",
+                "drive-wheels": "rwd",
+                "engine-location": "front",
+                "wheel-base": 88.6,
+                "length": 168.8,
+                "width": 64.1,
+                "height": 48.8,
+                "curb-weight": 2548,
+                "engine-type": "dohc",
+                "num-of-cylinders": "four",
+                "engine-size": 130,
+                "fuel-system": "mpfi",
+                "bore": 3.47,
+                "stroke": 2.68,
+                "compression-ratio": 9,
+                "horsepower": 111,
+                "peak-rpm": 5000,
+                "city-mpg": 21,
+                "highway-mpg": 27,
+                "price": 16500
+              },
+              {
+                "symboling": 1,
+                "normalized-losses": 1,
+                "make": "alfa-romero",
+                "fuel-type": "gas",
+                "aspiration": "std",
+                "num-of-doors": "two",
+                "body-style": "hatchback",
+                "drive-wheels": "rwd",
+                "engine-location": "front",
+                "wheel-base": 94.5,
+                "length": 171.2,
+                "width": 65.5,
+                "height": 52.4,
+                "curb-weight": 2823,
+                "engine-type": "ohcv",
+                "num-of-cylinders": "six",
+                "engine-size": 152,
+                "fuel-system": "mpfi",
+                "bore": 2.68,
+                "stroke": 3.47,
+                "compression-ratio": 9,
+                "horsepower": 154,
+                "peak-rpm": 5000,
+                "city-mpg": 19,
+                "highway-mpg": 26,
+                "price": 16500
+              },
+              {
+                "symboling": 2,
+                "normalized-losses": 164,
+                "make": "audi",
+                "fuel-type": "gas",
+                "aspiration": "std",
+                "num-of-doors": "four",
+                "body-style": "sedan",
+                "drive-wheels": "fwd",
+                "engine-location": "front",
+                "wheel-base": 99.8,
+                "length": 176.6,
+                "width": 66.2,
+                "height": 54.3,
+                "curb-weight": 2337,
+                "engine-type": "ohc",
+                "num-of-cylinders": "four",
+                "engine-size": 109,
+                "fuel-system": "mpfi",
+                "bore": 3.19,
+                "stroke": 3.4,
+                "compression-ratio": 10,
+                "horsepower": 102,
+                "peak-rpm": 5500,
+                "city-mpg": 24,
+                "highway-mpg": 30,
+                "price": 13950
+              },
+              {
+                "symboling": 2,
+                "normalized-losses": 164,
+                "make": "audi",
+                "fuel-type": "gas",
+                "aspiration": "std",
+                "num-of-doors": "four",
+                "body-style": "sedan",
+                "drive-wheels": "4wd",
+                "engine-location": "front",
+                "wheel-base": 99.4,
+                "length": 176.6,
+                "width": 66.4,
+                "height": 54.3,
+                "curb-weight": 2824,
+                "engine-type": "ohc",
+                "num-of-cylinders": "five",
+                "engine-size": 136,
+                "fuel-system": "mpfi",
+                "bore": 3.19,
+                "stroke": 3.4,
+                "compression-ratio": 8,
+                "horsepower": 115,
+                "peak-rpm": 5500,
+                "city-mpg": 18,
+                "highway-mpg": 22,
+                "price": 17450
+              }
+            ]
+          },
+          "GlobalParameters": {}
+        }
+      },
+      "ExecutionResults": {
+        "title": "Execution Results",
+        "properties": {
+          "Results": {
+            "$ref": "#/definitions/ExecutionOutputs"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "properties": {
+          "status_code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "GlobalParameters": {
+        "title": "Global parameters definition",
+        "properties": {},
+        "type": "object"
+      },
+      "ExecutionInputs": {
+        "title": "Execution inputs definition",
+        "properties": {
+          "WebServiceInput0": {
+            "items": {
+              "$ref": "#/definitions/WebServiceInput0Item"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ExecutionOutputs": {
+        "title": "Execution outputs definition",
+        "properties": {
+          "WebServiceOutput0": {
+            "items": {
+              "$ref": "#/definitions/WebServiceOutput0Item"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "WebServiceInput0Item": {
+        "required": [
+          "symboling",
+          "normalized-losses",
+          "make",
+          "fuel-type",
+          "aspiration",
+          "num-of-doors",
+          "body-style",
+          "drive-wheels",
+          "engine-location",
+          "wheel-base",
+          "length",
+          "width",
+          "height",
+          "curb-weight",
+          "engine-type",
+          "num-of-cylinders",
+          "engine-size",
+          "fuel-system",
+          "bore",
+          "stroke",
+          "compression-ratio",
+          "horsepower",
+          "peak-rpm",
+          "city-mpg",
+          "highway-mpg",
+          "price"
+        ],
+        "properties": {
+          "symboling": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "normalized-losses": {
+            "type": "number",
+            "format": "double"
+          },
+          "make": {
+            "type": "string"
+          },
+          "fuel-type": {
+            "type": "string"
+          },
+          "aspiration": {
+            "type": "string"
+          },
+          "num-of-doors": {
+            "type": "string"
+          },
+          "body-style": {
+            "type": "string"
+          },
+          "drive-wheels": {
+            "type": "string"
+          },
+          "engine-location": {
+            "type": "string"
+          },
+          "wheel-base": {
+            "type": "number",
+            "format": "double"
+          },
+          "length": {
+            "type": "number",
+            "format": "double"
+          },
+          "width": {
+            "type": "number",
+            "format": "double"
+          },
+          "height": {
+            "type": "number",
+            "format": "double"
+          },
+          "curb-weight": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "engine-type": {
+            "type": "string"
+          },
+          "num-of-cylinders": {
+            "type": "string"
+          },
+          "engine-size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fuel-system": {
+            "type": "string"
+          },
+          "bore": {
+            "type": "number",
+            "format": "double"
+          },
+          "stroke": {
+            "type": "number",
+            "format": "double"
+          },
+          "compression-ratio": {
+            "type": "number",
+            "format": "double"
+          },
+          "horsepower": {
+            "type": "number",
+            "format": "double"
+          },
+          "peak-rpm": {
+            "type": "number",
+            "format": "double"
+          },
+          "city-mpg": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "highway-mpg": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "WebServiceOutput0Item": {
+        "required": [
+          "symboling",
+          "make",
+          "fuel-type",
+          "aspiration",
+          "num-of-doors",
+          "body-style",
+          "drive-wheels",
+          "engine-location",
+          "wheel-base",
+          "length",
+          "width",
+          "height",
+          "curb-weight",
+          "engine-type",
+          "num-of-cylinders",
+          "engine-size",
+          "fuel-system",
+          "bore",
+          "stroke",
+          "compression-ratio",
+          "horsepower",
+          "peak-rpm",
+          "city-mpg",
+          "highway-mpg",
+          "price",
+          "Scored Labels"
+        ],
+        "properties": {
+          "symboling": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "make": {
+            "type": "string"
+          },
+          "fuel-type": {
+            "type": "string"
+          },
+          "aspiration": {
+            "type": "string"
+          },
+          "num-of-doors": {
+            "type": "string"
+          },
+          "body-style": {
+            "type": "string"
+          },
+          "drive-wheels": {
+            "type": "string"
+          },
+          "engine-location": {
+            "type": "string"
+          },
+          "wheel-base": {
+            "type": "number",
+            "format": "double"
+          },
+          "length": {
+            "type": "number",
+            "format": "double"
+          },
+          "width": {
+            "type": "number",
+            "format": "double"
+          },
+          "height": {
+            "type": "number",
+            "format": "double"
+          },
+          "curb-weight": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "engine-type": {
+            "type": "string"
+          },
+          "num-of-cylinders": {
+            "type": "string"
+          },
+          "engine-size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fuel-system": {
+            "type": "string"
+          },
+          "bore": {
+            "type": "number",
+            "format": "double"
+          },
+          "stroke": {
+            "type": "number",
+            "format": "double"
+          },
+          "compression-ratio": {
+            "type": "number",
+            "format": "double"
+          },
+          "horsepower": {
+            "type": "number",
+            "format": "double"
+          },
+          "peak-rpm": {
+            "type": "number",
+            "format": "double"
+          },
+          "city-mpg": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "highway-mpg": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "Scored Labels": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      }
+    },
+    "securityDefinitions": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "For example: Bearer abc123",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
