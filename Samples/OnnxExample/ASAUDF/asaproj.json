@@ -1,0 +1,34 @@
+{
+    "name": "StreamAnalyticsOnnxModel",
+    "startFile": "forrester-ASADemo.asaql",
+    "configurations": [
+        {
+            "filePath": "Configuration.json",
+            "subType": "JobConfig"
+        },
+        {
+            "filePath": "Functions\\predict.json",
+            "subType": "CSharpFunction"
+        },
+        {
+            "filePath": "Inputs\\local_RegionReferenceData.json",
+            "subType": "InputMock"
+        },
+        {
+            "filePath": "Inputs\\local_TaxiRide.json",
+            "subType": "InputMock"
+        },
+        {
+            "filePath": "Inputs\\RegionReferenceData.json",
+            "subType": "Input"
+        },
+        {
+            "filePath": "Inputs\\TaxiRide.json",
+            "subType": "Input"
+        },
+        {
+            "filePath": "Outputs\\pbicounty.json",
+            "subType": "Output"
+        }
+    ]
+}
