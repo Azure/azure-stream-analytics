@@ -58,7 +58,7 @@ Follow these steps to generate mock data and deploy the required resources in Az
 
 2. Open PowerShell from the Start menu, go into the folder with command `cd`.
 
-3. Sign in to Azure. Run the following command and enter your Azure credentials in the pop-up browser.
+3. Sign in to Azure with the following command and enter your Azure credentials in the pop-up browser.
 
     ```powershell
     Connect-AzAccount
@@ -70,10 +70,10 @@ Follow these steps to generate mock data and deploy the required resources in Az
     .\CreateJob.ps1 -job ClickStream-Filter -subscriptionid <subscription-id> -eventsPerMinute 11
     ```
 
-    * Your subscription id can be found in the Azure dashboard.
+    * Subscription id can be found in the Azure dashboard.
     * `eventsPerMinute` is the input rate for generated data. In this case, the input source generates 11 events per minute.
 
-5. Once it's done, open your browser and sign in to Azure portal. You see an Azure Resource Group named **ClickStreamJob1-rg-\*** is created. It has five resources:
+5. Once it's done, open your browser and sign in to Azure portal. You see an Azure Resource Group named **ClickStream-Filter-rg-\*** is created. It has five resources:
 
     | Resource Type | Name | Description |
     | ------------ | --------------------------------------------- | -------------------------------- |
@@ -99,34 +99,34 @@ Follow these steps to generate mock data and deploy the required resources in Az
 
 8. Congratulation! You have deployed your first streaming application to filter clickstream data.
 
-9. For other stream analytic scenarios with one stream input, use the following codes to replace ASA query:
+For other stream analytic scenarios with one stream input, here're some examples for the query:
 
-    * Count clicks for every hour
+* Count clicks for every hour
 
-        ```sql
-        select System.Timestamp as Systime, count( * )
-        FROM clickstream
-        TIMESTAMP BY EventTime
-        GROUP BY TumblingWindow(hour, 1)
-        ```
+    ```sql
+    select System.Timestamp as Systime, count( * )
+    FROM clickstream
+    TIMESTAMP BY EventTime
+    GROUP BY TumblingWindow(hour, 1)
+    ```
 
-    * Select distinct user
+* Select distinct user
 
-        ```sql
-        SELECT *
-        FROM clickstream
-        TIMESTAMP BY Time
-        WHERE ISFIRST(hour, 1) OVER(PARTITION BY userId) = 1
-        ```
+    ```sql
+    SELECT *
+    FROM clickstream
+    TIMESTAMP BY Time
+    WHERE ISFIRST(hour, 1) OVER(PARTITION BY userId) = 1
+    ```
 
 ## Clickstream-RefJoin
 
 If you have a user file and want to find out the username for the clickstream, you can join the clickstream with a reference input as following:
 ![Clickstream two input](./img/clickstream-two-inputs.png)
 
-If you have completed the steps for preview example, follow these steps: 
+Assume you have completed the steps for preview example, follow these to create a new resource group: 
 
-1. Run this command to create a new resource group. This may take a few minutes to complete.
+1. Run the following command to deploy all resources. This may take a few minutes to complete.
 
     ```powershell
     .\CreateJob.ps1 -job ClickStream-RefJoin -subscriptionid <subscription-id> -eventsPerMinute 11
@@ -134,7 +134,7 @@ If you have completed the steps for preview example, follow these steps:
 
 2. Once it is done, sign in to the Azure portal and you can see a resource group named **ClickStream-RefJoin-rg-\***.
 
-5. The ASA job **ClickStream-RefJoin** uses the following query to join the clickstream with reference sql input. You can select **Test query** in the query editor to preview the output results.
+3. The ASA job **ClickStream-RefJoin** uses the following query to join the clickstream with reference sql input.
 
     ```sql
     CREATE TABLE UserInfo(
@@ -148,7 +148,7 @@ If you have completed the steps for preview example, follow these steps:
     LEFT JOIN UserInfo ON ClickStream.UserId = UserInfo.UserId
     ```
 
-6. Congratulation! You have deployed a streaming application to joins clickstream with a reference input.
+4. Congratulation! You have deployed a streaming application to joins clickstream with a reference input.
 
 ## Delete Azure resources
 
