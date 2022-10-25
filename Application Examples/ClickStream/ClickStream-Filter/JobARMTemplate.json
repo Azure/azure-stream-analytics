@@ -1,0 +1,106 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "InputEventHubName": {
+      "type": "string"
+    },
+    "InputEventHubKey": {
+      "type": "string"
+    },
+    "OutputAccountName": {
+      "type": "string"
+    },
+    "OutputAccountKey": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.StreamAnalytics/StreamingJobs",
+      "apiVersion": "2017-04-01-preview",
+      "name": "ClickStream-Filter",
+      "location": "Central US",
+      "properties": {
+        "outputStartMode": "JobStartTime",
+        "sku": {
+          "name": "standard"
+        },
+        "jobType": "Cloud",
+        "eventsOutOfOrderPolicy": "Adjust",
+        "outputErrorPolicy": "Stop",
+        "eventsOutOfOrderMaxDelayInSeconds": 0,
+        "eventsLateArrivalMaxDelayInSeconds": 60,
+        "dataLocale": "en-US",
+        "compatibilityLevel": "1.2",
+        "contentStoragePolicy": "SystemAccount",
+        "transformation": {
+          "name": "Transformation",
+          "properties": {
+            "streamingUnits": 1,
+            "query": "SELECT System.Timestamp Systime, UserId, Request.Method, Response.Code, Browser\r\nINTO BlobOutput\r\nFROM ClickStream TIMESTAMP BY EventTime\r\nWHERE Request.Method = 'GET' or Request.Method = 'POST'"
+          }
+        },
+        "inputs": [
+          {
+            "name": "ClickStream",
+            "properties": {
+              "type": "Stream",
+              "datasource": {
+                "type": "Microsoft.ServiceBus/EventHub",
+                "properties": {
+                  "serviceBusNamespace": "[parameters('InputEventHubName')]",
+                  "eventHubName": "click-stream-events",
+                  "consumerGroupName": "$Default",
+                  "sharedAccessPolicyName": "RootManageSharedAccessKey",
+                  "sharedAccessPolicyKey": "[parameters('InputEventHubKey')]",
+                  "authenticationMode": "ConnectionString"
+                }
+              },
+              "compression": {
+                "type": "None"
+              },
+              "serialization": {
+                "type": "Json",
+                "properties": {
+                  "encoding": "UTF8"
+                }
+              }
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "BlobOutput",
+            "properties": {
+              "serialization": {
+                "type": "Json",
+                "properties": {
+                  "encoding": "UTF8",
+                  "format": "LineSeparated"
+                }
+              },
+              "datasource": {
+                "type": "Microsoft.Storage/Blob",
+                "properties": {
+                  "storageAccounts": [
+                    {
+                      "accountName": "[parameters('OutputAccountName')]",
+                      "accountKey": "[parameters('OutputAccountKey')]"
+                    }
+                  ],
+                  "container": "job-output",
+                  "pathPattern": "",
+                  "dateFormat": "yyyy/MM/dd",
+                  "timeFormat": "HH",
+                  "authenticationMode": "ConnectionString",
+                  "blobWriteMode": "Append"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

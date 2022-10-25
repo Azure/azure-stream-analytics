@@ -1,0 +1,134 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "InputEventHubName": {
+      "type": "string"
+    },
+    "InputEventHubKey": {
+      "type": "string"
+    },
+    "OutputAccountName": {
+      "type": "string"
+    },
+    "OutputAccountKey": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.StreamAnalytics/StreamingJobs",
+      "apiVersion": "2017-04-01-preview",
+      "name": "ClickStream-RefJoin",
+      "location": "Central US",
+      "properties": {
+        "outputStartMode": "JobStartTime",
+        "sku": {
+          "name": "standard"
+        },
+        "jobType": "Cloud",
+        "eventsOutOfOrderPolicy": "Adjust",
+        "outputErrorPolicy": "Stop",
+        "eventsOutOfOrderMaxDelayInSeconds": 0,
+        "eventsLateArrivalMaxDelayInSeconds": 60,
+        "dataLocale": "en-US",
+        "compatibilityLevel": "1.2",
+        "contentStoragePolicy": "SystemAccount",
+        "transformation": {
+          "name": "Transformation",
+          "properties": {
+            "streamingUnits": 1,
+            "query": "CREATE TABLE UserInfo(\r\n  UserId bigint,\r\n  UserName nvarchar(max),\r\n  Gender nvarchar(max)\r\n);\r\nSELECT System.Timestamp Systime, ClickStream.UserId, ClickStream.Response.Code, UserInfo.UserName, UserInfo.Gender\r\nINTO BlobOutput\r\nFROM ClickStream TIMESTAMP BY EventTime\r\nLEFT JOIN UserInfo ON ClickStream.UserId = UserInfo.UserId"
+          }
+        },
+        "inputs": [
+          {
+            "name": "ClickStream",
+            "properties": {
+              "type": "Stream",
+              "datasource": {
+                "type": "Microsoft.ServiceBus/EventHub",
+                "properties": {
+                  "serviceBusNamespace": "[parameters('InputEventHubName')]",
+                  "eventHubName": "click-stream-events",
+                  "consumerGroupName": "$Default",
+                  "sharedAccessPolicyName": "RootManageSharedAccessKey",
+                  "sharedAccessPolicyKey": "[parameters('InputEventHubKey')]",
+                  "authenticationMode": "ConnectionString"
+                }
+              },
+              "compression": {
+                "type": "None"
+              },
+              "serialization": {
+                "type": "Json",
+                "properties": {
+                  "encoding": "UTF8"
+                }
+              }
+            }
+          },
+          {
+            "name": "UserInfo",
+            "properties": {
+              "type": "Reference",
+              "datasource": {
+                "type": "Microsoft.Storage/Blob",
+                "properties": {
+                  "storageAccounts": [
+                    {
+                      "accountName": "[parameters('OutputAccountName')]",
+                      "accountKey": "[parameters('OutputAccountKey')]"
+                    }
+                  ],
+                  "container": "reference-data",
+                  "pathPattern": "user-info.csv",
+                  "dateFormat": "yyyy/MM/dd",
+                  "timeFormat": "HH"
+                }
+              },
+              "serialization": {
+                "type": "Csv",
+                "properties": {
+                  "fieldDelimiter": ",",
+                  "encoding": "UTF8"
+                }
+              }
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "BlobOutput",
+            "properties": {
+              "serialization": {
+                "type": "Json",
+                "properties": {
+                  "encoding": "UTF8",
+                  "format": "LineSeparated"
+                }
+              },
+              "datasource": {
+                "type": "Microsoft.Storage/Blob",
+                "properties": {
+                  "storageAccounts": [
+                    {
+                      "accountName": "[parameters('OutputAccountName')]",
+                      "accountKey": "[parameters('OutputAccountKey')]"
+                    }
+                  ],
+                  "container": "job-output",
+                  "pathPattern": "",
+                  "dateFormat": "yyyy/MM/dd",
+                  "timeFormat": "HH",
+                  "authenticationMode": "ConnectionString",
+                  "blobWriteMode": "Append"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
