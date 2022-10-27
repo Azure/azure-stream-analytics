@@ -1,35 +1,35 @@
-﻿{
-  "Sample": null,
-  "EventHubProperties": null,
-  "BlobStorageProperties": null,
-  "IoTHubProperties": null,
-  "BlobReferenceProperties": {
-    "Container": "referencedata",
-    "DateFormat": "yyyy/MM/dd",
-    "PathPattern": "manhattan-ny.json",
-    "StorageAccounts": [
-      {
-        "AccountKey": null,
-        "AccountName": "forresterdemoblobop"
-      }
-    ],
-    "TimeFormat": "HH"
-  },
-  "SqlReferenceInputInfo": null,
-  "InputPartionKey": null,
-  "DataSourceCredentialDomain": "e4b205d8-aaa4-4583-bbcd-c9afd4d07f35.StreamAnalyticsCredential",
-  "Name": "RegionReferenceData",
-  "Type": "Reference data",
-  "DataSourceType": "Blob Storage",
-  "Serialization": {
-    "Encoding": "UTF8",
-    "Type": "Json",
-    "FieldDelimiter": null,
-    "Format": null,
-    "SerializationDllPath": null,
-    "SerializationClassName": null,
-    "SerializationDllPathInLocal": null
-  },
-  "CompresssionType": null,
-  "ScriptType": "Input"
+{
+    "Sample": null,
+    "EventHubProperties": null,
+    "BlobStorageProperties": null,
+    "IoTHubProperties": null,
+    "BlobReferenceProperties": {
+        "Container": "referencedata",
+        "DateFormat": "yyyy/MM/dd",
+        "PathPattern": "manhattan-ny.json",
+        "StorageAccounts": [
+            {
+                "AccountKey": null,
+                "AccountName": "forresterdemoblobop"
+            }
+        ],
+        "TimeFormat": "HH"
+    },
+    "SqlReferenceInputInfo": null,
+    "InputPartionKey": null,
+    "DataSourceCredentialDomain": "e4b205d8-aaa4-4583-bbcd-c9afd4d07f35.StreamAnalyticsCredential",
+    "Name": "RegionReferenceData",
+    "Type": "Reference data",
+    "DataSourceType": "Blob Storage",
+    "Serialization": {
+        "Encoding": "UTF8",
+        "Type": "Json",
+        "FieldDelimiter": null,
+        "Format": null,
+        "SerializationDllPath": null,
+        "SerializationClassName": null,
+        "SerializationDllPathInLocal": null
+    },
+    "CompresssionType": null,
+    "ScriptType": "Input"
 }
