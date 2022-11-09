@@ -13,6 +13,9 @@
     },
     "OutputAccountKey": {
       "type": "string"
+    },
+    "Region": {
+      "type": "string"
     }
   },
   "resources": [
@@ -20,7 +23,10 @@
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
       "apiVersion": "2017-04-01-preview",
       "name": "ClickStream-Filter",
-      "location": "Central US",
+      "location": "[parameters('Region')]",
+      "tags": {
+        "hidden-link:/Microsoft.StreamAnalytics/streamingjobs/settings": "{\"createdFrom\":\"PowershellPlayground\"}"
+      },
       "properties": {
         "outputStartMode": "JobStartTime",
         "sku": {
@@ -38,7 +44,7 @@
           "name": "Transformation",
           "properties": {
             "streamingUnits": 1,
-            "query": "SELECT System.Timestamp Systime, UserId, Request.Method, Response.Code, Browser\r\nINTO BlobOutput\r\nFROM ClickStream TIMESTAMP BY EventTime\r\nWHERE Request.Method = 'GET' or Request.Method = 'POST'"
+            "query": "SELECT System.Timestamp Systime, UserId, Request.Method, Response.Code, Browser\r\nINTO BlobOutput\r\nFROM ClickStream TIMESTAMP BY EventTime\r\nWHERE Request.Method = 'GET' or Request.Method = 'POST'\r\n\r\n-- Other stream analytic scenarios\r\n\r\n-- 1. Count clicks for every hour\r\n-- SELECT System.Timestamp as Systime, count( * )\r\n-- INTO BlobOutput\r\n-- FROM clickstream TIMESTAMP BY EventTime\r\n-- GROUP BY TumblingWindow(hour, 1)\r\n\r\n-- 2. Select distinct user\r\n-- SELECT *\r\n-- INTO BlobOutput\r\n-- FROM clickstream TIMESTAMP BY Time\r\n-- WHERE ISFIRST(hour, 1) OVER(PARTITION BY userId) = 1"
           }
         },
         "inputs": [

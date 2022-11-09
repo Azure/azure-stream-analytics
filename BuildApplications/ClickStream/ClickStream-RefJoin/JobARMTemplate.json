@@ -13,6 +13,9 @@
     },
     "OutputAccountKey": {
       "type": "string"
+    },
+    "Region": {
+      "type": "string"
     }
   },
   "resources": [
@@ -20,7 +23,10 @@
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
       "apiVersion": "2017-04-01-preview",
       "name": "ClickStream-RefJoin",
-      "location": "Central US",
+      "location": "[parameters('Region')]",
+      "tags": {
+        "hidden-link:/Microsoft.StreamAnalytics/streamingjobs/settings": "{\"createdFrom\":\"PowershellPlayground\"}"
+      },
       "properties": {
         "outputStartMode": "JobStartTime",
         "sku": {
