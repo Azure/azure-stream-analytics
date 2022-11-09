@@ -33,8 +33,8 @@ if ($eventsPerMinute -lt 1) {
 
 $isInstallAz = [bool](Get-Command -Name Set-AzContext -ErrorAction SilentlyContinue)
 if (-not $isInstallAz) {
-  Write-Host "Az Powershell is not installed, installing Az Powershell, it will take few minutes."
-  Install-Module -Name Az -Repository PSGallery -Force -AllowClobber
+  Write-Host "Az Powershell is not installed, please follow the guide to install Az Powershell."
+  return
 }
 
 if ($null -eq (Get-AzContext)) {
@@ -55,16 +55,20 @@ Set-AzContext -Subscription $subscriptionId -ErrorAction Stop | Out-Null
 Write-Host "Using subscription:" ((Get-AzContext).Subscription.Name) "Id:" (Get-AzContext).Subscription.Id
 
 try {
+  Write-Host -NoNewline "(1/5) Creating Resource Group $resourceGroupName..."
   New-AzResourceGroup -Name $resourceGroupName -Location $region -ErrorAction Stop | Out-Null
-  Write-Host -ForegroundColor Green "(1/5) Create Resource Group $resourceGroupName success."
+  Write-Host -ForegroundColor Green " Done"
 
+  Write-Host -NoNewline "(2/5) Creating Event Hub $eventHubName..."
   New-AzEventHubNamespace -ResourceGroupName $resourceGroupName -Location $region -Name $eventHubName -SkuName Basic -WarningAction Ignore -ErrorAction Stop | Out-Null
   New-AzEventHub -ResourceGroupName $resourceGroupName -NamespaceName $eventHubName -Name click-stream-events -MessageRetentionInDays 1 -PartitionCount 1 -WarningAction Ignore -ErrorAction Stop | Out-Null
-  Write-Host -ForegroundColor Green "(2/5) Create Event Hub $eventHubName success."
+  Write-Host -ForegroundColor Green " Done"
 
+  Write-Host -NoNewline "(3/5) Creating Storage Account $storageAccountName..."
   New-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -SkuName Standard_LRS -Location $region -ErrorAction Stop | Out-Null
-  Write-Host -ForegroundColor Green "(3/5) Create Storage Account $storageAccountName success."
+  Write-Host -ForegroundColor Green " Done"
 
+  Write-Host -NoNewline "(4/5) Creating Azure Function $azureFunctionName..."
   $eventHubKey = (Get-AzEventHubKey -ResourceGroupName $resourceGroupName -NamespaceName $eventHubName -AuthorizationRuleName RootManageSharedAccessKey -WarningAction Ignore -ErrorAction Stop)
   $appSettings = @{
     "eventsPerMinute" = $eventsPerMinute
@@ -72,8 +76,9 @@ try {
   }
   New-AzFunctionApp -Name $azureFunctionName -ResourceGroupName $resourceGroupName -StorageAccount $storageAccountName -Runtime dotnet -OSType Windows -FunctionsVersion 4 -RuntimeVersion 6 -Location $region -AppSetting $appSettings -DisableApplicationInsights | Out-Null
   Publish-AzWebApp -ResourceGroupName $resourceGroupName -Name $azureFunctionName -ArchivePath (Get-Item $PSScriptRoot\$app\ClickStreamDataGenerator\CodePackage.zip).FullName -Force -ErrorAction Stop | Out-Null
-  Write-Host -ForegroundColor Green "(4/5) Create Azure Function $azureFunctionName success."
+  Write-Host -ForegroundColor Green " Done"
 
+  Write-Host -NoNewline "(5/5) Creating Azure Stream Analytics job '$job'..."
   $storageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $storageAccountName -ErrorAction Stop).Value[0]
   $ctx = New-AzStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -ErrorAction Stop
   New-AzStorageContainer -Name job-output -Context $ctx -ErrorAction Stop | Out-Null
@@ -86,18 +91,19 @@ try {
     "InputEventHubKey" = $eventHubKey.PrimaryKey
     "OutputAccountName" = $storageAccountName
     "OutputAccountKey" = $storageAccountKey
+    "Region" = $region
   }
   New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $PSScriptRoot\$app\$job\JobARMTemplate.json -TemplateParameterObject $jobParameters -ErrorAction Stop | Out-Null
-  Write-Host -ForegroundColor Green "(5/5) Create Azure Stream Analytics job '$job' success."
+  Write-Host -ForegroundColor Green " Done"
   Write-Host -ForegroundColor Green "All resources were deployed successfully. Opening Azure portal in browser."
 
   Start-Process "https://portal.azure.com/#@tenant/resource/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/overview"
 } catch {
   try {
+    Write-Host
     Write-Host -ForegroundColor Red "Create resources failed, reason:" $_
     Write-Host -ForegroundColor Red "Will delete resource group '$resourceGroupName'."
     Remove-AzResourceGroup -Name $resourceGroupName -ErrorAction Stop | Out-Null
-    Write-Host -ForegroundColor Green "Resource group '$resourceGroupName' is deleted."
   } catch {
     Write-Host -ForegroundColor Red "Resource group '$resourceGroupName' delete failed, reason:" $_
   }
