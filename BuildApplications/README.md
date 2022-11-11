@@ -25,7 +25,7 @@ This repository has several application examples you can use to build your strea
 In this example, you learn to extract `GET` and `POST` requests from a website clickstream and store the output results to an Azure Blob Storage. Here's the architecture for this example:
 ![Clickstream one input](./Images/clickstream-one-input.png)
 
-Sample of clickstream data:
+Sample of a website clickstream:
 
 ```json
 {
@@ -122,7 +122,7 @@ Follow these steps to deploy resources:
 If you want to find out the username for the clickstream using a user file in storage, you can join the clickstream with a reference input as following architecture:
 ![Clickstream two input](./Images/clickstream-two-inputs.png)
 
-Assume you've completed the steps for previous example, run following commands to create a new resource group:
+Assume you've completed the steps from previous example, run following command to create a new resource group:
 
 1. Replace `$subscriptionId` with your Azure subscription ID. This process may take a few minutes to deploy the resources:
 
