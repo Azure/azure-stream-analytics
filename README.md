@@ -6,4 +6,4 @@ For more information about the Stream Analytics service, see [http://azure.micro
 
 ## BuildApplications
 
-This folder contains different application examples that you can choose to build a streaming application. You just need to follow the instructions on **README**, run a few commands in PowerShell, and it will deploy all the resources required for a streaming application with generated data streams. This is the easiest way to build a complete streaming application without preparing input data, and setting up a Stream Analytic job in the Azure portal.
+This folder contains different application examples that you can choose to build a complete streaming application. This is a easy way to deploy a streaming application in Azure with generated data streams. It saves you time reading documentations, preparing input data, and setting up a Stream Analytic job in the Azure portal.
