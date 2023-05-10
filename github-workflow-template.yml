@@ -1,0 +1,92 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+env:
+  PROJECT_NAME: <my-asa-project>
+  OUTPUT_PATH: deploy
+  TARGET_RESOURCE_GROUP: <my-resource-group>
+  LOCATION: <East US>       # All available locations can be found at: https://azure.microsoft.com/explore/global-infrastructure/products-by-region/?products=stream-analytics&regions=all
+  OVERRIDE_PARAMETERS: Inputs_ClickStream_DataSource_SharedAccessPolicyKey=${{ secrets.ASA_INPUT }} Outputs_BlobOutput_DataSource_AccountKey=${{ secrets.ASA_OUTPUT }}
+
+# Credentials for Azure resource is NULL inside the parameter files, it has to be overrided in `OVERRIDE_PARAMETERS` variables above.
+# To correctly parse the credential, the parameter has to be set as a key-value pair, the key's format is shown as below:
+#               Inputs_ehinput_DataSource_SharedAccessPolicyKey
+#               \____/ \_____/ \________/ \__________________/
+#                  |      |                        |
+#          input/output  name                credential name
+# Here is a mapping from the Azure resource type to its credential name:
+# -------------------------------------------------------------------------------------
+# |                     Resource types                       |    Credential name     |
+# | Azure Event Hub, Azure IoT Hub, Azure Service Bus        | SharedAccessPolicyKey  |
+# | Azure Blob Storage, Azure Cosmos DB, Azure Table Storage | AccountKey             |
+# | Azure Function                                           | ApiKey                 |
+# | Azure SQL Database, Azure Synapse Analytics              | Password               |
+# -------------------------------------------------------------------------------------
+# For example, for an output of blob storage named 'bloboutput', the key should be: Outputs_bloboutput_DataSource_AccountKey
+
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build-project:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.x'
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install --global azure-streamanalytics-cicd
+      
+      - name: Build the project to generate ARM template file
+        shell: pwsh
+        run: azure-streamanalytics-cicd build --v2 --project ${{ env.PROJECT_NAME }}/asaproj.json --outputPath ${{ env.OUTPUT_PATH }}
+      
+      - name: Upload ARM template file as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy
+          path: ${{ env.OUTPUT_PATH }}
+  
+  deploy-project:
+    runs-on: windows-latest
+    needs: [build-project]
+    
+    steps:
+      - name: Download ARM template file from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: deploy
+          path: ${{ env.OUTPUT_PATH }}
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+      - uses: azure/arm-deploy@v1
+        with:
+          resourceGroupName: ${{ env.TARGET_RESOURCE_GROUP }}
+          template: ${{ env.OUTPUT_PATH }}/${{ env.PROJECT_NAME }}.JobTemplate.json
+          parameters: ${{ env.OUTPUT_PATH }}/${{ env.PROJECT_NAME }}.JobTemplate.parameters.json Location="${{ env.LOCATION }}" ${{ env.OVERRIDE_PARAMETERS }}
+          deploymentName: asa-job-deployment
+  
