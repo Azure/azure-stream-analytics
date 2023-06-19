@@ -408,8 +408,7 @@
                   "AccountID": "[variables('cosmosDB')]",
                   "AccountKey": "[listKeys(concat('Microsoft.DocumentDb/databaseAccounts/',variables('cosmosDB')),'2016-03-31').primaryMasterKey]",
                   "database": "[variables('cosmosDBDatabaseName')]",
-                  "CollectionNamePattern": "[variables('cosmosDBCollectionName')]",
-                  "PartitionKey": "id"
+                  "CollectionNamePattern": "[variables('cosmosDBCollectionName')]"
                 }
               }
             }
