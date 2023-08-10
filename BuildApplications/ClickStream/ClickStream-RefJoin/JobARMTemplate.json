@@ -1,6 +1,6 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.1.0.0",
   "parameters": {
     "InputEventHubName": {
       "type": "string"
@@ -21,7 +21,7 @@
   "resources": [
     {
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
-      "apiVersion": "2017-04-01-preview",
+      "apiVersion": "2021-10-01-preview",
       "name": "ClickStream-RefJoin",
       "location": "[parameters('Region')]",
       "tags": {
@@ -30,7 +30,7 @@
       "properties": {
         "outputStartMode": "JobStartTime",
         "sku": {
-          "name": "standard"
+          "name": "StandardV2"
         },
         "jobType": "Cloud",
         "eventsOutOfOrderPolicy": "Adjust",
@@ -43,7 +43,7 @@
         "transformation": {
           "name": "Transformation",
           "properties": {
-            "streamingUnits": 1,
+            "streamingUnits": 3,
             "query": "CREATE TABLE UserInfo(\r\n  UserId bigint,\r\n  UserName nvarchar(max),\r\n  Gender nvarchar(max)\r\n);\r\nSELECT System.Timestamp Systime, ClickStream.UserId, ClickStream.Response.Code, UserInfo.UserName, UserInfo.Gender\r\nINTO BlobOutput\r\nFROM ClickStream TIMESTAMP BY EventTime\r\nLEFT JOIN UserInfo ON ClickStream.UserId = UserInfo.UserId"
           }
         },

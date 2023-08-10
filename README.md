@@ -6,4 +6,8 @@ For more information about the Stream Analytics service, see [http://azure.micro
 
 ## BuildApplications
 
-This folder contains different application examples that you can choose to build a complete streaming application. This is a easy way to deploy a streaming application in Azure with generated data streams. It saves you time reading documentations, preparing input data, and setting up a Stream Analytic job in the Azure portal.
+This folder contains different application examples that you can choose to build a complete real-time processing application. It provides an easy way to deploy a streaming application in Azure with generated data streams. 
+
+For example, you'll learn to extract `GET` and `POST` requests from a website clickstream and store the resulting output in Azure Blob Storage, as shown in the architecture diagram below:
+
+![Clickstream one input](./BuildApplications/Images/clickstream-one-input.png)
