@@ -75,6 +75,8 @@ try {
     "eventHubConnectionString" = $eventHubKey.PrimaryConnectionString
   }
   New-AzFunctionApp -Name $azureFunctionName -ResourceGroupName $resourceGroupName -StorageAccount $storageAccountName -Runtime dotnet -OSType Windows -FunctionsVersion 4 -RuntimeVersion 6 -Location $region -AppSetting $appSettings -DisableApplicationInsights | Out-Null
+  Set-AzResource -ResourceId /subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Web/sites/$azureFunctionName/basicPublishingCredentialsPolicies/ftp -Properties @{"allow" = $true} -Force | Out-Null
+  Set-AzResource -ResourceId /subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Web/sites/$azureFunctionName/basicPublishingCredentialsPolicies/scm -Properties @{"allow" = $true} -Force | Out-Null
   Publish-AzWebApp -ResourceGroupName $resourceGroupName -Name $azureFunctionName -ArchivePath (Get-Item $PSScriptRoot\$app\ClickStreamDataGenerator\CodePackage.zip).FullName -Force -ErrorAction Stop | Out-Null
   Write-Host -ForegroundColor Green " Done"
 
