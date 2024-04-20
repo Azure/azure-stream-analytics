@@ -1,3 +1,4 @@
+Import-Module -Name CosmosDB
 ######################################################################
 #Gather necessary variables from previous terminal if necessary, and paste them into a new window
 
