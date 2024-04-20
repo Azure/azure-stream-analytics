@@ -72,7 +72,7 @@ $asaInputProperties1 = @{
         }
     }
 }
-$asaInputProperties1 | ConvertTo-JSON -depth 4 | Out-File -Path "$($tempFolder)tempInput1.json"
+$asaInputProperties1 | ConvertTo-JSON -depth 4 | Out-File -FilePath "$($tempFolder)tempInput1.json"
 New-AzStreamAnalyticsInput -ResourceGroupName $rgName -JobName $asaJobName1 -Name $asaInputName -File "$($tempFolder)tempInput1.json"
 Remove-Item -Path "$($tempFolder)tempInput1.json"
 
@@ -101,7 +101,7 @@ $asaInputProperties2 = @{
         }
     }
 }
-$asaInputProperties2 | ConvertTo-JSON -depth 4 | Out-File -Path "$($tempFolder)tempInput2.json"
+$asaInputProperties2 | ConvertTo-JSON -depth 4 | Out-File -FilePath "$($tempFolder)tempInput2.json"
 New-AzStreamAnalyticsInput -ResourceGroupName $rgName -JobName $asaJobName2 -Name $asaInputName -File "$($tempFolder)tempInput2.json"
 Remove-Item -Path "$($tempFolder)tempInput2.json"
 
@@ -126,7 +126,7 @@ $asaOutputProperties1 = @{
         }
     }
 }
-$asaOutputProperties1 | ConvertTo-JSON -depth 4 | Out-File -Path "$($tempFolder)tempOutput1.json"
+$asaOutputProperties1 | ConvertTo-JSON -depth 4 | Out-File -FilePath "$($tempFolder)tempOutput1.json"
 New-AzStreamAnalyticsOutput  -ResourceGroupName $rgName -JobName $asaJobName1 -Name $asaOutputName -File "$($tempFolder)tempOutput1.json"
 Remove-Item -Path "$($tempFolder)tempOutput1.json"
 
@@ -151,7 +151,7 @@ $asaOutputProperties2 = @{
         }
     }
 }
-$asaOutputProperties2 | ConvertTo-JSON -depth 4 | Out-File -Path "$($tempFolder)tempOutput2.json"
+$asaOutputProperties2 | ConvertTo-JSON -depth 4 | Out-File -FilePath "$($tempFolder)tempOutput2.json"
 New-AzStreamAnalyticsOutput  -ResourceGroupName $rgName -JobName $asaJobName2 -Name $asaOutputName -File "$($tempFolder)tempOutput2.json"
 Remove-Item -Path "$($tempFolder)tempOutput2.json"
 
