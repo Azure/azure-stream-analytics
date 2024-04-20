@@ -1,3 +1,4 @@
+Import-Module -Name CosmosDB
 ######################################################################
 #Observing records in Cosmos DB
 
