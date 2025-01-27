@@ -59,7 +59,7 @@ namespace TwitterClient
         static TextReader ReadTweets(TwitterConfig config)
         {
             var oauth_version = "1.0";
-            var oauth_signature_method = "HMAC-SHA1";
+            var oauth_signature_method = "HMAC-SHA256";
 
             // unique request details
             var oauth_nonce = Convert.ToBase64String(new ASCIIEncoding().GetBytes(DateTime.Now.Ticks.ToString()));
@@ -80,7 +80,7 @@ namespace TwitterClient
             "&", Uri.EscapeDataString(config.OAuthTokenSecret));
 
             string oauth_signature;
-            using (var hasher = new HMACSHA1(ASCIIEncoding.ASCII.GetBytes(compositeKey)))
+            using (var hasher = new HMACSHA256(ASCIIEncoding.ASCII.GetBytes(compositeKey)))
             {
                 oauth_signature = Convert.ToBase64String(
                 hasher.ComputeHash(ASCIIEncoding.ASCII.GetBytes(baseString)));
