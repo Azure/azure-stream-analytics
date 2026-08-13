@@ -24,7 +24,6 @@ namespace TwitterClient
     public class EventHubObserver : IObserver<Payload>
     {
         private EventHubConfig _config;
-        private EventHubClient _eventHubClient;
         public bool AzureOn { get; set; }
                 
         public EventHubObserver(EventHubConfig config, bool azureOn = true)
@@ -36,7 +35,7 @@ namespace TwitterClient
                 _config = config;
 				if (AzureOn)
 				{
-					_eventHubClient = EventHubClient.CreateFromConnectionString(_config.ConnectionString, config.EventHubName);
+					_eventHubClient = EventHubClient.CreateFromConnectionString(config.ConnectionString, config.EventHubName);
 				}
             }
             catch (Exception ex)
