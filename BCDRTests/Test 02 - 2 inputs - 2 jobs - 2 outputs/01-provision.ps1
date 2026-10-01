@@ -20,7 +20,7 @@ $ehPartitionCount = 2
 $ehAuthorizationRuleName = "eh-asa-bcdr2-$runId"
 $ehConsumerGroupName = "cg"
 
-New-AzEventHubNamespace -ResourceGroupName $rgName -NamespaceName $ehNamespace -Location $location -SkuName $ehNamespaceSku -SkuCapacity $ehNamespaceCapacity
+New-AzEventHubNamespace -ResourceGroupName $rgName -Name $ehNamespace -Location $location -SkuName $ehNamespaceSku -SkuCapacity $ehNamespaceCapacity
 New-AzEventHubAuthorizationRule -ResourceGroupName $rgName -NamespaceName $ehNamespace -AuthorizationRuleName $ehAuthorizationRuleName -Rights @("Listen","Send","Manage")
 $ehKey = Get-AzEventHubKey -ResourceGroupName $rgName -Namespace $ehNamespace -AuthorizationRuleName $ehAuthorizationRuleName
 
@@ -28,10 +28,10 @@ New-AzEventHub -ResourceGroupName $rgName -NamespaceName $ehNamespace -Name $ehN
 New-AzEventHub -ResourceGroupName $rgName -NamespaceName $ehNamespace -Name $ehName2in -PartitionCount $ehPartitionCount
 New-AzEventHub -ResourceGroupName $rgName -NamespaceName $ehNamespace -Name $ehName1out -PartitionCount $ehPartitionCount
 New-AzEventHub -ResourceGroupName $rgName -NamespaceName $ehNamespace -Name $ehName2out -PartitionCount $ehPartitionCount
-New-AzEventHubConsumerGroup -ResourceGroupName $rgName -Namespace $ehNamespace -EventHub $ehName1in -Name $ehConsumerGroupName
-New-AzEventHubConsumerGroup -ResourceGroupName $rgName -Namespace $ehNamespace -EventHub $ehName2in -Name $ehConsumerGroupName
-New-AzEventHubConsumerGroup -ResourceGroupName $rgName -Namespace $ehNamespace -EventHub $ehName1out -Name $ehConsumerGroupName
-New-AzEventHubConsumerGroup -ResourceGroupName $rgName -Namespace $ehNamespace -EventHub $ehName2out -Name $ehConsumerGroupName
+New-AzEventHubConsumerGroup -ResourceGroupName $rgName -NamespaceName $ehNamespace -EventHubName $ehName1in -Name $ehConsumerGroupName
+New-AzEventHubConsumerGroup -ResourceGroupName $rgName -NamespaceName $ehNamespace -EventHubName $ehName2in -Name $ehConsumerGroupName
+New-AzEventHubConsumerGroup -ResourceGroupName $rgName -NamespaceName $ehNamespace -EventHubName $ehName1out -Name $ehConsumerGroupName
+New-AzEventHubConsumerGroup -ResourceGroupName $rgName -NamespaceName $ehNamespace -EventHubName $ehName2out -Name $ehConsumerGroupName
 
 ######################################################################
 # Stream Analytics Jobs 1 and 2

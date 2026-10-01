@@ -2,6 +2,24 @@ Import-Module -Name CosmosDB
 ######################################################################
 #Observing records in Cosmos DB
 
+Write-Host "`
+`$rgName = `"$rgName`"`
+`$asaJobName1 = `"$asaJobName1`"`
+`$asaJobName2 = `"$asaJobName2`"`
+`$ehNamespace1 = `"$ehNamespace1`"`
+`$ehNamespace2 = `"$ehNamespace2`"`
+`$ehName1in = `"$ehName1in`"`
+`$ehName2in = `"$ehName2in`"`
+`$ehAuthorizationRuleName = `"$ehAuthorizationRuleName`"`
+`$ehKey1 = `"$($ehKey1.PrimaryKey)`"`
+`$ehConnectionString1 = `"$($ehKey1.PrimaryConnectionString)`"`
+`$ehKey2 = `"$($ehKey2.PrimaryKey)`"`
+`$ehConnectionString2 = `"$($ehKey2.PrimaryConnectionString)`"`
+`$cosmosDBAccountKey = `"$($cosmosDBAccountKey.PrimaryMasterKey)`"`
+`$cosmosDBAccountName = `"$cosmosDBAccountName`"`
+`$cosmosDBDatabaseName = `"$cosmosDBDatabaseName`"`
+`$cosmosDBContainerName = `"$cosmosDBContainerName`""
+
 ##in a new terminal
 ##if necessary, install https://www.powershellgallery.com/packages/CosmosDB/
 

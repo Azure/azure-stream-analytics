@@ -15,7 +15,6 @@ Write-Host "`
 `$cosmosDBDatabaseName = `"$cosmosDBDatabaseName`"`
 `$cosmosDBContainerName = `"$cosmosDBContainerName`""
 
-
 ######################################################################
 #Starting jobs
 Start-AzStreamAnalyticsJob -ResourceGroupName $rgName -Name $asaJobName1

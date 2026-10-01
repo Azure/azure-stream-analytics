@@ -20,19 +20,19 @@ $ehPartitionCount = 2
 $ehAuthorizationRuleName = "eh-asa-bcdr3-$runId"
 $ehConsumerGroupName = "cg"
 
-New-AzEventHubNamespace -ResourceGroupName $rgName -NamespaceName $ehNamespace1 -Location $location1 -SkuName $ehNamespaceSku -SkuCapacity $ehNamespaceCapacity
+New-AzEventHubNamespace -ResourceGroupName $rgName -Name $ehNamespace1 -Location $location1 -SkuName $ehNamespaceSku -SkuCapacity $ehNamespaceCapacity
 New-AzEventHubAuthorizationRule -ResourceGroupName $rgName -NamespaceName $ehNamespace1 -AuthorizationRuleName $ehAuthorizationRuleName -Rights @("Listen","Send","Manage")
 $ehKey1 = Get-AzEventHubKey -ResourceGroupName $rgName -Namespace $ehNamespace1 -AuthorizationRuleName $ehAuthorizationRuleName
 
 New-AzEventHub -ResourceGroupName $rgName -NamespaceName $ehNamespace1 -Name $ehName1in -PartitionCount $ehPartitionCount
 
-New-AzEventHubNamespace -ResourceGroupName $rgName -NamespaceName $ehNamespace2 -Location $location2 -SkuName $ehNamespaceSku -SkuCapacity $ehNamespaceCapacity
+New-AzEventHubNamespace -ResourceGroupName $rgName -Name $ehNamespace2 -Location $location2 -SkuName $ehNamespaceSku -SkuCapacity $ehNamespaceCapacity
 New-AzEventHubAuthorizationRule -ResourceGroupName $rgName -NamespaceName $ehNamespace2 -AuthorizationRuleName $ehAuthorizationRuleName -Rights @("Listen","Send","Manage")
 $ehKey2 = Get-AzEventHubKey -ResourceGroupName $rgName -Namespace $ehNamespace2 -AuthorizationRuleName $ehAuthorizationRuleName
 New-AzEventHub -ResourceGroupName $rgName -NamespaceName $ehNamespace2 -Name $ehName2in -PartitionCount $ehPartitionCount
 
-New-AzEventHubConsumerGroup -ResourceGroupName $rgName -Namespace $ehNamespace1 -EventHub $ehName1in -Name $ehConsumerGroupName
-New-AzEventHubConsumerGroup -ResourceGroupName $rgName -Namespace $ehNamespace2 -EventHub $ehName2in -Name $ehConsumerGroupName
+New-AzEventHubConsumerGroup -ResourceGroupName $rgName -NamespaceName $ehNamespace1 -EventHubName $ehName1in -Name $ehConsumerGroupName
+New-AzEventHubConsumerGroup -ResourceGroupName $rgName -NamespaceName $ehNamespace2 -EventHubName $ehName2in -Name $ehConsumerGroupName
 
 ######################################################################
 # Cosmos DB

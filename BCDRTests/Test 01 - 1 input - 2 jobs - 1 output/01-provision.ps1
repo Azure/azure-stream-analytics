@@ -18,13 +18,13 @@ $ehAuthorizationRuleName = "eh-asa-bcdr-$runId"
 $ehConsumerGroupName1 = "cg1"
 $ehConsumerGroupName2 = "cg2"
 
-New-AzEventHubNamespace -ResourceGroupName $rgName -NamespaceName $ehNamespace -Location $location -SkuName $ehNamespaceSku -SkuCapacity $ehNamespaceCapacity
+New-AzEventHubNamespace -ResourceGroupName $rgName -Name $ehNamespace -Location $location -SkuName $ehNamespaceSku -SkuCapacity $ehNamespaceCapacity
 New-AzEventHubAuthorizationRule -ResourceGroupName $rgName -NamespaceName $ehNamespace -AuthorizationRuleName $ehAuthorizationRuleName -Rights @("Listen","Send")
 $ehKey = Get-AzEventHubKey -ResourceGroupName $rgName -Namespace $ehNamespace -AuthorizationRuleName $ehAuthorizationRuleName
 
 New-AzEventHub -ResourceGroupName $rgName -NamespaceName $ehNamespace -Name $ehName -PartitionCount $ehPartitionCount
-New-AzEventHubConsumerGroup -ResourceGroupName $rgName -Namespace $ehNamespace -EventHub $ehName -Name $ehConsumerGroupName1
-New-AzEventHubConsumerGroup -ResourceGroupName $rgName -Namespace $ehNamespace -EventHub $ehName -Name $ehConsumerGroupName2
+New-AzEventHubConsumerGroup -ResourceGroupName $rgName -NamespaceName $ehNamespace -EventHubName $ehName -Name $ehConsumerGroupName1
+New-AzEventHubConsumerGroup -ResourceGroupName $rgName -NamespaceName $ehNamespace -EventHubName $ehName -Name $ehConsumerGroupName2
 
 ######################################################################
 # Cosmos DB

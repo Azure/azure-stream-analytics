@@ -60,4 +60,4 @@ while ($True) {
 
 ######################################################################
 #Stopping one job
-
+#Stop-AzStreamAnalyticsJob -ResourceGroupName $rgName -Name $asaJobName1
