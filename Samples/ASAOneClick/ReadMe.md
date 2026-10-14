@@ -1,4 +1,6 @@
-#Azure Stream Analytics One Click PowerShell#
+# Historical Azure Stream Analytics one-click sample
+
+This solution's event generator uses `WindowsAzure.ServiceBus`, which retired for Event Hubs on September 30, 2026. The deployment steps below are historical reference, not current setup instructions. Migrate the producer before reusing the solution; see the [Event Hubs migration guide](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/eventhub/Azure.Messaging.EventHubs/MigrationGuide_WindowsAzureServiceBus.md).
 
 One of the core value propositions of Azure Stream Analytics (ASA) is easily solving complex problems in less time and with less resource. In this sample we use a real-world problem to demonstrate a SensorTag scenario using PowerShell script. The goal is to teach you how to automate a Stream Analytics job using PowerShell scripts. In this sample we use a PowerShell script to automate the process of creating resources like Eventhubs, SQL Database, Stream Analytics Job and run them. You could then use a real sensor to send events to Event Hub or use an Event Generator included in the sample to simulate sensor events.
 

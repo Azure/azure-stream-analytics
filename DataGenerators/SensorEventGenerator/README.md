@@ -1,4 +1,6 @@
-# SensorEventGenerator #
+# Historical SensorEventGenerator sample
+
+This generator uses `WindowsAzure.ServiceBus`, which retired for Event Hubs on September 30, 2026. The configuration below is historical reference. Migrate the producer before running it; see the [Event Hubs migration guide](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/eventhub/Azure.Messaging.EventHubs/MigrationGuide_WindowsAzureServiceBus.md).
 
 This solution simulates SensorTag events and pushes them to an Event Hub instance. For more information about scenarios and usage, see [here](http://gallery.azureml.net/Tutorial/6f95aeaca0fc43b3aec37ad3a0526a21)
 

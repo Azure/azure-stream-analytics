@@ -1,4 +1,6 @@
-This wiki will guide you through the Security Badge Scan sample. Consider the scenario below:
+# Historical security badge sample
+
+This sample's event generator uses `WindowsAzure.ServiceBus`, which retired for Event Hubs on September 30, 2026. The scenario and query below are historical reference. Migrate the producer before running the application; see the [Event Hubs migration guide](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/eventhub/Azure.Messaging.EventHubs/MigrationGuide_WindowsAzureServiceBus.md).
 
 ## Scenario:
 A company wants to enhance security at their campus after they found some breach where someone cloned an employee's access badge to get inside the building. They would like to monitor Badge Scan events as employees enter the building and alert on any suspicious activity like if the same badge was used more than once within 5 minute.

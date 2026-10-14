@@ -1,4 +1,3 @@
-# TelcoGenerator #
+# Retired TelcoGenerator
 
-This folder contains a solution that generates Telecommunication events and pushes them to an Event Hub instance.  For instructions on using this generator, see [http://azure.microsoft.com/en-us/documentation/articles/stream-analytics-get-started/](http://azure.microsoft.com/en-us/documentation/articles/stream-analytics-get-started/) 
-
+This original phone-call generator uses `WindowsAzure.ServiceBus`, which retired for Event Hubs on September 30, 2026. Use [TelcoGeneratorCore](../TelcoGeneratorCore), which targets .NET 8 and uses `Azure.Messaging.EventHubs`. Follow the [current fraud-detection tutorial](https://learn.microsoft.com/azure/stream-analytics/stream-analytics-real-time-fraud-detection).

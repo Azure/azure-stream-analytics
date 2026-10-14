@@ -1,6 +1,8 @@
 # Microsoft Azure Stream Analytics Samples #
 
-This folder contains sample data and event generators for Azure Stream Analytics.  We are in the process of moving our samples to our new official GitHub [here](https://github.com/Azure/azure-stream-analytics). Please bear with us for the moment as some samples are available here and others are available in our new location. 
+This folder contains sample data and event generators for Azure Stream Analytics.
+
+Some examples use the `WindowsAzure.ServiceBus` library, which retired for Event Hubs on September 30, 2026. Those examples are historical source, not current deployment guidance. Check the [historical-example inventory and migration guidance](../README.md#event-generator-library-retirement) before using a sample. For the phone-call tutorials, use [TelcoGeneratorCore](../DataGenerators/TelcoGeneratorCore).
 
 
 For tutorials that reference these samples, see [http://azure.microsoft.com/en-us/documentation/services/stream-analytics/](http://azure.microsoft.com/en-us/documentation/services/stream-analytics/)
